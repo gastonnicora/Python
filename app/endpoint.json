@@ -263,6 +263,13 @@
         "description": "Obtener todos los usuarios",
         "explanation": "",
         "fields": []
+      },
+      "user": {
+        "url": "/user",
+        "method": "GET",
+        "description": "Obtener un usuario por su uuid",
+        "explanation": "",
+        "fields": ["uuid"]
       }
     }
   },

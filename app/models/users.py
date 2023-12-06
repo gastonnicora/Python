@@ -105,6 +105,13 @@ class User(db.Model):
         usuario = cls.query.filter_by(email=email, removed=0).first()
         db.session.close()
         return usuario
+
+    @classmethod
+    def get(cls,uuid):
+        usuario = cls.query.filter_by(uuid=uuid, removed=0).first()
+        usu= U(usuario)
+        db.session.close()
+        return Message(content=usu)
     
     @classmethod
     def delete(cls, uuid):

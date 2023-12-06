@@ -32,5 +32,9 @@ def login():
     if sms.error:
         return jsonify(sms.dump()),sms.cod
     else:
-        
+        #agregar token de seguridad
         return jsonify(sms.dump()),sms.cod
+
+def get(uuid):
+    sms= User.get(uuid)
+    return jsonify(sms.dump()),sms.cod

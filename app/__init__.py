@@ -34,7 +34,7 @@ def create_app(environment="development"):
 
     # Rutas API-REST
     app.add_url_rule("/users", "users", user.index)
-    # app.add_url_rule("/user/<int:id>", "user_get", user.get)
+    app.add_url_rule("/user/<string:uuid>", "user", user.get)
     app.add_url_rule("/createUser","createUser",user.create,methods=["POST"])
     # app.add_url_rule("/user_editar","user_put",user.update,methods=["POST"])
     # app.add_url_rule("/user_editar_pass","user_put_pass",user.update_pass,methods=["POST"])
