@@ -9,6 +9,7 @@ class User():
             cls.birthdate= data.birthdate
             cls.removed = data.removed
             cls.dateOfCreate=data.dateOfCreate
+            cls.dateOfUpdate=data.dateOfUpdate
             cls.terms=data.terms
             cls.confirmEmail= data.confirmEmail
         if lista:

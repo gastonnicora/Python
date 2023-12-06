@@ -153,7 +153,6 @@ class User(db.Model):
         usu= cls.query.filter_by(uuid=data.get("uuid"), removed=0).first()
         if not usu:
             return Message(error="El usuario no se pudo editar por que no existe")
-        print(usu.email != data.get("email"))
         if usu.email != data.get("email"):
             usu.confirmEmail=0
         usu.name= data.get("name")
@@ -162,6 +161,22 @@ class User(db.Model):
         usu.birthdate= data.get("birthdate")
         usu.dateOfUpdate=strDate
         db.session.merge(usu)
+        db.session.commit()
+        usuario= U(usu)
+        db.session.close()
+        return Message(content=usuario)
+    
+    @classmethod
+    def updatePassword(cls,data):
+        date= datetime.datetime.now()
+        strDate= date.strftime(date_format)
+        usu= cls.query.filter_by(uuid=data.get("uuid"), removed=0).first()
+        if not usu:
+            return Message(error="El usuario no se pudo editar por que no existe")
+        if not  checkph(usu.password, data.get("oldPassword")):
+            return Message(error="la contraseña antigua es incorrecta")
+        usu.password = genph(data.get("password"))
+        usu.dateOfUpdate=strDate
         db.session.commit()
         usuario= U(usu)
         db.session.close()

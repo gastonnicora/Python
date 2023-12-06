@@ -18,7 +18,8 @@
             "error": "Debe introducir un identificador"
           }
         },
-        "example": "f8773c44-bd9a-4ffe-922f-4b661ebca35e"
+        "example": "f8773c44-bd9a-4ffe-922f-4b661ebca35e",
+        "model":true
       },
       "name": {
         "desciption": "",
@@ -36,7 +37,8 @@
             "error": "Debe introducir un nombre"
           }
         },
-        "example": "Gastón"
+        "example": "Gastón",
+        "model":true
       },
       "lastName": {
         "desciption": "",
@@ -54,7 +56,8 @@
             "error": "Debe introducir un apellido"
           }
         },
-        "example": "Nicora"
+        "example": "Nicora",
+        "model":true
       },
       "email": {
         "desciption": "",
@@ -72,7 +75,8 @@
             "error": "Debe introducir un apellido"
           }
         },
-        "example": "gastonmatias.21@gmail.com"
+        "example": "gastonmatias.21@gmail.com",
+        "model":true
       },
       "password": {
         "desciption": "la contraseña debe contener letras y números, ademas debe contener 8 caracteres como mínimo. No se aceptan caracteres especiales",
@@ -94,7 +98,31 @@
             "error": "Debe introducir una contraseña"
           }
         },
-        "example": "12345678"
+        "example": "12345678",
+        "model":true
+      },
+      "oldPassword": {
+        "desciption": "la contraseña debe contener letras y números, ademas debe contener 8 caracteres como mínimo. No se aceptan caracteres especiales",
+        "property": {
+          "type": {
+            "value": "pass",
+            "error": "La contraseña debe contener letras y números. No se aceptan caracteres especiales"
+          },
+          "max length": {
+            "value": 255,
+            "error": "La contraseña debe tener un largo menor a 255"
+          },
+          "min length": {
+            "value": 7,
+            "error": "La contraseña debe tener un largo mayor o igual a 8"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir una contraseña"
+          }
+        },
+        "example": "12345678",
+        "model":false
       },
       "repetitionPass": {
         "desciption": "la contraseña debe contener letras y números, ademas debe contener 8 caracteres como mínimo. No se aceptan caracteres especiales",
@@ -121,7 +149,8 @@
             "repetition": "password"
           }
         },
-        "example": "12345678"
+        "example": "12345678",
+        "model":false
       },
       "birthdate": {
         "desciption": "Formato dia/mes/año (01/01/2013)",
@@ -143,7 +172,8 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "21/06/1996"
+        "example": "21/06/1997",
+        "model":true
       },
       "removed": {
         "desciption": "Borrado lógico, 1 es borrado y 0 que no lo esta ",
@@ -165,7 +195,8 @@
             "error": ""
           }
         },
-        "example": 0
+        "example": 0,
+        "model":true
       },
       "confirmEmail": {
         "desciption": "Si confirmo el email, 1 es que si y 0 es que no",
@@ -187,7 +218,8 @@
             "error": ""
           }
         },
-        "example": 0
+        "example": 0,
+        "model":true
       },
       "dateOfCreate": {
         "desciption": "",
@@ -210,7 +242,33 @@
               "error": "Debe introducir una fecha"
             }
           },
-          "example": "21/06/2023"
+          "example": "21/06/2023",
+          "model":true
+        }
+      },
+      "dateOfUpdate": {
+        "desciption": "",
+        "property": {
+          "type": {
+            "type": {
+              "value": "date",
+              "error": "Debe introducir una fecha valida"
+            },
+            "max length": {
+              "value": 11,
+              "error": "La fecha debe tener 10 caracteres"
+            },
+            "min length": {
+              "value": 9,
+              "error": "La fecha debe tener 10 caracteres"
+            },
+            "required": {
+              "value": true,
+              "error": "Debe introducir una fecha"
+            }
+          },
+          "example": "21/06/2023",
+          "model":true
         }
       },
       "terms": {
@@ -238,7 +296,8 @@
             "error": "Debe introducir un valor"
           }
         },
-        "example": 1
+        "example": 1,
+        "model":true
       }
     },
 
@@ -278,6 +337,13 @@
         "explanation": "",
         "fields": ["uuid","name", "lastName", "email", "birthdate"]
       },
+      "userUpdatePassword": {
+        "url": "/userUpdatePassword",
+        "method": "PUT",
+        "description": "Modificar contraseña de un  por su uuid",
+        "explanation": "",
+        "fields": ["uuid","oldPassword", "password","repetitionPass"]
+      },
       "userDelete": {
         "url": "/userDelete",
         "method": "DELETE",
@@ -306,7 +372,8 @@
             "error": "Debe introducir un identificador"
           }
         },
-        "example": ""
+        "example": "",
+        "model":true
       },
       "user": {
         "desciption": "Identificador del usuario",
@@ -324,7 +391,8 @@
             "error": "Debe introducir un identificador"
           }
         },
-        "example": ""
+        "example": "",
+        "model":true
       },
       "dateOfCreate": {
         "desciption": "",
@@ -347,7 +415,8 @@
               "error": "Debe introducir una fecha"
             }
           },
-          "example": "21/06/2023"
+          "example": "21/06/2023",
+          "model":true
         }
       }
     },

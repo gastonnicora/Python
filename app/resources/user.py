@@ -60,3 +60,11 @@ def delete(uuid):
     sms= User.delete(uuid)
     return jsonify(sms.dump()),sms.cod
 
+def updatePassword():
+    v= Validador("Usuarios","userUpdatePassword",request.get_json())
+    if v.haveError:
+        return jsonify(v.errors().dump()),v.errors().cod
+    sms=User.updatePassword(request.get_json())
+    return jsonify(sms.dump()),sms.cod
+        
+

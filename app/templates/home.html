@@ -20,17 +20,21 @@
 
 
         {% for value in data[e].fields %}
-        {{value}} <strong>
-          {% set v = data[e].fields[value] %}
-          {% for p in v.property %}
-          {% set pro= v.property[p] %}
-          {{p}}:{{pro.value}}
-          {% endfor %}
-        </strong>
-        <small> {% if v.description %}
-          //{{ v.description}}
-          {% endif %}</small>
-        <br />
+        {% set v = data[e].fields[value] %}
+        {% if v.model %}
+        
+          {{value}} <strong>
+            {% for p in v.property %}
+            {% set pro= v.property[p] %}
+            {{p}}:{{pro.value}}
+            {% endfor %}
+          </strong>
+          <small> {% if v.description %}
+            //{{ v.description}}
+            {% endif %}</small>
+          <br />
+
+        {% endif %}
         {% endfor %}
       </div>
     </div>
