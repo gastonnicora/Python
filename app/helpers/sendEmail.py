@@ -11,7 +11,7 @@ def sendEmail(receiver_email,uuid):
     message["To"] = receiver_email
 
     # Create the plain-text and HTML version of your message
-    link=environ.get("HOST", "http://localhost:4000/")+"/confirmEmail/"+uuid
+    link=environ.get("HOST", "http://localhost:4000/")+"confirmEmail/"+uuid
     
     text = f"""\
         Hola,

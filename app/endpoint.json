@@ -243,8 +243,8 @@
     },
 
     "endpoint": {
-      "createUser": {
-        "url": "/createUser",
+      "userCreate": {
+        "url": "/userCreate",
         "method": "POST",
         "description": "Creación de usuario",
         "explanation": "Crea y devuelve un usuario",
@@ -277,6 +277,13 @@
         "description": "Modificar un usuario por su uuid",
         "explanation": "",
         "fields": ["uuid","name", "lastName", "email", "birthdate"]
+      },
+      "userDelete": {
+        "url": "/userDelete",
+        "method": "DELETE",
+        "description": "Eliminar un usuario por su uuid",
+        "explanation": "",
+        "fields": ["uuid"]
       }
     }
   },

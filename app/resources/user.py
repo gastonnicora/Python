@@ -6,7 +6,7 @@ from app.models.confirmEmail import ConfirmEMail
 from app.helpers.sendEmail import sendEmail
 
 def create(): 
-    v= Validador("Usuarios","createUser",request.get_json())
+    v= Validador("Usuarios","userCreate",request.get_json())
     if v.haveError:
         return jsonify(v.errors().dump()),v.errors().cod
     sms=User.create(request.get_json())
@@ -44,13 +44,19 @@ def update():
     if v.haveError:
         return jsonify(v.errors().dump()),v.errors().cod
     sms=User.update(request.get_json())
-    print(sms.content.email)
+    aux=User.get(request.get_json().get("uuid"))
     if sms.error:
         return jsonify(sms.dump()),sms.cod
     else:
         if sms.content.confirmEmail== 0:
             smsConfirm=ConfirmEMail.create(sms.content.uuid)
             if smsConfirm.error:
+                User.update(aux)
                 return jsonify(smsConfirm.dump()),smsConfirm.cod
             sendEmail(sms.content.email, smsConfirm.content.uuid)
         return jsonify(sms.dump()),sms.cod
+    
+def delete(uuid):
+    sms= User.delete(uuid)
+    return jsonify(sms.dump()),sms.cod
+
