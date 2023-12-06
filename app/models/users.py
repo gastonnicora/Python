@@ -8,6 +8,7 @@ from app.helpers.modelosPlanos.user import User  as U
 from app.helpers.message import Message
 
 
+date_format = '%d/%m/%Y %H:%M:%S%z'
 
 class User(db.Model):
     uuid= db.Column(
@@ -49,7 +50,8 @@ class User(db.Model):
     )
     dateOfUpdate=db.Column(
         db.String(255),
-        nullable=True
+        nullable=True,
+        default=None
     )
     terms=db.Column(
         db.Integer,
@@ -59,7 +61,6 @@ class User(db.Model):
 
     @classmethod
     def create(cls,data):
-        date_format = '%d/%m/%Y %H:%M:%S%z'
         date= datetime.datetime.now()
         strDate= date.strftime(date_format)
         usu= cls.existEmail(data.get("email"))
@@ -77,7 +78,7 @@ class User(db.Model):
                 email= data.get("email"),
                 password = genph(data.get("password")), 
                 birthdate= data.get("birthdate"), 
-                dateOfCreate= strDate,
+                dateOfCreate= strDate
                 
             )
         
@@ -121,10 +122,14 @@ class User(db.Model):
     
     @classmethod
     def delete(cls, uuid):
+        date= datetime.datetime.now()
+        strDate= date.strftime(date_format)
         usuario=cls.query.filter_by(uuid=uuid, removed=0).first()
         if(not usuario):
             return Message(error="No se pudo eliminar el usuario por que no existe")
         usuario.removed=1
+        usuario.dateOfUpdate=strDate
+        db.session.merge(usuario)
         db.session.commit()
         db.session.close()
         return Message(content="Usuario eliminado correctamente")
@@ -135,18 +140,20 @@ class User(db.Model):
         if(not usuario):
             return Message(error="El usuario no existe")
         usuario.confirmEmail=1
+        db.session.merge(usuario)
         db.session.commit()
         db.session.close()
         return Message(content="El usuario confirmo correctamente su email")
     
     @classmethod
     def update(cls,data):
-        date_format = '%d/%m/%Y %H:%M:%S%z'
         date= datetime.datetime.now()
         strDate= date.strftime(date_format)
-        usu= cls.get(data.get("uuid")).content
+        
+        usu= cls.query.filter_by(uuid=data.get("uuid"), removed=0).first()
         if not usu:
             return Message(error="El usuario no se pudo editar por que no existe")
+        print(usu.email != data.get("email"))
         if usu.email != data.get("email"):
             usu.confirmEmail=0
         usu.name= data.get("name")
@@ -154,7 +161,7 @@ class User(db.Model):
         usu.email= data.get("email")
         usu.birthdate= data.get("birthdate")
         usu.dateOfUpdate=strDate
-        
+        db.session.merge(usu)
         db.session.commit()
         usuario= U(usu)
         db.session.close()

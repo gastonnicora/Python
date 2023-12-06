@@ -48,7 +48,7 @@ def update():
     if sms.error:
         return jsonify(sms.dump()),sms.cod
     else:
-        if sms.content.confirmEmail== 0:
+        if sms.content.confirmEmail == 0:
             smsConfirm=ConfirmEMail.create(sms.content.uuid)
             if smsConfirm.error:
                 User.update(aux)
