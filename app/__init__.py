@@ -41,7 +41,7 @@ def create_app(environment="development"):
     # app.add_url_rule("/user_borrar/<int:id>", "user_delete", user.delete)
     # app.add_url_rule("/user/alumnos/<int:id>", "user_get_alumnos", user.get_alumnos)
     # app.add_url_rule("/user/Alumnos/<int:id>", "user_alumnos", user.alumnos) #falta
-    # app.add_url_rule("/login","login",user.login,methods=["POST"])
+    app.add_url_rule("/login","login",user.login,methods=["POST"])
 
     app.add_url_rule("/get_confirmEmail/<string:uuid>","get_confirmEmail",confirmEmail.get)
     app.add_url_rule("/confirmEmail","confirmEmails",confirmEmail.index)

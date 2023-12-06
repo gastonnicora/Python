@@ -23,3 +23,14 @@ def create():
 def index():
     sms = User.all()
     return jsonify(sms.dump()),sms.cod
+
+def login():
+    v= Validador("Usuarios","login",request.get_json())
+    if v.haveError:
+        return jsonify(v.errors().dump()),v.errors().cod
+    sms=User.login(request.get_json())
+    if sms.error:
+        return jsonify(sms.dump()),sms.cod
+    else:
+        
+        return jsonify(sms.dump()),sms.cod

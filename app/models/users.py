@@ -81,6 +81,17 @@ class User(db.Model):
         usuario= U(user)
         db.session.close()
         return Message(content=usuario)
+    @classmethod
+    def login(cls,data):
+        usu= cls.existEmail(data.get("email"))
+        
+        if not usu  or not  checkph(usu.password, data.get("password")):
+            return Message(error="El email o la contraseña son incorrectas")
+        if usu is not None and usu.confirmEmail == 0:
+            return Message(error="El email no fue validado. Valide el email y vuelva a intentar")
+        usuario= U(usu)
+        db.session.close()
+        return Message(content=usuario)
     
     @classmethod
     def all(cls):
