@@ -38,3 +38,19 @@ def login():
 def get(uuid):
     sms= User.get(uuid)
     return jsonify(sms.dump()),sms.cod
+
+def update(): 
+    v= Validador("Usuarios","userUpdate",request.get_json())
+    if v.haveError:
+        return jsonify(v.errors().dump()),v.errors().cod
+    sms=User.update(request.get_json())
+    print(sms.content.email)
+    if sms.error:
+        return jsonify(sms.dump()),sms.cod
+    else:
+        if sms.content.confirmEmail== 0:
+            smsConfirm=ConfirmEMail.create(sms.content.uuid)
+            if smsConfirm.error:
+                return jsonify(smsConfirm.dump()),smsConfirm.cod
+            sendEmail(sms.content.email, smsConfirm.content.uuid)
+        return jsonify(sms.dump()),sms.cod

@@ -18,7 +18,7 @@
             "error": "Debe introducir un identificador"
           }
         },
-        "example": ""
+        "example": "f8773c44-bd9a-4ffe-922f-4b661ebca35e"
       },
       "name": {
         "desciption": "",
@@ -270,6 +270,13 @@
         "description": "Obtener un usuario por su uuid",
         "explanation": "",
         "fields": ["uuid"]
+      },
+      "userUpdate": {
+        "url": "/userUpdate",
+        "method": "PUT",
+        "description": "Modificar un usuario por su uuid",
+        "explanation": "",
+        "fields": ["uuid","name", "lastName", "email", "birthdate"]
       }
     }
   },

@@ -47,6 +47,10 @@ class User(db.Model):
         db.String(255),
         nullable=True
     )
+    dateOfUpdate=db.Column(
+        db.String(255),
+        nullable=True
+    )
     terms=db.Column(
         db.Integer,
         nullable=True,
@@ -73,7 +77,8 @@ class User(db.Model):
                 email= data.get("email"),
                 password = genph(data.get("password")), 
                 birthdate= data.get("birthdate"), 
-                dateOfCreate= strDate
+                dateOfCreate= strDate,
+                
             )
         
         db.session.add(user)
@@ -84,7 +89,6 @@ class User(db.Model):
     @classmethod
     def login(cls,data):
         usu= cls.existEmail(data.get("email"))
-        
         if not usu  or not  checkph(usu.password, data.get("password")):
             return Message(error="El email o la contraseña son incorrectas")
         if usu is not None and usu.confirmEmail == 0:
@@ -109,6 +113,8 @@ class User(db.Model):
     @classmethod
     def get(cls,uuid):
         usuario = cls.query.filter_by(uuid=uuid, removed=0).first()
+        if(not usuario):
+            return Message(error="No se pudo obtener el usuario por que no existe")
         usu= U(usuario)
         db.session.close()
         return Message(content=usu)
@@ -132,3 +138,24 @@ class User(db.Model):
         db.session.commit()
         db.session.close()
         return Message(content="El usuario confirmo correctamente su email")
+    
+    @classmethod
+    def update(cls,data):
+        date_format = '%d/%m/%Y %H:%M:%S%z'
+        date= datetime.datetime.now()
+        strDate= date.strftime(date_format)
+        usu= cls.get(data.get("uuid")).content
+        if not usu:
+            return Message(error="El usuario no se pudo editar por que no existe")
+        if usu.email != data.get("email"):
+            usu.confirmEmail=0
+        usu.name= data.get("name")
+        usu.lastName= data.get("lastName")
+        usu.email= data.get("email")
+        usu.birthdate= data.get("birthdate")
+        usu.dateOfUpdate=strDate
+        
+        db.session.commit()
+        usuario= U(usu)
+        db.session.close()
+        return Message(content=usuario)
