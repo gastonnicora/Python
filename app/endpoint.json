@@ -1,0 +1,349 @@
+{
+  "Usuarios": {
+    "desciption": "api de los usuarios",
+    "fields": {
+      "uuid": {
+        "desciption": "",
+        "property": {
+          "type": {
+            "value": "string",
+            "error": "El identificador debe ser una cadena de caracteres"
+          },
+          "max length": {
+            "value": 255,
+            "error": "El identificador debe tener un largo menor a 255"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir un identificador"
+          }
+        },
+        "example": ""
+      },
+      "name": {
+        "desciption": "",
+        "property": {
+          "type": {
+            "value": "string",
+            "error": "El nombre debe ser una cadena de caracteres"
+          },
+          "max length": {
+            "value": 255,
+            "error": "El nombre debe tener un largo menor a 255"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir un nombre"
+          }
+        },
+        "example": "Gastón"
+      },
+      "lastName": {
+        "desciption": "",
+        "property": {
+          "type": {
+            "value": "string",
+            "error": "El apellido debe ser una cadena de caracteres"
+          },
+          "max length": {
+            "value": 255,
+            "error": "El apellido debe tener un largo menor a 255"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir un apellido"
+          }
+        },
+        "example": "Nicora"
+      },
+      "email": {
+        "desciption": "",
+        "property": {
+          "type": {
+            "value": "email",
+            "error": "El email debe ser un email valido, por ejemplo:'gastonmatias.21@gmail.com'"
+          },
+          "max length": {
+            "value": 255,
+            "error": "El email debe tener un largo menor a 255"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir un apellido"
+          }
+        },
+        "example": "gastonmatias.21@gmail.com"
+      },
+      "password": {
+        "desciption": "la contraseña debe contener letras y números, ademas debe contener 8 caracteres como mínimo. No se aceptan caracteres especiales",
+        "property": {
+          "type": {
+            "value": "pass",
+            "error": "La contraseña debe contener letras y números. No se aceptan caracteres especiales"
+          },
+          "max length": {
+            "value": 255,
+            "error": "La contraseña debe tener un largo menor a 255"
+          },
+          "min length": {
+            "value": 7,
+            "error": "La contraseña debe tener un largo mayor o igual a 8"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir una contraseña"
+          },
+          "repeat": {
+            "value": true,
+            "error": "Las contraseñas deben coincidir",
+            "repetition": "repetitionPass"
+          }
+        },
+        "example": "12345678"
+      },
+      "repetitionPass": {
+        "desciption": "la contraseña debe contener letras y números, ademas debe contener 8 caracteres como mínimo. No se aceptan caracteres especiales",
+        "property": {
+          "type": {
+            "value": "pass",
+            "error": "La contraseña debe contener letras y números. No se aceptan caracteres especiales"
+          },
+          "max length": {
+            "value": 255,
+            "error": "La contraseña debe tener un largo menor a 255"
+          },
+          "min length": {
+            "value": 7,
+            "error": "La contraseña debe tener un largo mayor o igual a 8"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir una contraseña"
+          }
+        },
+        "example": "12345678"
+      },
+      "birthdate": {
+        "desciption": "Formato dia/mes/año (01/01/2013)",
+        "property": {
+          "type": {
+            "value": "date",
+            "error": "Debe introducir una fecha valida"
+          },
+          "max length": {
+            "value": 11,
+            "error": "La fecha debe tener 10 caracteres"
+          },
+          "min length": {
+            "value": 9,
+            "error": "La fecha debe tener 10 caracteres"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir una fecha"
+          }
+        },
+        "example": "21/06/1996"
+      },
+      "removed": {
+        "desciption": "Borrado lógico, 1 es borrado y 0 que no lo esta ",
+        "property": {
+          "type": {
+            "value": "integer",
+            "error": "Debe introducir un numero entero valido"
+          },
+          "max": {
+            "value": 2,
+            "error": "El valor máximo es 1"
+          },
+          "min": {
+            "value": -1,
+            "error": "el valor mínimo es 0"
+          },
+          "default": {
+            "value": 0,
+            "error": ""
+          }
+        },
+        "example": 0
+      },
+      "confirmEmail": {
+        "desciption": "Si confirmo el email, 1 es que si y 0 es que no",
+        "property": {
+          "type": {
+            "value": "integer",
+            "error": "Debe introducir un numero entero valido"
+          },
+          "max": {
+            "value": 2,
+            "error": "El valor máximo es 1"
+          },
+          "min": {
+            "value": -1,
+            "error": "el valor mínimo es 0"
+          },
+          "default": {
+            "value": 0,
+            "error": ""
+          }
+        },
+        "example": 0
+      },
+      "dateOfCreate": {
+        "desciption": "",
+        "property": {
+          "type": {
+            "type": {
+              "value": "date",
+              "error": "Debe introducir una fecha valida"
+            },
+            "max length": {
+              "value": 11,
+              "error": "La fecha debe tener 10 caracteres"
+            },
+            "min length": {
+              "value": 9,
+              "error": "La fecha debe tener 10 caracteres"
+            },
+            "required": {
+              "value": true,
+              "error": "Debe introducir una fecha"
+            }
+          },
+          "example": "21/06/2023"
+        }
+      },
+      "terms": {
+        "type": "Int",
+        "desciption": "",
+        "property": {
+          "type": {
+            "value": "integer",
+            "error": "Debe introducir una fecha valida"
+          },
+          "max": {
+            "value": 2,
+            "error": "El valor máximo es 1"
+          },
+          "min": {
+            "value": -1,
+            "error": "el valor mínimo es 0"
+          },
+          "default": {
+            "value": 1,
+            "error": ""
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir un valor"
+          }
+        },
+        "example": 1
+      }
+    },
+
+    "endpoint": {
+      "createUser": {
+        "url": "/createUser",
+        "method": "POST",
+        "description": "Creación de usuario",
+        "explanation": "Crea y devuelve un usuario",
+        "fields": ["name", "lastName", "password","repetitionPass", "email", "birthdate"]
+      },
+      "users": {
+        "url": "/users",
+        "method": "GET",
+        "description": "Obtener todos los usuarios",
+        "explanation": "",
+        "fields": []
+      }
+    }
+  },
+  "ConfirmarEmail": {
+    "desciption": "Endpoint de confirmación de email",
+    "fields": {
+      "uuid": {
+        "desciption": "",
+        "property": {
+          "type": {
+            "value": "string",
+            "error": "El identificador debe ser una cadena de caracteres"
+          },
+          "max length": {
+            "value": 255,
+            "error": "El identificador debe tener un largo menor a 255"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir un identificador"
+          }
+        },
+        "example": ""
+      },
+      "user": {
+        "desciption": "Identificador del usuario",
+        "property": {
+          "type": {
+            "value": "string",
+            "error": "El identificador debe ser una cadena de caracteres"
+          },
+          "max length": {
+            "value": 255,
+            "error": "El identificador debe tener un largo menor a 255"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir un identificador"
+          }
+        },
+        "example": ""
+      },
+      "dateOfCreate": {
+        "desciption": "",
+        "property": {
+          "type": {
+            "type": {
+              "value": "date",
+              "error": "Debe introducir una fecha valida"
+            },
+            "max length": {
+              "value": 11,
+              "error": "La fecha debe tener 10 caracteres"
+            },
+            "min length": {
+              "value": 9,
+              "error": "La fecha debe tener 10 caracteres"
+            },
+            "required": {
+              "value": true,
+              "error": "Debe introducir una fecha"
+            }
+          },
+          "example": "21/06/2023"
+        }
+      }
+    },
+    "endpoint": {
+      "confirmEmail": {
+        "url": "/confirmEmail/",
+        "method": "GET",
+        "description": "Confirmación de email",
+        "explanation": "Confirma el email de un usuario y elimina la de la tabla de confirmación pendiente",
+        "fields": ["uuid"]
+      },
+      "get_confirmEmail": {
+        "url": "/get_confirmEmail/",
+        "method": "GET",
+        "description": "Obtener una confirmación de email",
+        "explanation": "Obtiene una confirmación  de email mediante un uuid",
+        "fields": ["uuid"]
+      },
+      "confirmEmails": {
+        "url": "/confirmEmail",
+        "method": "GET",
+        "description": "Lista todas las confirmaciones de email",
+        "explanation": "Lista todas las confirmaciones de email, sin orden"
+      }
+    }
+  }
+}

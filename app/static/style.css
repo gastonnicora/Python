@@ -1,0 +1,191 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,600,700');
+@import url('https://fonts.googleapis.com/css?family=Catamaran:400,800');
+body {
+  background-color: var(--background) !important;
+  color: var(--text) !important;
+  font-family: 'Montserrat', Helvetica, sans-serif !important;
+  font-size: 1rem !important;
+}
+
+.clear {
+  clear: both;
+  height: 0;
+  overflow: hidden;
+}
+
+#footer {
+  width: 75%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+#container {
+  width: 75%;
+  margin: 0 auto;
+  background-color: #FFF;
+  padding: 20px 40px;
+  border: solid 1px black;
+  margin-top: 20px;
+  min-height: 400px;
+}
+
+
+#navbar{
+  background-color: var(--nav) !important;
+  color: var(--text_nav) !important;
+}
+a,button{
+  text-transform: uppercase;
+  font-size: 10px !important;
+  color: var(--text_nav) !important;
+  letter-spacing: 1px;
+}
+
+.page-link,.url{
+  color: var(--text_nav) !important;
+  background-color: var(--nav) !important;
+}
+
+a.link,
+.my-btn,
+.dropdown-menu a,
+.dropdown-menu {
+  text-transform: uppercase;
+  font-size: 10px !important;
+  background-color: var(--nav) !important;
+  padding: 10px 15px;
+  border-radius: 0;
+  color: var(--text_nav) !important;
+  display: inline-block;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  line-height: 1.5;
+  text-decoration: none;
+  margin-top: 5px;
+  letter-spacing: 1px;
+  border-radius: 3px;
+}
+.dropdown-menu{
+  z-index: 10000 !important;
+}
+nav i{
+ font-size: 1rem !important;
+}
+ .disabled a{
+  width: 0px !important;
+  height: 0px !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  display: none;
+  font-size: 0px !important;
+}
+th, td{
+  color: var(--text) !important;
+}
+.muestra{
+  height: 1rem;
+  width: 1rem;
+  border: solid  1px #ddd ;
+  border-radius: 10px;
+}
+.row{
+margin-right: 0px !important ;
+margin-left: 0px !important;
+}
+
+#mapid, #map{  
+  height: 400px; 
+}
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out{
+  color: #000 !important;
+}
+.leaflet-top {
+z-index: 1;
+}
+.geocoder-control-input,
+.leaflet-bar,
+.leaflet-routing-alt >table>tbody>tr>td ,
+.leaflet-control  > a{
+  background-color: #FFF !important;
+  color: #000 !important;
+}
+.err{
+  margin: auto;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  width: 100%;
+  padding: 0.5em;
+  color: #000;
+  border: 1px solid #f089;
+  border-radius: 5px;
+  background-color: #f55;
+  display: inline-block;
+}
+:root {
+
+  --background: #fff;
+  --text_nav: #fff; 
+  --nav: #2d2d2d;
+  --text: #000;
+}
+.item {
+    display: flex; /*Convertimos al menú en flexbox*/
+    justify-content: space-between; /*Con esto le indicamos que margine todos los items que se encuentra adentro hacia la derecha e izquierda*/
+    align-items: center; /*con esto alineamos de manera vertical*/
+    margin: 0% 1%;
+    padding: .5%;
+    background-color: #d2d2d2;
+  }
+
+  .espaciado {
+    margin: 0% 1%;
+    padding: .6%;
+    background-color: #eeea;
+  }
+  .comentario{
+    color: #aaa;
+  }
+
+  .GET{
+    background-color:#fff0;
+    color: #2dd;
+    padding: .5rem;
+    margin:0rem .5rem;
+    border-color: #2dd;
+    border-style: solid;
+    border-radius: 5%;
+    font-weight: 700;
+  }
+  .POST{
+    background-color:#fff0;
+    color: #2d2;
+    padding: .5rem;
+    margin:0rem .5rem;
+    border-color: #2d2;
+    border-style: solid;
+    border-radius: 5%;
+    font-weight: 700;
+  }
+
+  .PUT{
+    background-color:#fff0;
+    color: #d2d;
+    padding: .5rem;
+    margin:0rem .5rem;
+    border-color: #d2d;
+    border-style: solid;
+    border-radius: 5%;
+    font-weight: 700;
+  }
+
+  .DELETE{
+    background-color:#fff0;
+    color: #d22;
+    padding: .5rem;
+    margin:0rem .5rem;
+    border-color: #d22;
+    border-style: solid;
+    border-radius: 5%;
+    font-weight: 700;
+  }

@@ -1,0 +1,221 @@
+{% extends "layout.html" %} {% block title %}Home{% endblock %} {% block head %}
+{{ super() }} {% endblock %} {% block content %}
+
+<div class="text-center">
+  <h1>Prueba de api-rest</h1>
+  <p>Esta pagina muestra las opciones que se tiene esta api</p>
+  <br />
+
+
+  {% for e in data %}
+  <div class="item" type="button" data-toggle="collapse" data-target="#collapse{{e}}" aria-expanded="false"
+    aria-controls="collapse{{e}}">
+    <div>{{e}}<small>{{data[e].description}}</small></div>
+    <i class="fa fa-chevron-down"></i>
+  </div>
+  <div class="collapse espaciado" id="collapse{{e}}">
+    <div class="card espaciado">
+      <div class="card-header">Campos de la clase {{e}}:</div>
+      <div class="card-body">
+
+
+        {% for value in data[e].fields %}
+        {{value}} <strong>
+          {% set v = data[e].fields[value] %}
+          {% for p in v.property %}
+          {% set pro= v.property[p] %}
+          {{p}}:{{pro.value}}
+          {% endfor %}
+        </strong>
+        <small> {% if v.description %}
+          //{{ v.description}}
+          {% endif %}</small>
+        <br />
+        {% endfor %}
+      </div>
+    </div>
+    <br>
+
+
+    {% for v in data[e].endpoint %}
+    {% set value=data[e].endpoint[v] %}
+    <div class="item " type="button" data-toggle="collapse" data-target="#{{v}}" aria-expanded="false"
+      aria-controls="{{v}}">
+      <div>{{value.url}}</div>
+      <div class="row " style="display: flex;
+align-items: center">
+        <div class="{{value.method}}">{{value.method}}</div><i class="fa fa-chevron-down align-middle"></i>
+      </div>
+    </div>
+    <div class="collapse espaciado" id="{{v}}">
+      <p>{{value.description}}
+      </p>
+      <small>{{ value.explanation }}</small>
+      {% if value.method == "GET" or value.method == "DELETE" %}
+      {% if value.fields %}
+      <br>
+      <label for="uuid_{{v}}">uuid</label>
+      <input type="text" id="uuid_{{v}}" name="uuid_{{v}}">
+      <button class="btn btn-primary float-right "
+        onclick="get('{{ url_for(v, uuid= 0) }}','campo_{{v}}_cod','campo_{{v}}','uuid_{{v}}')"
+        id="Ejecutar_{{v}}">Ejecutar</button>
+      {% else %}
+      <button class="btn btn-primary float-right " onclick="get('{{ url_for(v) }}','campo_{{v}}_cod','campo_{{v}}')"
+        id="Ejecutar_{{v}}">Ejecutar</button>
+      {% endif %}
+      <hr>
+      <h5>Salida:</h5>
+      <br>
+      <div class="row">Codigo: <div id="campo_{{v}}_cod" style="margin-left: .5%;"></div>
+      </div>
+      <div class="row">Mensaje:
+        <pre style="width: 100%;height: 10rem;scroll-margin-right:unset; resize: none;margin-left: .5%;"
+          readonly="readonly" id="campo_{{v}}"></pre>
+      </div>
+
+      {% endif %}
+      {% if value.method == "POST" or value.method == "PUT" %}
+      <textarea id="text_{{v}}" style="width: 100%;resize: none;" rows="5">
+        {
+        {% for o in value.fields %}
+              {% set ob = data[e].fields[o] %}
+              {% if ob.property.type.value=="string" or ob.property.type.value=="email" or ob.property.type.value=="pass" or ob.property.type.value=="date"%}
+                "{{o}}":"{{ob.example}}"
+              {% else %}
+                "{{o}}":{{ob.example}}
+              {% endif %}
+          {% if not loop.last %}
+              ,
+          {% endif %}
+        {% endfor %}
+        }
+  </textarea>
+
+      <button class="btn btn-primary float-right " id="Ejecutar_{{v}}"
+        onclick="post('{{url_for(v)}}','text_{{v}}','campo_{{v}}_cod','campo_{{v}}','{{value.method}}')">Ejecutar</button>
+
+
+      <hr>
+      <h5>Salida:</h5>
+      <br>
+      <div class="row">Codigo: <div id="campo_{{v}}_cod" style="margin-left: .5%;"></div>
+      </div>
+      <div class="row">Mensaje:
+        <pre style="width: 100%;height: 10rem;scroll-margin-right:unset; resize: none;margin-left: .5%;"
+          readonly="readonly" id="campo_{{v}}"></pre>
+
+      </div>
+
+      {% endif %}
+    </div>
+
+
+    <br>
+    {% endfor %}
+
+
+  </div>
+  <br>
+  {% endfor %}
+</div>
+
+<script>
+  function get(url, cod, sms, id = "") {
+    if (id != "") {
+      var id2 = document.getElementById(id).value;
+      console.log(id2.value)
+      fetch(url.replace("0", id2))
+        .then((response) => {
+          var campo_usuarios_get_cod = document.getElementById(cod);
+          campo_usuarios_get_cod.innerText = response.status;
+          return response.json();
+        })
+        .then((json) => {
+          var campo_usuarios_get = document.getElementById(sms);
+          campo_usuarios_get.textContent = JSON.stringify(json, undefined, 2);
+        })
+        .catch((error) => {
+          var campo_usuarios_get = document.getElementById(sms);
+          campo_usuarios_get.textContent = JSON.stringify(
+            error,
+            undefined,
+            2
+          );
+        });
+    } else {
+      fetch(url)
+        .then((response) => {
+          var campo_usuarios_get_cod = document.getElementById(cod);
+          campo_usuarios_get_cod.innerText = response.status;
+          return response.json();
+        })
+        .then((json) => {
+          var campo_usuarios_get = document.getElementById(sms);
+          campo_usuarios_get.textContent = JSON.stringify(json, undefined, 2);
+        })
+        .catch((error) => {
+          var campo_usuarios_get = document.getElementById(sms);
+          campo_usuarios_get.textContent = JSON.stringify(
+            error,
+            undefined,
+            2
+          );
+        });
+    }
+  }
+</script>
+<script>
+  var text = document.getElementsByTagName("textarea")
+  for (let I = 0; I < text.length; I++) {
+    const e = text[I];
+    var nJson = JSON.parse(e.value)
+    e.value = JSON.stringify(nJson, undefined, 2)
+  }
+
+  function post(url, campo, cod, sms, method) {
+    console.log(method)
+    const u1 = document.getElementById(campo);
+    var data = JSON.stringify(JSON.parse(u1.value));
+    fetch(url, {
+      method: method,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: data,
+    })
+      .then(response => {
+        var campo_usuarios_get_cod = document.getElementById(cod)
+        campo_usuarios_get_cod.innerText = response.status
+        return response.json();
+      })
+      .then(json => {
+        var campo_usuarios_get = document.getElementById(sms)
+        console.log(json)
+        if (json.cod == 400) {
+          campo_usuarios_get.textContent = JSON.stringify(json.error, undefined, 2)
+        } else {
+          campo_usuarios_get.textContent = JSON.stringify(json.content, undefined, 2)
+        }
+      })
+      .catch(error => {
+        var campo_usuarios_get = document.getElementById(sms)
+        campo_usuarios_get.textContent = JSON.stringify(error)
+      })
+  }
+</script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
+  integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
+  crossorigin="anonymous"></script>
+<script type="text/javascript" charset="utf-8">
+  var socket = io();
+  socket.on("connect", function () {
+    socket.emit("my event", { data: "I'm connected!" });
+    socket.on("my_response", function (data) {
+      console.log(data);
+    });
+  });
+</script> -->
+
+{% endblock %}
+</div>
