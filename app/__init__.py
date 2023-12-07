@@ -13,7 +13,6 @@ from app.models.db import  db
 
 
 def create_app(environment="development"):
-
     from app.resources import user
     from app.resources import confirmEmail
 
@@ -39,8 +38,6 @@ def create_app(environment="development"):
     app.add_url_rule("/userUpdate","userUpdate",user.update,methods=["PUT"])
     app.add_url_rule("/userUpdatePassword","userUpdatePassword",user.updatePassword,methods=["PUT"])
     app.add_url_rule("/userDelete/<string:uuid>", "userDelete", user.delete)
-    # app.add_url_rule("/user/alumnos/<int:id>", "user_get_alumnos", user.get_alumnos)
-    # app.add_url_rule("/user/Alumnos/<int:id>", "user_alumnos", user.alumnos) #falta
     app.add_url_rule("/login","login",user.login,methods=["POST"])
 
     app.add_url_rule("/get_confirmEmail/<string:uuid>","get_confirmEmail",confirmEmail.get)
@@ -60,7 +57,7 @@ def create_app(environment="development"):
         data = json.load(currentFile)
         currentFile.close()
         return render_template("home.html", data=data)
-    
+
     return app
 
 

@@ -335,7 +335,7 @@
         "method": "PUT",
         "description": "Modificar un usuario por su uuid",
         "explanation": "",
-        "fields": ["uuid","name", "lastName", "email", "birthdate"]
+        "fields": ["name", "lastName", "email", "birthdate"]
       },
       "userUpdatePassword": {
         "url": "/userUpdatePassword",

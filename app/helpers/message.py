@@ -1,4 +1,4 @@
-from app.helpers.serializacion import Serializacion
+
 import json
 class Message(object):
     codError=404

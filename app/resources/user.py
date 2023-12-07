@@ -1,9 +1,13 @@
 from flask import jsonify,  request, abort
+import jwt
+from os import environ
 from app.models.users import User
 from app.helpers.message import Message
 from app.helpers.validador import Validador
 from app.models.confirmEmail import ConfirmEMail
 from app.helpers.sendEmail import sendEmail
+from app.helpers.token import token_required
+from app.helpers.sessions import Sessions
 
 def create(): 
     v= Validador("Usuarios","userCreate",request.get_json())
@@ -20,7 +24,8 @@ def create():
        
         return jsonify(sms.dump()),sms.cod
 
-def index():
+@token_required
+def index(session):
     sms = User.all()
     return jsonify(sms.dump()),sms.cod
 
@@ -32,14 +37,17 @@ def login():
     if sms.error:
         return jsonify(sms.dump()),sms.cod
     else:
-        #agregar token de seguridad
-        return jsonify(sms.dump()),sms.cod
-
+        uuid, session= Sessions().addSession(sms.dump()["content"])
+        token = jwt.encode({'uuid':uuid}, environ.get("SECRET_KEY", "1234"), algorithm="HS256")
+        return jsonify({"content":session,"token":token}),sms.cod
+    
+@token_required
 def get(uuid):
     sms= User.get(uuid)
     return jsonify(sms.dump()),sms.cod
 
-def update(): 
+@token_required
+def update(session): 
     v= Validador("Usuarios","userUpdate",request.get_json())
     if v.haveError:
         return jsonify(v.errors().dump()),v.errors().cod
@@ -55,16 +63,16 @@ def update():
                 return jsonify(smsConfirm.dump()),smsConfirm.cod
             sendEmail(sms.content.email, smsConfirm.content.uuid)
         return jsonify(sms.dump()),sms.cod
-    
-def delete(uuid):
+
+@token_required 
+def delete(session,uuid):
     sms= User.delete(uuid)
     return jsonify(sms.dump()),sms.cod
 
-def updatePassword():
+@token_required
+def updatePassword(session):
     v= Validador("Usuarios","userUpdatePassword",request.get_json())
     if v.haveError:
         return jsonify(v.errors().dump()),v.errors().cod
     sms=User.updatePassword(request.get_json())
     return jsonify(sms.dump()),sms.cod
-        
-
