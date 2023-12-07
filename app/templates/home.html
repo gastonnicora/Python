@@ -121,11 +121,17 @@ align-items: center">
   </div>
   <br>
   {% endfor %}
+  <div id="cargando" name="cargando"  ><div class="loader" id="loader" >Loading...</div></div>
+  
 </div>
 
 <script>
-  var token = null
+  var token
+  document.getElementById("cargando").style.visibility = "hidden"
+  
+
   function get(url, cod, sms, id = "") {
+    document.getElementById("cargando").style.visibility = "visible"
     if (id != "") {
       var id2 = document.getElementById(id).value;
       fetch(url.replace("0", id2), {
@@ -147,6 +153,7 @@ align-items: center">
           } else {
             campo_usuarios_get.textContent = JSON.stringify(json.content, undefined, 2)
           }
+          document.getElementById("cargando").style.visibility = "hidden"
         })
         .catch((error) => {
           var campo_usuarios_get = document.getElementById(sms);
@@ -176,6 +183,7 @@ align-items: center">
           } else {
             campo_usuarios_get.textContent = JSON.stringify(json.content, undefined, 2)
           }
+          document.getElementById("cargando").style.visibility = "hidden"
         })
         .catch((error) => {
           var campo_usuarios_get = document.getElementById(sms);
@@ -195,6 +203,8 @@ align-items: center">
   }
 
   function post(url, campo, cod, sms, method) {
+
+    document.getElementById("cargando").style.visibility = "visible"
     const u1 = document.getElementById(campo);
     var data = JSON.stringify(JSON.parse(u1.value));
     fetch(url, {
@@ -221,6 +231,7 @@ align-items: center">
             token = json.token
           }
         }
+        document.getElementById("cargando").style.visibility = "hidden"
       })
       .catch(error => {
         var campo_usuarios_get = document.getElementById(sms)
@@ -230,6 +241,7 @@ align-items: center">
         var campo_usuarios_get = document.getElementById(sms)
         campo_usuarios_get.textContent = JSON.stringify(error)
       })
+   
   }
 </script>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"

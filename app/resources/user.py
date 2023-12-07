@@ -26,6 +26,7 @@ def create():
 
 @token_required
 def index(session):
+    print(session)
     sms = User.all()
     return jsonify(sms.dump()),sms.cod
 
@@ -52,7 +53,7 @@ def update(session):
     if v.haveError:
         return jsonify(v.errors().dump()),v.errors().cod
     sms=User.update(request.get_json())
-    aux=User.get(request.get_json().get("uuid"))
+    aux=User.get(request.get_json().get("uuid")).content
     if sms.error:
         return jsonify(sms.dump()),sms.cod
     else:

@@ -12,10 +12,9 @@ def token_required(f):
         if 'x-access-tokens' in request.headers:
             token = request.headers['x-access-tokens']
 
-        if not token:
-            return jsonify({'error': 'No hay datos de sesión',"cod":400},400)
+        if not token or token=="null" or token == "undefined":
+            return jsonify({'error': 'No hay datos de sesión',"cod":400}),400
 
-        
         try:
             data = jwt.decode(token, environ.get("SECRET_KEY", "1234"), algorithms="HS256")
             current_user = Sessions().getSession(data['uuid'])
