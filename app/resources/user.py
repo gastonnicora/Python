@@ -26,21 +26,36 @@ def create():
 
 @token_required
 def index(session):
-    print(session)
     sms = User.all()
     return jsonify(sms.dump()),sms.cod
 
 def login():
-    v= Validador("Usuarios","login",request.get_json())
-    if v.haveError:
-        return jsonify(v.errors().dump()),v.errors().cod
-    sms=User.login(request.get_json())
-    if sms.error:
-        return jsonify(sms.dump()),sms.cod
-    else:
-        uuid, session= Sessions().addSession(sms.dump()["content"])
-        token = jwt.encode({'uuid':uuid}, environ.get("SECRET_KEY", "1234"), algorithm="HS256")
-        return jsonify({"content":session,"token":token}),sms.cod
+    token = request.headers['x-access-tokens']
+    current_user=None
+    try:
+        data = jwt.decode(token, environ.get("SECRET_KEY", "1234"), algorithms="HS256")
+        current_user = Sessions().getSession(data['uuid'])
+    finally:
+        if current_user:
+            return jsonify({"error":"Usted ya inicio sesión. Cierre sesión si quiere iniciar una nueva ","cod":400}),400
+        v= Validador("Usuarios","login",request.get_json())
+        if v.haveError:
+            return jsonify(v.errors().dump()),v.errors().cod
+        sms=User.login(request.get_json())
+        if sms.error:
+            return jsonify(sms.dump()),sms.cod
+        else:
+            uuid, session= Sessions().addSession(sms.dump()["content"])
+            token = jwt.encode({'uuid':uuid}, environ.get("SECRET_KEY", "1234"), algorithm="HS256")
+            return jsonify({"content":session,"token":token}),sms.cod
+
+@token_required
+def logout(current_user):
+    token = request.headers['x-access-tokens']
+    data = jwt.decode(token, environ.get("SECRET_KEY", "1234"), algorithms="HS256")
+    Sessions().deleteSession(data["uuid"])
+    sms=Message(content="Sesión cerrada con éxito")
+    return jsonify(sms.dump()),sms.cod
     
 @token_required
 def get(uuid):

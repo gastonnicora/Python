@@ -121,7 +121,9 @@ align-items: center">
   </div>
   <br>
   {% endfor %}
-  <div id="cargando" name="cargando"  ><div class="loader" id="loader" >Loading...</div></div>
+  <div id="cargando" name="cargando"  >
+    <div class="loader" id="loader" >Cargando</div>
+</div>
   
 </div>
 
@@ -177,7 +179,7 @@ align-items: center">
           return response.json();
         })
         .then((json) => {
-          var campo_usuarios_get = document.getElementById(sms);
+          var campo_usuarios_get = document.getElementById(sms)
           if (json.cod == 400) {
             campo_usuarios_get.textContent = JSON.stringify(json.error, undefined, 2)
           } else {
@@ -224,7 +226,7 @@ align-items: center">
       .then(json => {
         var campo_usuarios_get = document.getElementById(sms)
         if (json.cod == 400) {
-          campo_usuarios_get.textContent = JSON.stringify(json.error, undefined, 2)
+          campo_usuarios_get.textContent = JSON.stringify(json.error , undefined, 2)
         } else {
           campo_usuarios_get.textContent = JSON.stringify(json.content, undefined, 2)
           if (url = "/login") {

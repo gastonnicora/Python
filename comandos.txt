@@ -27,7 +27,8 @@ export HOST=http://localhost:4000/
 export EMAIL=gastonmatias.21@gmail.com
 export MAIL_USERNAME=gastonmatias0021@gmail.com
 export MAIL_PASSWORD=Vw7ahCc8N5b4GFLX
-
+export SECRET_KEY=85ba0dd0-0cee-4e22-a0cb-234c0ee5657d
+ 
 
 #ejecutar flask
 python run.py

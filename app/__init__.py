@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS
 import json
-from os import  path,environ
+from os import path, environ
 from config import config
 from app import db_config
 import os
@@ -9,7 +9,7 @@ import os
 from app.socket.socketio import socketio
 
 
-from app.models.db import  db
+from app.models.db import db
 
 
 def create_app(environment="development"):
@@ -27,24 +27,27 @@ def create_app(environment="development"):
     socketio.init_app(app)
     app.config["SQLALCHEMY_DATABASE_URI"] = db_config.connection(app)
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    db.init_app(app) 
+    db.init_app(app)
     with app.app_context():
         db.create_all()
 
     # Rutas API-REST
     app.add_url_rule("/users", "users", user.index)
     app.add_url_rule("/user/<string:uuid>", "user", user.get)
-    app.add_url_rule("/userCreate","userCreate",user.create,methods=["POST"])
-    app.add_url_rule("/userUpdate","userUpdate",user.update,methods=["PUT"])
-    app.add_url_rule("/userUpdatePassword","userUpdatePassword",user.updatePassword,methods=["PUT"])
+    app.add_url_rule("/userCreate", "userCreate",
+                     user.create, methods=["POST"])
+    app.add_url_rule("/userUpdate", "userUpdate", user.update, methods=["PUT"])
+    app.add_url_rule("/userUpdatePassword", "userUpdatePassword",
+                     user.updatePassword, methods=["PUT"])
     app.add_url_rule("/userDelete/<string:uuid>", "userDelete", user.delete)
-    app.add_url_rule("/login","login",user.login,methods=["POST"])
+    app.add_url_rule("/login", "login", user.login, methods=["POST"])
+    app.add_url_rule("/logout", "logout", user.logout, methods=["GET"])
 
-    app.add_url_rule("/get_confirmEmail/<string:uuid>","get_confirmEmail",confirmEmail.get)
-    app.add_url_rule("/confirmEmail","confirmEmails",confirmEmail.index)
-    app.add_url_rule("/confirmEmail/<string:uuid>","confirmEmail",confirmEmail.confirm)
-
-    
+    app.add_url_rule("/get_confirmEmail/<string:uuid>",
+                     "get_confirmEmail", confirmEmail.get)
+    app.add_url_rule("/confirmEmail", "confirmEmails", confirmEmail.index)
+    app.add_url_rule("/confirmEmail/<string:uuid>",
+                     "confirmEmail", confirmEmail.confirm)
 
     @app.route("/")
     def home():
@@ -59,5 +62,3 @@ def create_app(environment="development"):
         return render_template("home.html", data=data)
 
     return app
-
-

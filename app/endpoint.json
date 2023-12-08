@@ -316,39 +316,46 @@
         "explanation": "Inicia la sesión de un usuario y devuelve datos necesarios ",
         "fields": [ "email", "password"]
       },
+      "logout": {
+        "url": "/logout",
+        "method": "GET",
+        "description": "Cerrar sesión",
+        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
+        "fields": []
+      },
       "users": {
         "url": "/users",
         "method": "GET",
         "description": "Obtener todos los usuarios",
-        "explanation": "",
+        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
         "fields": []
       },
       "user": {
         "url": "/user",
         "method": "GET",
         "description": "Obtener un usuario por su uuid",
-        "explanation": "",
+        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
         "fields": ["uuid"]
       },
       "userUpdate": {
         "url": "/userUpdate",
         "method": "PUT",
         "description": "Modificar un usuario por su uuid",
-        "explanation": "",
+        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
         "fields": ["name", "lastName", "email", "birthdate"]
       },
       "userUpdatePassword": {
         "url": "/userUpdatePassword",
         "method": "PUT",
         "description": "Modificar contraseña de un  por su uuid",
-        "explanation": "",
+        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
         "fields": ["uuid","oldPassword", "password","repetitionPass"]
       },
       "userDelete": {
         "url": "/userDelete",
         "method": "DELETE",
         "description": "Eliminar un usuario por su uuid",
-        "explanation": "",
+        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
         "fields": ["uuid"]
       }
     }

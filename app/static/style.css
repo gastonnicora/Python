@@ -204,14 +204,15 @@ td {
 }
 .loader {
   font-size: 20px;
-  margin: 45% auto;
   width: 1em;
   height: 1em;
   border-radius: 50%;
-  position: relative;
+  position: fixed;
   text-indent: -9999em;
   -webkit-animation: load4 1.3s infinite linear;
   animation: load4 1.3s infinite linear;
+  top: 50%;
+  left: 50%;
 }
 @-webkit-keyframes load4 {
   0%,
