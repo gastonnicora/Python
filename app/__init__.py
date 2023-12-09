@@ -10,11 +10,12 @@ from app.socket.socketio import socketio
 
 
 from app.models.db import db
+from app.resources import user
+from app.resources import confirmEmail
+from app.resources import company
 
 
 def create_app(environment="development"):
-    from app.resources import user
-    from app.resources import confirmEmail
 
     # Configuración inicial de la app
     app = Flask(__name__)
@@ -48,6 +49,15 @@ def create_app(environment="development"):
     app.add_url_rule("/confirmEmail", "confirmEmails", confirmEmail.index)
     app.add_url_rule("/confirmEmail/<string:uuid>",
                      "confirmEmail", confirmEmail.confirm)
+    
+
+    app.add_url_rule("/companies", "companies", company.index)
+    app.add_url_rule("/company/<string:uuid>", "company",
+                     company.get)
+    app.add_url_rule("/companyCreate", "companyCreate",
+                     company.create, methods=["POST"])
+    app.add_url_rule("/companyUpdate", "companyUpdate", company.update, methods=["PUT"])
+    app.add_url_rule("/companyDelete/<string:uuid>", "companyDelete", company.delete)
 
     @app.route("/")
     def home():

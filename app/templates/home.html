@@ -43,7 +43,7 @@
 
     {% for v in data[e].endpoint %}
     {% set value=data[e].endpoint[v] %}
-    <div class="item " type="button" data-toggle="collapse" data-target="#{{v}}" aria-expanded="false"
+    <div class="item2 " type="button" data-toggle="collapse" data-target="#{{v}}" aria-expanded="false"
       aria-controls="{{v}}">
       <div>{{value.url}}</div>
       <div class="row " style="display: flex;
@@ -132,6 +132,7 @@ align-items: center">
   document.getElementById("cargando").style.visibility = "hidden"
   
 
+  console.log(token)
   function get(url, cod, sms, id = "") {
     document.getElementById("cargando").style.visibility = "visible"
     if (id != "") {
@@ -150,7 +151,7 @@ align-items: center">
         })
         .then((json) => {
           var campo_usuarios_get = document.getElementById(sms);
-          if (json.cod == 400) {
+          if (json.cod >= 400) {
             campo_usuarios_get.textContent = JSON.stringify(json.error, undefined, 2)
           } else {
             campo_usuarios_get.textContent = JSON.stringify(json.content, undefined, 2)
@@ -180,7 +181,7 @@ align-items: center">
         })
         .then((json) => {
           var campo_usuarios_get = document.getElementById(sms)
-          if (json.cod == 400) {
+          if (json.cod >= 400 ) {
             campo_usuarios_get.textContent = JSON.stringify(json.error, undefined, 2)
           } else {
             campo_usuarios_get.textContent = JSON.stringify(json.content, undefined, 2)
@@ -196,6 +197,8 @@ align-items: center">
           );
         });
     }
+
+    console.log(token)
   }
   var text = document.getElementsByTagName("textarea")
   for (let I = 0; I < text.length; I++) {
@@ -225,11 +228,11 @@ align-items: center">
       })
       .then(json => {
         var campo_usuarios_get = document.getElementById(sms)
-        if (json.cod == 400) {
+        if (json.cod >= 400) {
           campo_usuarios_get.textContent = JSON.stringify(json.error , undefined, 2)
         } else {
           campo_usuarios_get.textContent = JSON.stringify(json.content, undefined, 2)
-          if (url = "/login") {
+          if (url == "/login") {
             token = json.token
           }
         }
@@ -243,7 +246,7 @@ align-items: center">
         var campo_usuarios_get = document.getElementById(sms)
         campo_usuarios_get.textContent = JSON.stringify(error)
       })
-   
+      console.log(token)
   }
 </script>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"

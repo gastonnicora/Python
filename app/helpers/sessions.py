@@ -5,6 +5,7 @@ class Sessions:
     _instance = None
     _sessions={}
     _users={}
+    _companies={}
 
     def __new__(cls):
         if cls._instance is None:
@@ -18,6 +19,7 @@ class Sessions:
         id= str(uuid.uuid4())
         session=  cls._dataSession(id,data)
         cls._addUser(id,data)
+        # cls._addCompany(id,data)
         return id,session
     
     def _dataSession(cls,id,data):
@@ -34,19 +36,44 @@ class Sessions:
             cls._users[data["uuid"]].append(id)
         else:
             cls._users[data["uuid"]]=[id]
-    
+    def _addCompany(cls,id,data):
+        if cls._companies.get(data.get("company")) and cls._companies.get(data["company"].get("uuid")) and len(data["company"].get("uuid"))!=0:
+            cls._companies[data["company"]["uuid"]].append(id)
+        else:
+            cls._companies[data["company"]["uuid"]]=[id]
+
     def updateSession(cls,uuid,data):
         session= cls.getSession(uuid)
         newSession= data
         newSession["login"]=session["login"]
-        cls._sessions[session["uuid"]]=newSession
+        cls._sessions[uuid]=newSession
+    
+    def updateSessionByUser(cls,uuid,data):
+        uuidS= cls._users[uuid] 
+        newSession=data
+        for i in uuidS:
+            newSession["login"]=cls._sessions[i]["login"]
+            cls._sessions[i]=newSession
     
     def getSession(cls,uuid):
         return cls._sessions[uuid] 
     
+    def getSessionsByUser(cls,uuid):
+        uuidS= cls._users[uuid] 
+        sessions=[]
+        for i in uuidS:
+            sessions.append(cls._sessions[i])
+        return sessions
+    
     def deleteSession(cls,uuid):
         session=cls._sessions.pop(uuid)
         cls._users[session["uuid"]].remove(uuid)
+    
+    def deleteSessionsByUser(cls,uuid):
+        uuidS= cls._users[uuid] 
+        for i in uuidS:
+            cls._sessions.pop(i)
+        cls._users[uuid]=[]
     
     
 

@@ -13,13 +13,13 @@ def token_required(f):
             token = request.headers['x-access-tokens']
 
         if not token or token=="null" or token == "undefined":
-            return jsonify({'error': 'No hay datos de sesión',"cod":400}),400
+            return jsonify({'error': 'Por favor inicie sesión para realizar esta acción',"cod":401}),401
 
         try:
-            data = jwt.decode(token, environ.get("SECRET_KEY", "1234"), algorithms="HS256")
+            data = jwt.decode(token, environ.get("SECRET_KEY", "1234"), algorithms="HS256") 
             current_user = Sessions().getSession(data['uuid'])
         except:
-            return jsonify({'error': 'token invalido',"cod":400}),400
+            return jsonify({'error': 'Por favor vuelva a iniciar sesión para realizar esta acción',"cod":401}),401
 
         return f(current_user, *args, **kwargs)
     return decorator

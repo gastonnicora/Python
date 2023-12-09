@@ -1,5 +1,5 @@
 {
-  "Usuario": {
+  "Usuarios": {
     "desciption": "api de los usuarios",
     "fields": {
       "uuid": {
@@ -450,7 +450,7 @@
       }
     }
   },
-  "Empresa": {
+  "Empresas": {
     "desciption": "api de los usuarios",
     "fields": {
       "uuid": {
@@ -488,7 +488,7 @@
             "error": "Debe introducir un nombre"
           }
         },
-        "example": "Gastón",
+        "example": "Remates 21",
         "model":true
       }
       ,
@@ -600,7 +600,7 @@
         "explanation": "",
         "fields": []
       },
-      "user": {
+      "company": {
         "url": "/company",
         "method": "GET",
         "description": "Obtener una empresa por su uuid",
@@ -612,7 +612,7 @@
         "method": "PUT",
         "description": "Modificar una empresa por su uuid",
         "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["name","address"]
+        "fields": ["name","address","uuid"]
       },
       "companyDelete": {
         "url": "/companyDelete",

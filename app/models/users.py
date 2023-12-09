@@ -146,11 +146,11 @@ class User(db.Model):
         return Message(content="El usuario confirmo correctamente su email")
     
     @classmethod
-    def update(cls,data):
+    def update(cls,uuid,data):
         date= datetime.datetime.now()
         strDate= date.strftime(date_format)
         
-        usu= cls.query.filter_by(uuid=data.get("uuid"), removed=0).first()
+        usu= cls.query.filter_by(uuid=uuid, removed=0).first()
         if not usu:
             return Message(error="El usuario no se pudo editar por que no existe")
         if usu.email != data.get("email"):

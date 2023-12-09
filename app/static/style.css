@@ -138,8 +138,20 @@ td {
   margin: 0% 1%;
   padding: 0.5%;
   background-color: #d2d2d2;
+  position: sticky;
+  top: -1px;
+  z-index: 2;
 }
-
+.item2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0% 1%;
+  padding: 0.5%;
+  background-color: #d2d2d2;
+  position: sticky;
+  top: 2em;
+}
 .espaciado {
   margin: 0% 1%;
   padding: 0.6%;
