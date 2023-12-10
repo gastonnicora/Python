@@ -13,6 +13,7 @@ from app.models.db import db
 from app.resources import user
 from app.resources import confirmEmail
 from app.resources import company
+from app.resources import employee
 
 
 def create_app(environment="development"):
@@ -33,6 +34,8 @@ def create_app(environment="development"):
         db.create_all()
 
     # Rutas API-REST
+
+    # CRUD User
     app.add_url_rule("/users", "users", user.index)
     app.add_url_rule("/user/<string:uuid>", "user", user.get)
     app.add_url_rule("/userCreate", "userCreate",
@@ -40,24 +43,41 @@ def create_app(environment="development"):
     app.add_url_rule("/userUpdate", "userUpdate", user.update, methods=["PUT"])
     app.add_url_rule("/userUpdatePassword", "userUpdatePassword",
                      user.updatePassword, methods=["PUT"])
-    app.add_url_rule("/userDelete/<string:uuid>", "userDelete", user.delete)
+    app.add_url_rule("/userDelete/<string:uuid>", "userDelete", user.delete, methods=["DELETE"])
     app.add_url_rule("/login", "login", user.login, methods=["POST"])
     app.add_url_rule("/logout", "logout", user.logout, methods=["GET"])
 
+
+    # ConfirmUSer
     app.add_url_rule("/get_confirmEmail/<string:uuid>",
                      "get_confirmEmail", confirmEmail.get)
     app.add_url_rule("/confirmEmail", "confirmEmails", confirmEmail.index)
     app.add_url_rule("/confirmEmail/<string:uuid>",
                      "confirmEmail", confirmEmail.confirm)
     
-
+    #CRUD Company
     app.add_url_rule("/companies", "companies", company.index)
     app.add_url_rule("/company/<string:uuid>", "company",
                      company.get)
     app.add_url_rule("/companyCreate", "companyCreate",
                      company.create, methods=["POST"])
     app.add_url_rule("/companyUpdate", "companyUpdate", company.update, methods=["PUT"])
-    app.add_url_rule("/companyDelete/<string:uuid>", "companyDelete", company.delete)
+    app.add_url_rule("/companyDelete/<string:uuid>", "companyDelete", company.delete, methods=["DELETE"])
+
+    #CRUD Employee
+    app.add_url_rule("/employees", "employees", employee.index)
+    app.add_url_rule("/employee/<string:uuid>", "employee",
+                     employee.get)
+    app.add_url_rule("/employeeByUser/<string:uuid>", "employeeByUser",
+                     employee.getByUser)
+    app.add_url_rule("/employeeByCompany/<string:uuid>", "employeeByCompany",
+                     employee.getByCompany)
+    app.add_url_rule("/employeeCreate", "employeeCreate",
+                     employee.create, methods=["POST"])
+    app.add_url_rule("/employeeUpdate", "employeeUpdate", employee.update, methods=["PUT"])
+    app.add_url_rule("/employeeDelete/<string:uuid>", "employeeDelete", employee.delete, methods=["DELETE"])
+    app.add_url_rule("/employeeDeleteByUser/<string:uuid>", "employeeDeleteByUser", employee.delete, methods=["DELETE"])
+    app.add_url_rule("/employeeDeleteByCompany/<string:uuid>", "employeeDeleteByCompany", employee.delete, methods=["DELETE"])
 
     @app.route("/")
     def home():

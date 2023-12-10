@@ -1,9 +1,9 @@
 {
   "Usuarios": {
-    "desciption": "api de los usuarios",
+    "description": "Endpoint de usuario",
     "fields": {
       "uuid": {
-        "desciption": "",
+        "description": "",
         "property": {
           "type": {
             "value": "string",
@@ -19,10 +19,10 @@
           }
         },
         "example": "f8773c44-bd9a-4ffe-922f-4b661ebca35e",
-        "model":true
+        "model": true
       },
       "name": {
-        "desciption": "",
+        "description": "",
         "property": {
           "type": {
             "value": "string",
@@ -38,10 +38,10 @@
           }
         },
         "example": "Gastón",
-        "model":true
+        "model": true
       },
       "lastName": {
-        "desciption": "",
+        "description": "",
         "property": {
           "type": {
             "value": "string",
@@ -57,10 +57,10 @@
           }
         },
         "example": "Nicora",
-        "model":true
+        "model": true
       },
       "email": {
-        "desciption": "",
+        "description": "",
         "property": {
           "type": {
             "value": "email",
@@ -76,10 +76,10 @@
           }
         },
         "example": "gastonmatias.21@gmail.com",
-        "model":true
+        "model": true
       },
       "password": {
-        "desciption": "la contraseña debe contener letras y números, ademas debe contener 8 caracteres como mínimo. No se aceptan caracteres especiales",
+        "description": "la contraseña debe contener letras y números, ademas debe contener 8 caracteres como mínimo. No se aceptan caracteres especiales",
         "property": {
           "type": {
             "value": "pass",
@@ -99,10 +99,10 @@
           }
         },
         "example": "12345678",
-        "model":true
+        "model": true
       },
       "oldPassword": {
-        "desciption": "la contraseña debe contener letras y números, ademas debe contener 8 caracteres como mínimo. No se aceptan caracteres especiales",
+        "description": "la contraseña debe contener letras y números, ademas debe contener 8 caracteres como mínimo. No se aceptan caracteres especiales",
         "property": {
           "type": {
             "value": "pass",
@@ -122,10 +122,10 @@
           }
         },
         "example": "12345678",
-        "model":false
+        "model": false
       },
       "repetitionPass": {
-        "desciption": "la contraseña debe contener letras y números, ademas debe contener 8 caracteres como mínimo. No se aceptan caracteres especiales",
+        "description": "la contraseña debe contener letras y números, ademas debe contener 8 caracteres como mínimo. No se aceptan caracteres especiales",
         "property": {
           "type": {
             "value": "pass",
@@ -150,10 +150,10 @@
           }
         },
         "example": "12345678",
-        "model":false
+        "model": false
       },
       "birthdate": {
-        "desciption": "Formato dia/mes/año (01/01/2013)",
+        "description": "Formato dia/mes/año (01/01/2013)",
         "property": {
           "type": {
             "value": "date",
@@ -173,10 +173,10 @@
           }
         },
         "example": "21/06/1997",
-        "model":true
+        "model": true
       },
       "removed": {
-        "desciption": "Borrado lógico, 1 es borrado y 0 que no lo esta ",
+        "description": "Borrado lógico, 1 es borrado y 0 que no lo esta ",
         "property": {
           "type": {
             "value": "integer",
@@ -196,10 +196,10 @@
           }
         },
         "example": 0,
-        "model":true
+        "model": true
       },
       "confirmEmail": {
-        "desciption": "Si confirmo el email, 1 es que si y 0 es que no",
+        "description": "Si confirmo el email, 1 es que si y 0 es que no",
         "property": {
           "type": {
             "value": "integer",
@@ -219,10 +219,10 @@
           }
         },
         "example": 0,
-        "model":true
+        "model": true
       },
       "dateOfCreate": {
-        "desciption": "",
+        "description": "",
         "property": {
           "type": {
             "type": {
@@ -243,11 +243,11 @@
             }
           },
           "example": "21/06/2023",
-          "model":true
+          "model": true
         }
       },
       "dateOfUpdate": {
-        "desciption": "",
+        "description": "",
         "property": {
           "type": {
             "type": {
@@ -268,12 +268,12 @@
             }
           },
           "example": "21/06/2023",
-          "model":true
+          "model": true
         }
       },
       "terms": {
         "type": "Int",
-        "desciption": "",
+        "description": "",
         "property": {
           "type": {
             "value": "integer",
@@ -297,7 +297,7 @@
           }
         },
         "example": 1,
-        "model":true
+        "model": true
       }
     },
 
@@ -307,14 +307,21 @@
         "method": "POST",
         "description": "Creación de usuario",
         "explanation": "Crea y devuelve un usuario. Si hay un el email esta registrado pero no confirmado elimina el usuario y link de creación antiguos y los vuelve a crear",
-        "fields": ["name", "lastName", "password","repetitionPass", "email", "birthdate"]
+        "fields": [
+          "name",
+          "lastName",
+          "password",
+          "repetitionPass",
+          "email",
+          "birthdate"
+        ]
       },
       "login": {
         "url": "/login",
         "method": "POST",
         "description": "Inicio de sesión  de usuario",
         "explanation": "Inicia la sesión de un usuario y devuelve datos necesarios ",
-        "fields": [ "email", "password"]
+        "fields": ["email", "password"]
       },
       "logout": {
         "url": "/logout",
@@ -349,7 +356,7 @@
         "method": "PUT",
         "description": "Modificar contraseña de un  por su uuid",
         "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["uuid","oldPassword", "password","repetitionPass"]
+        "fields": ["uuid", "oldPassword", "password", "repetitionPass"]
       },
       "userDelete": {
         "url": "/userDelete",
@@ -361,10 +368,10 @@
     }
   },
   "ConfirmarEmail": {
-    "desciption": "Endpoint de confirmación de email",
+    "description": "Endpoint de confirmación de email",
     "fields": {
       "uuid": {
-        "desciption": "",
+        "description": "",
         "property": {
           "type": {
             "value": "string",
@@ -380,10 +387,10 @@
           }
         },
         "example": "",
-        "model":true
+        "model": true
       },
       "user": {
-        "desciption": "Identificador del usuario",
+        "description": "Identificador del usuario",
         "property": {
           "type": {
             "value": "string",
@@ -399,10 +406,10 @@
           }
         },
         "example": "",
-        "model":true
+        "model": true
       },
       "dateOfCreate": {
-        "desciption": "",
+        "description": "",
         "property": {
           "type": {
             "type": {
@@ -423,7 +430,7 @@
             }
           },
           "example": "21/06/2023",
-          "model":true
+          "model": true
         }
       }
     },
@@ -451,10 +458,10 @@
     }
   },
   "Empresas": {
-    "desciption": "api de los usuarios",
+    "description": "Endpoint de empresa",
     "fields": {
       "uuid": {
-        "desciption": "",
+        "description": "",
         "property": {
           "type": {
             "value": "string",
@@ -470,10 +477,10 @@
           }
         },
         "example": "f8773c44-bd9a-4ffe-922f-4b661ebca35e",
-        "model":true
+        "model": true
       },
       "name": {
-        "desciption": "Nombre de la empresa",
+        "description": "Nombre de la empresa",
         "property": {
           "type": {
             "value": "string",
@@ -489,11 +496,10 @@
           }
         },
         "example": "Remates 21",
-        "model":true
-      }
-      ,
+        "model": true
+      },
       "address": {
-        "desciption": "Dirección de la empresa",
+        "description": "Dirección de la empresa",
         "property": {
           "type": {
             "value": "string",
@@ -509,10 +515,10 @@
           }
         },
         "example": "calle 117 nº 80, La Plata",
-        "model":true
+        "model": true
       },
       "removed": {
-        "desciption": "Borrado lógico, 1 es borrado y 0 que no lo esta ",
+        "description": "Borrado lógico, 1 es borrado y 0 que no lo esta ",
         "property": {
           "type": {
             "value": "integer",
@@ -532,10 +538,10 @@
           }
         },
         "example": 0,
-        "model":true
+        "model": true
       },
       "dateOfCreate": {
-        "desciption": "",
+        "description": "",
         "property": {
           "type": {
             "type": {
@@ -556,11 +562,11 @@
             }
           },
           "example": "21/06/2023",
-          "model":true
+          "model": true
         }
       },
       "dateOfUpdate": {
-        "desciption": "",
+        "description": "",
         "property": {
           "type": {
             "type": {
@@ -581,7 +587,7 @@
             }
           },
           "example": "21/06/2023",
-          "model":true
+          "model": true
         }
       }
     },
@@ -612,7 +618,7 @@
         "method": "PUT",
         "description": "Modificar una empresa por su uuid",
         "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["name","address","uuid"]
+        "fields": ["name", "address", "uuid"]
       },
       "companyDelete": {
         "url": "/companyDelete",
@@ -621,6 +627,209 @@
         "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
         "fields": ["uuid"]
       }
+    }
+  },
+  "Empleados": {
+    "description": "Endpoint de relación empleado/empresas",
+    "fields": {
+      "uuid": {
+        "description": "",
+        "property": {
+          "type": {
+            "value": "string",
+            "error": "El identificador debe ser una cadena de caracteres"
+          },
+          "max length": {
+            "value": 255,
+            "error": "El identificador debe tener un largo menor a 255"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir un identificador"
+          }
+        },
+        "example": "",
+        "model": true
+      },
+      "user": {
+        "description": "Identificador del usuario",
+        "property": {
+          "type": {
+            "value": "string",
+            "error": "El identificador debe ser una cadena de caracteres"
+          },
+          "max length": {
+            "value": 255,
+            "error": "El identificador debe tener un largo menor a 255"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir un identificador"
+          }
+        },
+        "example": "",
+        "model": true
+      },
+      "company": {
+        "description": "Identificador de la empresa",
+        "property": {
+          "type": {
+            "value": "string",
+            "error": "El identificador debe ser una cadena de caracteres"
+          },
+          "max length": {
+            "value": 255,
+            "error": "El identificador debe tener un largo menor a 255"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir un identificador"
+          }
+        },
+        "example": "",
+        "model": true
+      },
+      "dateOfCreate": {
+        "description": "",
+        "property": {
+          "type": {
+            "type": {
+              "value": "date",
+              "error": "Debe introducir una fecha valida"
+            },
+            "max length": {
+              "value": 11,
+              "error": "La fecha debe tener 10 caracteres"
+            },
+            "min length": {
+              "value": 9,
+              "error": "La fecha debe tener 10 caracteres"
+            },
+            "required": {
+              "value": true,
+              "error": "Debe introducir una fecha"
+            },
+            "dateOfUpdate": {
+              "description": "",
+              "property": {
+                "type": {
+                  "type": {
+                    "value": "date",
+                    "error": "Debe introducir una fecha valida"
+                  },
+                  "max length": {
+                    "value": 11,
+                    "error": "La fecha debe tener 10 caracteres"
+                  },
+                  "min length": {
+                    "value": 9,
+                    "error": "La fecha debe tener 10 caracteres"
+                  },
+                  "required": {
+                    "value": true,
+                    "error": "Debe introducir una fecha"
+                  }
+                },
+                "example": "21/06/2023",
+                "model": true
+              }
+            }
+          },
+          "example": "21/06/2023",
+          "model": true
+        }
+      },
+      "dateOfUpdate": {
+        "description": "",
+        "property": {
+          "type": {
+            "type": {
+              "value": "date",
+              "error": "Debe introducir una fecha valida"
+            },
+            "max length": {
+              "value": 11,
+              "error": "La fecha debe tener 10 caracteres"
+            },
+            "min length": {
+              "value": 9,
+              "error": "La fecha debe tener 10 caracteres"
+            },
+            "required": {
+              "value": true,
+              "error": "Debe introducir una fecha"
+            }
+          },
+          "example": "21/06/2023",
+          "model":true
+        }
+      }
+    },
+    "endpoint": {
+      "employee": {
+        "url": "/employee/",
+        "method": "GET",
+        "description": "Obtener una relación empleado/empresa ",
+        "explanation": "Obtiene una relación empleado/empresa por medio de su uuid. Requiere en el header 'x-access-tokens' el token de inicio de sesión",
+        "fields": ["uuid"]
+      },
+      "employeeByUser": {
+        "url": "/employeeByUser/",
+        "method": "GET",
+        "description": "Obtener una relación empleado/empresa",
+        "explanation": "Obtiene una relación empleado/empresa por medio del uuid del usuario. Requiere en el header 'x-access-tokens' el token de inicio de sesión",
+        "fields": ["uuid"]
+      },
+      "employeeByCompany": {
+        "url": "/employeeByCompany/",
+        "method": "GET",
+        "description": "Obtener una relación empleado/empresa",
+        "explanation": "Obtiene una relación empleado/empresa por medio del uuid de la Empresa. Requiere en el header 'x-access-tokens' el token de inicio de sesión",
+        "fields": ["uuid"]
+      },
+      "employees": {
+        "url": "/employees",
+        "method": "GET",
+        "description": "Lista todas las relaciones empleado/empresa",
+        "explanation": "Lista todas las relaciones empleado/empresa. Requiere en el header 'x-access-tokens' el token de inicio de sesión",
+        "fields": []
+      },
+      "employeeCreate": {
+        "url": "/employeeCreate",
+        "method": "POST",
+        "description": "Crea una relación empleado/empresa",
+        "explanation": "Crea una relación empleado/empresa. Requiere en el header 'x-access-tokens' el token de inicio de sesión",
+        "fields": ["user","company"]
+      },
+      "employeeUpdate": {
+        "url": "/employeeUpdate",
+        "method": "PUT",
+        "description": "Actualiza los datos de una relación empleado/empresa",
+        "explanation": "Actualiza los datos de una relación empleado/empresa. Requiere en el header 'x-access-tokens' el token de inicio de sesión",
+        "fields": ["uuid","user","company"]
+      },
+      "employeeDelete": {
+        "url": "/employeeDelete/",
+        "method": "DELETE",
+        "description": "Elimina una relación empleado/empresa ",
+        "explanation": "Elimina una relación empleado/empresa por medio de su uuid. Requiere en el header 'x-access-tokens' el token de inicio de sesión",
+        "fields": ["uuid"]
+      },
+      "employeeDeleteByUser": {
+        "url": "/employeeDeleteByUser/",
+        "method": "DELETE",
+        "description": "Elimina una relación empleado/empresa",
+        "explanation": "Elimina una relación empleado/empresa por medio del uuid del usuario. Requiere en el header 'x-access-tokens' el token de inicio de sesión",
+        "fields": ["uuid"]
+      },
+      "employeeDeleteByCompany": {
+        "url": "/employeeDeleteByCompany/",
+        "method": "DELETE",
+        "description": "Elimina una relación empleado/empresa",
+        "explanation": "Elimina una relación empleado/empresa por medio del uuid de la Empresa. Requiere en el header 'x-access-tokens' el token de inicio de sesión",
+        "fields": ["uuid"]
+      }
+
     }
   }
 }

@@ -10,11 +10,12 @@
   {% for e in data %}
   <div class="item" type="button" data-toggle="collapse" data-target="#collapse{{e}}" aria-expanded="false"
     aria-controls="collapse{{e}}">
-    <div>{{e}}<small>{{data[e].description}}</small></div>
+    <div>{{e}} </div>
     <i class="fa fa-chevron-down"></i>
   </div>
   <div class="collapse espaciado" id="collapse{{e}}">
     <div class="card espaciado">
+      <div>{{data[e]["description"]}}</div>
       <div class="card-header">Campos de la clase {{e}}:</div>
       <div class="card-body">
 
@@ -45,7 +46,7 @@
     {% set value=data[e].endpoint[v] %}
     <div class="item2 " type="button" data-toggle="collapse" data-target="#{{v}}" aria-expanded="false"
       aria-controls="{{v}}">
-      <div>{{value.url}}</div>
+      <div>{{value.url}} </div>
       <div class="row " style="display: flex;
 align-items: center">
         <div class="{{value.method}}">{{value.method}}</div><i class="fa fa-chevron-down align-middle"></i>
@@ -61,10 +62,10 @@ align-items: center">
       <label for="uuid_{{v}}">uuid</label>
       <input type="text" id="uuid_{{v}}" name="uuid_{{v}}">
       <button class="btn btn-primary float-right "
-        onclick="get('{{ url_for(v, uuid= 0) }}','campo_{{v}}_cod','campo_{{v}}','uuid_{{v}}')"
+        onclick="get('{{ url_for(v, uuid= 0) }}','campo_{{v}}_cod','campo_{{v}}','{{value.method}}','uuid_{{v}}')"
         id="Ejecutar_{{v}}">Ejecutar</button>
       {% else %}
-      <button class="btn btn-primary float-right " onclick="get('{{ url_for(v) }}','campo_{{v}}_cod','campo_{{v}}')"
+      <button class="btn btn-primary float-right " onclick="get('{{ url_for(v) }}','campo_{{v}}_cod','campo_{{v}}','{{value.method}}')"
         id="Ejecutar_{{v}}">Ejecutar</button>
       {% endif %}
       <hr>
@@ -133,11 +134,13 @@ align-items: center">
   
 
   console.log(token)
-  function get(url, cod, sms, id = "") {
+  function get(url, cod, sms,method, id = "") {
+    console.log(method)
     document.getElementById("cargando").style.visibility = "visible"
     if (id != "") {
       var id2 = document.getElementById(id).value;
       fetch(url.replace("0", id2), {
+        method: method,
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -168,6 +171,7 @@ align-items: center">
         });
     } else {
       fetch(url, {
+        method: method,
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",

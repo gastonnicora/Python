@@ -132,15 +132,17 @@ td {
   --text: #000;
 }
 .item {
-  display: flex; /*Convertimos al menú en flexbox*/
-  justify-content: space-between; /*Con esto le indicamos que margine todos los items que se encuentra adentro hacia la derecha e izquierda*/
-  align-items: center; /*con esto alineamos de manera vertical*/
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin: 0% 1%;
   padding: 0.5%;
-  background-color: #d2d2d2;
+  background-color: #eee;
   position: sticky;
   top: -1px;
   z-index: 2;
+  border: solid 1px #aaa;
+  border-radius: 10px;
 }
 .item2 {
   display: flex;
@@ -151,6 +153,8 @@ td {
   background-color: #d2d2d2;
   position: sticky;
   top: 2em;
+  border: solid 1px #aaa;
+  border-radius: 10px;
 }
 .espaciado {
   margin: 0% 1%;
@@ -213,6 +217,7 @@ td {
   left: 0;
   right: 0;
   bottom: 0;
+  z-index: 3;
 }
 .loader {
   font-size: 20px;
