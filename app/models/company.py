@@ -60,18 +60,18 @@ class Company(db.Model):
     @classmethod
     def all(cls):
         companies= cls.query.filter_by(removed=0).all()
-        con=C(None,companies)
+        com=C(None,companies)
         db.session.close()
-        return Message(content=con)
+        return Message(content=com)
     
     @classmethod
     def get(cls,uuid):
         company= cls.query.filter_by(uuid=uuid,removed=0).first()
         if(not company):
             return Message(error="No se pudo obtener la empresa por que no existe")
-        con=C(company)
+        com=C(company)
         db.session.close()
-        return Message(content=con)
+        return Message(content=com)
     
     @classmethod
     def delete(cls, uuid):
@@ -99,6 +99,7 @@ class Company(db.Model):
         company.dateOfUpdate=strDate
         db.session.merge(company)
         db.session.commit()
+        com=C(company)
         db.session.close()
-        return Message(content="Empresa actualizada correctamente")
+        return Message(content=com)
         

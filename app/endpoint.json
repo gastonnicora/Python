@@ -831,5 +831,177 @@
       }
 
     }
+  },
+  "Roles": {
+    "description": "Endpoint de roles",
+    "fields": {
+      "uuid": {
+        "description": "",
+        "property": {
+          "type": {
+            "value": "string",
+            "error": "El identificador debe ser una cadena de caracteres"
+          },
+          "max length": {
+            "value": 255,
+            "error": "El identificador debe tener un largo menor a 255"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir un identificador"
+          }
+        },
+        "example": "f8773c44-bd9a-4ffe-922f-4b661ebca35e",
+        "model": true
+      },
+      "name": {
+        "description": "Nombre del rol",
+        "property": {
+          "type": {
+            "value": "string",
+            "error": "El nombre debe ser una cadena de caracteres"
+          },
+          "max length": {
+            "value": 255,
+            "error": "El nombre debe tener un largo menor a 255"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir un nombre"
+          }
+        },
+        "example": "Administrador",
+        "model": true
+      },
+      "description": {
+        "description": "Descripción del rol",
+        "property": {
+          "type": {
+            "value": "string",
+            "error": "La descripción debe ser una cadena de caracteres"
+          },
+          "max length": {
+            "value": 255,
+            "error": "La descripción debe tener un largo menor a 255"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir una descripción"
+          }
+        },
+        "example": "El rol permite que el empleado tenga todos los permisos",
+        "model": true
+      },
+      "removed": {
+        "description": "Borrado lógico, 1 es borrado y 0 que no lo esta ",
+        "property": {
+          "type": {
+            "value": "integer",
+            "error": "Debe introducir un numero entero valido"
+          },
+          "max": {
+            "value": 2,
+            "error": "El valor máximo es 1"
+          },
+          "min": {
+            "value": -1,
+            "error": "el valor mínimo es 0"
+          },
+          "default": {
+            "value": 0,
+            "error": ""
+          }
+        },
+        "example": 0,
+        "model": true
+      },
+      "dateOfCreate": {
+        "description": "",
+        "property": {
+          "type": {
+            "type": {
+              "value": "date",
+              "error": "Debe introducir una fecha valida"
+            },
+            "max length": {
+              "value": 11,
+              "error": "La fecha debe tener 10 caracteres"
+            },
+            "min length": {
+              "value": 9,
+              "error": "La fecha debe tener 10 caracteres"
+            },
+            "required": {
+              "value": true,
+              "error": "Debe introducir una fecha"
+            }
+          },
+          "example": "21/06/2023",
+          "model": true
+        }
+      },
+      "dateOfUpdate": {
+        "description": "",
+        "property": {
+          "type": {
+            "type": {
+              "value": "date",
+              "error": "Debe introducir una fecha valida"
+            },
+            "max length": {
+              "value": 11,
+              "error": "La fecha debe tener 10 caracteres"
+            },
+            "min length": {
+              "value": 9,
+              "error": "La fecha debe tener 10 caracteres"
+            },
+            "required": {
+              "value": true,
+              "error": "Debe introducir una fecha"
+            }
+          },
+          "example": "21/06/2023",
+          "model": true
+        }
+      }
+    },
+    "endpoint": {
+      "roleCreate": {
+        "url": "/roleCreate",
+        "method": "POST",
+        "description": "Creación de una empresa que va a rematar objetos",
+        "explanation": "Crea y devuelve una empresa. Requiere en el header 'x-access-tokens' el token de inicio de sesión",
+        "fields": ["name", "description"]
+      },
+      "roles": {
+        "url": "/roles",
+        "method": "GET",
+        "description": "Obtener todas las empresas",
+        "explanation": "",
+        "fields": []
+      },
+      "role": {
+        "url": "/role",
+        "method": "GET",
+        "description": "Obtener una empresa por su uuid",
+        "explanation": "",
+        "fields": ["uuid"]
+      },
+      "roleUpdate": {
+        "url": "/roleUpdate",
+        "method": "PUT",
+        "description": "Modificar una empresa por su uuid",
+        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
+        "fields": ["name", "description", "uuid"]
+      },
+      "roleDelete": {
+        "url": "/roleDelete",
+        "method": "DELETE",
+        "description": "Eliminar una empresa por su uuid",
+        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
+        "fields": ["uuid"]
+      }
+    }
   }
 }

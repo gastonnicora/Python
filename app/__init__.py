@@ -14,6 +14,7 @@ from app.resources import user
 from app.resources import confirmEmail
 from app.resources import company
 from app.resources import employee
+from app.resources import role
 
 
 def create_app(environment="development"):
@@ -78,6 +79,15 @@ def create_app(environment="development"):
     app.add_url_rule("/employeeDelete/<string:uuid>", "employeeDelete", employee.delete, methods=["DELETE"])
     app.add_url_rule("/employeeDeleteByUser/<string:uuid>", "employeeDeleteByUser", employee.delete, methods=["DELETE"])
     app.add_url_rule("/employeeDeleteByCompany/<string:uuid>", "employeeDeleteByCompany", employee.delete, methods=["DELETE"])
+
+    #CRUD Role
+    app.add_url_rule("/roles", "roles", role.index)
+    app.add_url_rule("/role/<string:uuid>", "role",
+                     role.get)
+    app.add_url_rule("/roleCreate", "roleCreate",
+                     role.create, methods=["POST"])
+    app.add_url_rule("/roleUpdate", "roleUpdate", role.update, methods=["PUT"])
+    app.add_url_rule("/roleDelete/<string:uuid>", "roleDelete", role.delete, methods=["DELETE"])
 
     @app.route("/")
     def home():
