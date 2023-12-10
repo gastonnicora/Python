@@ -53,12 +53,12 @@ class Validador(object):
 
     def _string(self, field):
         data= self.data.get(field)
-        if not (isinstance(data, str) or data is None):
+        if not (isinstance(data, str) and data ):
             self._logError(field,"type")
     
     def _pass(self,field):
         data= self.data.get(field)
-        if not (isinstance(data, str) or data.isalnum() or data is None):
+        if not (isinstance(data, str) and data.isalnum() and data ):
             self._logError(field,"type")
 
     def _email(self,field):
@@ -76,12 +76,12 @@ class Validador(object):
         except ValueError:
             # email no contiene "@"
             isEmail=False
-        if not (isinstance(data, str) or isEmail or data is None):
+        if not (isinstance(data, str) and isEmail and data ):
             self._logError(field,"type")
         
     def _integer(self, field):
         data= self.data.get(field)
-        if not(isinstance(data, int) or data is None):
+        if not(isinstance(data, int) and data ):
             self._logError(field,"type")
 
     def _date(self, field):
@@ -90,44 +90,47 @@ class Validador(object):
         date_obj = None
         try:
             date_obj = datetime.datetime.strptime(data, date_format)
-        finally:
-            if not(isinstance(data, str) or isinstance(date_obj, datetime.datetime) or data is None):
+            if not(isinstance(data, str) and isinstance(date_obj, datetime.datetime) and data ):
                 self._logError(field,"type")
+        except:
+            self._logError(field,"type")
+            
+            
     
     def _repeat(self,field):
         data= self.data.get(field)
         field1=self.DB.get("fields").get(field).get("property").get("repeat")["repetition"]
         data1= self.data.get(field1)
         if isinstance(data, str):
-            if not(  data1==data or data is None):
+            if not(  data1==data and data ):
                 self._logError(field,"repeat")
 
     def _maxLength(self, field):
         max= self.DB.get("fields").get(field).get("property")["max length"]["value"]
         data= self.data.get(field)
         if isinstance(data, str):
-            if not(len(data) < max or data is None):
+            if not(len(data) < max and data ):
                 self._logError(field,"max length")
     
     def _minLength(self, field):
         min= self.DB.get("fields").get(field).get("property")["min length"]["value"]
         data= self.data.get(field)
         if isinstance(data, str):
-            if not( len(data) > min or data is None):
+            if not( len(data) > min and data ):
                 self._logError(field,"min length")
     
     def _max(self, field):
         max= self.DB.get("fields").get(field).get("property")["max"]["value"]
         data= self.data.get(field)
         if isinstance(data, int):
-            if not ( data < max or data is None):
+            if not ( data < max and data ):
                 self._logError(field,"max")
     
     def _min(self, field):
         min= self.DB.get("fields").get(field).get("property")["min"]["value"]
         data= self.data.get(field)
         if isinstance(data, int):
-            if not ( data > min or data is None):
+            if not ( data > min and data ):
                 self._logError(field,"min")
     
     def _maxDate(self, field):
@@ -140,7 +143,7 @@ class Validador(object):
             date_max = datetime.datetime.strptime(max, date_format)
         finally:
             if isinstance(data, str):
-                if not (date_obj < date_max or data is None):
+                if not (date_obj < date_max and data ):
                     self._logError(field,"max date")
     
     def _minDate(self, field):
@@ -153,15 +156,16 @@ class Validador(object):
             date_min = datetime.datetime.strptime(min, date_format)
         finally:
             if isinstance(data, str):
-                if not ( date_obj > date_min or data is None):
+                if not ( date_obj > date_min and data ):
                     self._logError(field,"min date")
 
     def _required(self, field):
         data= self.data.get(field)
-        if self._string(data) and data:
+        if isinstance(data, str) and data:
             data=data.strip()
         if not (data != None and data !="" and data != [] and data !={}):
            self._logError(field,"required")
+        
            
 
 

@@ -4,6 +4,7 @@ class Permission():
         if data: 
             cls.uuid=data.uuid
             cls.name= data.name
+            cls.url= data.url
             cls.dateOfCreate=data.dateOfCreate
             cls.dateOfUpdate=data.dateOfUpdate
             cls.description= data.description

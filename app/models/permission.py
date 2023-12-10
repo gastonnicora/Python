@@ -14,6 +14,10 @@ class Permission(db.Model):
         db.String(255),
         nullable=True
     )
+    url= db.Column(
+        db.String(255),
+        nullable=True
+    )
     description=db.Column(
         db.String(255),
         nullable=True
@@ -41,7 +45,8 @@ class Permission(db.Model):
         permission= cls(
                 name= data.get("name"),
                 description= data.get("description"),
-                dateOfCreate= strDate
+                dateOfCreate= strDate,
+                url=data.get("url")
             )
         db.session.add(permission)
         db.session.commit()
@@ -89,6 +94,7 @@ class Permission(db.Model):
         permission.name=data.get("name")
         permission.description= data.get("description")
         permission.dateOfUpdate=strDate
+        permission.url=data.get("url")
         db.session.merge(permission)
         db.session.commit()
         rol= R(permission)

@@ -1064,6 +1064,29 @@
         "example": "El permiso permite que el empleado tenga todos los permisos",
         "model": true
       },
+      "url": {
+        "description": "Url que da permiso",
+        "property": {
+          "type": {
+            "value": "string",
+            "error": "La url debe ser una cadena de caracteres"
+          },
+          "max length": {
+            "value": 255,
+            "error": "La url debe tener un largo menor a 255"
+          },
+          "min length": {
+            "value": 2,
+            "error": "La url debe tener un largo mayor a 2"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir una url"
+          }
+        },
+        "example": "El permiso permite que el empleado tenga todos los permisos",
+        "model": true
+      },
       "removed": {
         "description": "Borrado lógico, 1 es borrado y 0 que no lo esta ",
         "property": {
@@ -1143,8 +1166,8 @@
         "url": "/permissionCreate",
         "method": "POST",
         "description": "Creación de un permiso",
-        "explanation": "Crea y devuelve una empresa. Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["name", "description"]
+        "explanation": "Crea y devuelve un permiso. Requiere en el header 'x-access-tokens' el token de inicio de sesión",
+        "fields": ["name", "description","url"]
       },
       "permissions": {
         "url": "/permissions",
@@ -1165,7 +1188,7 @@
         "method": "PUT",
         "description": "Modificar un permiso por su uuid",
         "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["name", "description", "uuid"]
+        "fields": ["name", "description", "uuid","url"]
       },
       "permissionDelete": {
         "url": "/permissionDelete",
