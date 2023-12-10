@@ -16,6 +16,7 @@ from app.resources import company
 from app.resources import employee
 from app.resources import role
 from app.resources import permission
+from app.resources import employeePermissions
 
 
 def create_app(environment="development"):
@@ -98,6 +99,15 @@ def create_app(environment="development"):
                      permission.create, methods=["POST"])
     app.add_url_rule("/permissionUpdate", "permissionUpdate",permission.update, methods=["PUT"])
     app.add_url_rule("/permissionDelete/<string:uuid>", "permissionDelete", permission.delete, methods=["DELETE"])
+
+    #CRUD EmployeePermissions
+    app.add_url_rule("/employeePermissions", "employeePermissions", employeePermissions.index)
+    app.add_url_rule("/employeePermission/<string:uuid>", "employeePermission",
+                     employeePermissions.get)
+    app.add_url_rule("/employeePermissionsCreate", "employeePermissionsCreate",
+                     employeePermissions.create, methods=["POST"])
+    app.add_url_rule("/employeePermissionsUpdate", "employeePermissionsUpdate",employeePermissions.update, methods=["PUT"])
+    app.add_url_rule("/employeePermissionsDelete/<string:uuid>", "employeePermissionsDelete", employeePermissions.delete, methods=["DELETE"])
 
     @app.route("/")
     def home():

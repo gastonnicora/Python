@@ -1198,5 +1198,154 @@
         "fields": ["uuid"]
       }
     }
+  },
+  "PermisosDeEmpleado": {
+    "description": "Endpoint de relación permiso/empleado",
+    "fields": {
+      "uuid": {
+        "description": "",
+        "property": {
+          "type": {
+            "value": "string",
+            "error": "El identificador debe ser una cadena de caracteres"
+          },
+          "max length": {
+            "value": 255,
+            "error": "El identificador debe tener un largo menor a 255"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir un identificador"
+          }
+        },
+        "example": "f8773c44-bd9a-4ffe-922f-4b661ebca35e",
+        "model": true
+      },
+      "employee": {
+        "description": "Identificador de la relacion usuario/empleado",
+        "property": {
+          "type": {
+            "value": "string",
+            "error": "El identificador debe ser una cadena de caracteres"
+          },
+          "max length": {
+            "value": 255,
+            "error": "El identificador debe tener un largo menor a 255"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir un identificador"
+          }
+        },
+        "example": "f8773c44-bd9a-4ffe-922f-4b661ebca35e",
+        "model": true
+      },
+      "permission": {
+        "description": "Identificador del permiso",
+        "property": {
+          "type": {
+            "value": "string",
+            "error": "El identificador debe ser una cadena de caracteres"
+          },
+          "max length": {
+            "value": 255,
+            "error": "El identificador debe tener un largo menor a 255"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir un identificador"
+          }
+        },
+        "example": "f8773c44-bd9a-4ffe-922f-4b661ebca35e",
+        "model": true
+      },
+      "dateOfCreate": {
+        "description": "",
+        "property": {
+          "type": {
+            "type": {
+              "value": "date",
+              "error": "Debe introducir una fecha valida"
+            },
+            "max length": {
+              "value": 11,
+              "error": "La fecha debe tener 10 caracteres"
+            },
+            "min length": {
+              "value": 9,
+              "error": "La fecha debe tener 10 caracteres"
+            },
+            "required": {
+              "value": true,
+              "error": "Debe introducir una fecha"
+            }
+          },
+          "example": "21/06/2023",
+          "model": true
+        }
+      },
+      "dateOfUpdate": {
+        "description": "",
+        "property": {
+          "type": {
+            "type": {
+              "value": "date",
+              "error": "Debe introducir una fecha valida"
+            },
+            "max length": {
+              "value": 11,
+              "error": "La fecha debe tener 10 caracteres"
+            },
+            "min length": {
+              "value": 9,
+              "error": "La fecha debe tener 10 caracteres"
+            },
+            "required": {
+              "value": true,
+              "error": "Debe introducir una fecha"
+            }
+          },
+          "example": "21/06/2023",
+          "model": true
+        }
+      }
+    },
+    "endpoint": {
+      "employeePermissionsCreate": {
+        "url": "/employeePermissionsCreate",
+        "method": "POST",
+        "description": "Creación de una relación permiso/empleado",
+        "explanation": "Crea y devuelve una relación permiso/empleado. Requiere en el header 'x-access-tokens' el token de inicio de sesión",
+        "fields": ["employee","permission"]
+      },
+      "employeePermissions": {
+        "url": "/employeePermissions",
+        "method": "GET",
+        "description": "Obtener todos las relaciones permiso/empleado",
+        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
+        "fields": []
+      },
+      "employeePermission": {
+        "url": "/employeePermission",
+        "method": "GET",
+        "description": "Obtener una relación permiso/empleado por su uuid",
+        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
+        "fields": ["uuid"]
+      },
+      "employeePermissionsUpdate": {
+        "url": "/employeePermissionsUpdate",
+        "method": "PUT",
+        "description": "Modificar una relación permiso/empleado por su uuid",
+        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
+        "fields": ["employee","permission", "uuid"]
+      },
+      "employeePermissionsDelete": {
+        "url": "/employeePermissionsDelete",
+        "method": "DELETE",
+        "description": "Eliminar una relación permiso/empleado por su uuid",
+        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
+        "fields": ["uuid"]
+      }
+    }
   }
 }
