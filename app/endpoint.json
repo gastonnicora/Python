@@ -1042,7 +1042,7 @@
             "error": "Debe introducir un nombre"
           }
         },
-        "example": "Administrador",
+        "example": "userCreate",
         "model": true
       },
       "description": {
@@ -1061,7 +1061,7 @@
             "error": "Debe introducir una descripción"
           }
         },
-        "example": "El permiso permite que el empleado tenga todos los permisos",
+        "example": "El permiso permite usar el link de /userCreate",
         "model": true
       },
       "url": {
@@ -1084,7 +1084,7 @@
             "error": "Debe introducir una url"
           }
         },
-        "example": "El permiso permite que el empleado tenga todos los permisos",
+        "example": "/userCreate",
         "model": true
       },
       "removed": {
