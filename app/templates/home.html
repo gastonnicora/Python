@@ -24,16 +24,22 @@
         {% set v = data[e].fields[value] %}
         {% if v.model %}
 
-        {{value}} <strong>
+        <r style="color: red;">{{value}}</r> 
           {% for p in v.property %}
+          <strong>
           {% set pro= v.property[p] %}
           {{p}}:{{pro.value}}
-          {% endfor %}
+          {% if pro.value=="date" %}
+            formato: {{v.format}}
+          {% endif %}
         </strong>
-        <small> {% if v.description %}
-          //{{ v.description}}
-          {% endif %}</small>
-        <br />
+          {% endfor %}
+        {% if v.description %}
+        <br>
+        <small> 
+          {{ v.description}}</small>
+          {% endif %}
+        <hr/>
 
         {% endif %}
         {% endfor %}

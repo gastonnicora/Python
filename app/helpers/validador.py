@@ -1,4 +1,5 @@
 import datetime
+from datetime import timezone
 import os, json
 from app.helpers.message import Message
 class Validador(object):
@@ -86,10 +87,12 @@ class Validador(object):
 
     def _date(self, field):
         data= self.data.get(field)
-        date_format = '%d/%m/%Y'
+        date_format = self.DB.get("fields").get(field).get("format")
         date_obj = None
         try:
             date_obj = datetime.datetime.strptime(data, date_format)
+            if date_format=="%d/%m/%YT%H:%M:%S%z":
+                date_obj=date_obj.astimezone(timezone.utc)
             if not(isinstance(data, str) and isinstance(date_obj, datetime.datetime) and data ):
                 self._logError(field,"type")
         except:
@@ -136,28 +139,41 @@ class Validador(object):
     def _maxDate(self, field):
         max= self.DB.get("fields").get(field).get("property")["max date"]["value"]
         data= self.data.get(field)
-        date_format = '%d/%m/%Y'
+        date_format = self.DB.get("fields").get(field).get("format")
         date_obj = None
         try:
             date_obj = datetime.datetime.strptime(data, date_format)
             date_max = datetime.datetime.strptime(max, date_format)
-        finally:
+            if max=="now":
+                date_max=datetime.datetime.now()
+            if date_format=="%d/%m/%YT%H:%M:%S%z":
+                date_obj=date_obj.astimezone(timezone.utc)
+                date_max = date_max.astimezone(timezone.utc)
             if isinstance(data, str):
                 if not (date_obj < date_max and data ):
                     self._logError(field,"max date")
+        except:
+            self._logError(field,"max date")
+            
     
     def _minDate(self, field):
         min= self.DB.get("fields").get(field).get("property")["min date"]["value"]
         data= self.data.get(field)
-        date_format = '%d/%m/%Y'
+        date_format = self.DB.get("fields").get(field).get("format")
         date_obj = None
         try:
             date_obj = datetime.datetime.strptime(data, date_format)
             date_min = datetime.datetime.strptime(min, date_format)
-        finally:
+            if min=="now":
+                date_min=datetime.datetime.now()
+            if date_format=="%d/%m/%YT%H:%M:%S%z":
+                date_obj=date_obj.astimezone(timezone.utc)
+                date_min = date_min.astimezone(timezone.utc)
             if isinstance(data, str):
                 if not ( date_obj > date_min and data ):
                     self._logError(field,"min date")
+        except:
+            self._logError(field,"min date")
 
     def _required(self, field):
         data= self.data.get(field)
