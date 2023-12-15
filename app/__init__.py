@@ -120,5 +120,21 @@ def create_app(environment="development"):
         data = json.load(currentFile)
         currentFile.close()
         return render_template("home.html", data=data)
+    
+    @app.route("/hola")
+    def hola():
+        import requests as R   
+        headers = {'Referer': request.headers.get("Host")}
+        r=R.get("http://127.0.0.1:5000/hola",headers=headers)
 
+        return jsonify({"sms":str(r.content)}),r.status_code
+    
+    @app.route("/chau")
+    def chau():
+        print("chau")
+        return jsonify({"sms":"chau"}),202
+    
+    @app.route("/ping")
+    def ping():
+        return jsonify({}),202
     return app
