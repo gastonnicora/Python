@@ -47,7 +47,7 @@ jobs:
         context: .
         file: ./Dockerfile
         tags: |
-          gastonnicora/Python:${{ env.SOURCE_NAME }}
+          gastonnicora/python:${{ env.SOURCE_NAME }}
       env:
         SOURCE_NAME: ${{ steps.prepare_source.outputs.SOURCE_NAME }}
         DB_HOST: ${{ vars.DB_HOST }}
