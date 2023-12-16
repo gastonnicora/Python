@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+comandos.txt
 pass.txt
 # C extensions
 *.so
