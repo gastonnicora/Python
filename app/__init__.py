@@ -125,7 +125,8 @@ def create_app(environment="development"):
     def hola():
         import requests as R   
         headers = {'Referer': request.headers.get("Host")}
-        r=R.get("http://127.0.0.1:5000/hola",headers=headers)
+        celery=environ.get("CELERY", "http://127.0.0.1:5000")
+        r=R.get(celery+"/hola",headers=headers)
 
         return jsonify({"sms":str(r.content)}),r.status_code
     

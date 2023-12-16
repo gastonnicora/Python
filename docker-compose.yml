@@ -1,0 +1,45 @@
+   version: '3.3'
+
+   services:
+      db:
+         image: gastonnicora/sql
+         ports:
+            - "3306:3306"
+         restart: always
+         environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_USER: user
+            MYSQL_PASSWORD: user
+            MYSQL_DATABASE: Remates
+      api:
+         image: gastonnicora/python
+         restart: always
+         environment:
+            DB_HOST: db:3306
+            DB_USE: user
+            DB_PASS: user
+            DB_NAME: Remates
+         depends_on:
+            - db
+            - celery
+         links:
+            - db
+            - celery
+         ports:
+            - "4000:4000"
+      celery:
+         image: gastonnicora/celery
+         restart: always
+         ports:
+            - "5000:5000"
+          
+        
+      phpmyadmin:
+         image: phpmyadmin
+         restart: always
+         environment:
+            PMA_HOST: db
+            PMA_PORT: 3306
+         ports:
+            - 90:80
+

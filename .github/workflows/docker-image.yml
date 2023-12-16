@@ -50,14 +50,11 @@ jobs:
           gastonnicora/python:${{ env.SOURCE_NAME }}
       env:
         SOURCE_NAME: ${{ steps.prepare_source.outputs.SOURCE_NAME }}
-        DB_HOST: ${{ vars.DB_HOST }}
-        DB_USER: ${{secrets.DB_USER}}
-        DB_PASS: ${{secrets.DB_PASS}}
-        DB_NAME: ${{secrets.DB_NAME}}
         EMAIL: ${{secrets.EMAIL}}
         MAIL_USERNAME: ${{secrets.MAIL_USERNAME}}
         MAIL_PASSWORD: ${{secrets.MAIL_PASSWORD}}
         SECRET_KEY: ${{secrets.SECRET_KEY}}
+        CELERY: celery:5000 
     # Step 7: Muestra el digest de la imagen
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
