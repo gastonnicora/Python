@@ -16,9 +16,10 @@
          restart: always
          environment:
             DB_HOST: db:3306
-            DB_USE: user
+            DB_USER: user
             DB_PASS: user
             DB_NAME: Remates
+            CELERY: celery:5000
          depends_on:
             - db
             - celery
@@ -30,9 +31,13 @@
       celery:
          image: gastonnicora/celery
          restart: always
+         environment:
+            REDIS: redis
+         depends_on:
+            - redis
          ports:
             - "5000:5000"
-          
+        
         
       phpmyadmin:
          image: phpmyadmin
@@ -42,4 +47,10 @@
             PMA_PORT: 3306
          ports:
             - 90:80
+
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+  
 

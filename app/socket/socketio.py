@@ -3,7 +3,7 @@ from flask import  request
 from flask_socketio import emit
 import json
 
-socketio = SocketIO( cors_allowed_origins='*')
+socketio = SocketIO( cors_allowed_origins='*', async_mode='eventlet')
 
 users={}
 
