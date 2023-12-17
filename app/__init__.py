@@ -17,6 +17,7 @@ from app.resources import employee
 from app.resources import role
 from app.resources import permission
 from app.resources import employeePermissions
+from uuid import uuid4
 
 
 def create_app(environment="development"):
@@ -24,14 +25,18 @@ def create_app(environment="development"):
     # Configuración inicial de la app
     app = Flask(__name__)
     app.jinja_env.line_statement_prefix = '#'
+    app.config['SECRET_KEY']= str(uuid4())
+
     app.config['CORS_HEADERS'] = 'Content-Type'
     cors = CORS(app)
 
     env = environ.get("FLASK_ENV", environment)
     app.config.from_object(config[env])
     socketio.init_app(app)
+    
     app.config["SQLALCHEMY_DATABASE_URI"] = db_config.connection(app)
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    
     db.init_app(app)
     with app.app_context():
         db.create_all()

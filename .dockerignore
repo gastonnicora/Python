@@ -1,11 +1,12 @@
-# celery
-*.rdb
-pass.txt
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
 
+com.txt
+pass.txt
+
+*.rdb
 # C extensions
 *.so
 
@@ -13,7 +14,6 @@ __pycache__/
 .Python
 build/
 develop-eggs/
-dist/
 downloads/
 eggs/
 .eggs/
@@ -53,6 +53,7 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
+.vscode
 
 # Translations
 *.mo

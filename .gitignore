@@ -3,8 +3,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-comandos.txt
+com.txt
 pass.txt
+
+*.rdb
 # C extensions
 *.so
 
