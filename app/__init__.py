@@ -18,6 +18,7 @@ from app.resources import employee
 from app.resources import role
 from app.resources import permission
 from app.resources import employeePermissions
+from app.resources import auction
 from uuid import uuid4
 
 
@@ -116,6 +117,23 @@ def create_app(environment="development"):
                      employeePermissions.create, methods=["POST"])
     app.add_url_rule("/employeePermissionsUpdate", "employeePermissionsUpdate",employeePermissions.update, methods=["PUT"])
     app.add_url_rule("/employeePermissionsDelete/<string:uuid>", "employeePermissionsDelete", employeePermissions.delete, methods=["DELETE"])
+
+    #CRUD Auctions
+    app.add_url_rule("/auctions", "auctions", auction.index)
+    app.add_url_rule("/auctionsFinished", "auctionsFinished", auction.allFinished)
+    app.add_url_rule("/auctionsNotFinished", "auctionsNotFinished", auction.allNotFinished)
+    app.add_url_rule("/auctionsStarted", "auctionsStarted", auction.allStarted)
+    app.add_url_rule("/auctionsNotStarted", "auctionsNotStarted", auction.allNotStarted)
+    app.add_url_rule("/auction/<string:uuid>", "auction",
+                     auction.get)
+    
+    app.add_url_rule("/auctionsByCompany/<string:uuid>", "auctionsByCompany",
+                     auction.get)
+    app.add_url_rule("/auctionCreate", "auctionCreate",
+                     auction.create, methods=["POST"])
+    app.add_url_rule("/auctionUpdate", "auctionUpdate", auction.update, methods=["PUT"])
+    app.add_url_rule("/auctionFinished/<string:uuid>", "auctionFinished", auction.finished, methods=["PUT"])
+    app.add_url_rule("/auctionDelete/<string:uuid>", "auctionDelete", auction.delete, methods=["DELETE"])
 
 
     @app.route("/")

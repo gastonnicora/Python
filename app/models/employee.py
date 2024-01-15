@@ -45,7 +45,6 @@ class Employee(db.Model):
 
     @classmethod
     def create(cls,data):
-        date_format = '%d/%m/%Y %H:%M:%S%z'
         date= datetime.datetime.now()
         strDate= date.strftime(date_format)
         employee= cls(

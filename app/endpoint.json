@@ -243,7 +243,7 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "21/06/2023",
+        "example": "01/01/2013T11:30:00+04:00",
         "model": true
       },
       "dateOfUpdate": {
@@ -267,7 +267,7 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "21/06/2023",
+        "example": "01/01/2013T11:30:00+04:00",
         "model": true
       },
       "terms": {
@@ -428,7 +428,7 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "21/06/2023",
+        "example": "01/01/2013T11:30:00+04:00",
         "model": true
       }
     },
@@ -460,6 +460,25 @@
     "fields": {
       "uuid": {
         "description": "",
+        "property": {
+          "type": {
+            "value": "string",
+            "error": "El identificador debe ser una cadena de caracteres"
+          },
+          "max length": {
+            "value": 255,
+            "error": "El identificador debe tener un largo menor a 255"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir un identificador"
+          }
+        },
+        "example": "f8773c44-bd9a-4ffe-922f-4b661ebca35e",
+        "model": true
+      },
+      "owner": {
+        "description": "Identificador del dueño de la empresa",
         "property": {
           "type": {
             "value": "string",
@@ -559,7 +578,7 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "21/06/2023",
+        "example": "01/01/2013T11:30:00+04:00",
         "model": true
       },
       "dateOfUpdate": {
@@ -583,7 +602,7 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "21/06/2023",
+        "example": "01/01/2013T11:30:00+04:00",
         "model": true
       }
     },
@@ -706,7 +725,7 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "21/06/2023",
+        "example": "01/01/2013T11:30:00+04:00",
         "model": true
       },
       "dateOfUpdate": {
@@ -730,7 +749,7 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "21/06/2023",
+        "example": "01/01/2013T11:30:00+04:00",
         "model": true
       }
     },
@@ -904,7 +923,7 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "21/06/2023",
+        "example": "01/01/2013T11:30:00+04:00",
         "model": true
       },
       "dateOfUpdate": {
@@ -928,7 +947,7 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "21/06/2023",
+        "example": "01/01/2013T11:30:00+04:00",
         "model": true
       }
     },
@@ -1097,7 +1116,7 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "21/06/2023",
+        "example": "01/01/2013T11:30:00+04:00",
         "model": true
       },
       "dateOfUpdate": {
@@ -1121,7 +1140,7 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "21/06/2023",
+        "example": "01/01/2013T11:30:00+04:00",
         "model": true
       }
     },
@@ -1244,7 +1263,7 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "21/06/2023",
+        "example": "01/01/2013T11:30:00+04:00",
         "model": true
       },
       "dateOfUpdate": {
@@ -1268,7 +1287,7 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "21/06/2023",
+        "example": "01/01/2013T11:30:00+04:00",
         "model": true
       }
     },
@@ -1305,6 +1324,249 @@
         "url": "/employeePermissionsDelete",
         "method": "DELETE",
         "description": "Eliminar una relación permiso/empleado por su uuid",
+        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
+        "fields": ["uuid"]
+      }
+    }
+  },
+  "Remates": {
+    "description": "Endpoint de remate",
+    "fields": {
+      "uuid": {
+        "description": "",
+        "property": {
+          "type": {
+            "value": "string",
+            "error": "El identificador debe ser una cadena de caracteres"
+          },
+          "max length": {
+            "value": 255,
+            "error": "El identificador debe tener un largo menor a 255"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir un identificador"
+          }
+        },
+        "example": "f8773c44-bd9a-4ffe-922f-4b661ebca35e",
+        "model": true
+      },
+      "company": {
+        "description": "Identificador de la empresa creadora del remate",
+        "property": {
+          "type": {
+            "value": "string",
+            "error": "El identificador debe ser una cadena de caracteres"
+          },
+          "max length": {
+            "value": 255,
+            "error": "El identificador debe tener un largo menor a 255"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir un identificador"
+          }
+        },
+        "example": "f8773c44-bd9a-4ffe-922f-4b661ebca35e",
+        "model": true
+      },
+      "description": {
+        "description": "Descripción del remate",
+        "property": {
+          "type": {
+            "value": "string",
+            "error": "La descripción debe ser una cadena de caracteres"
+          },
+          "max length": {
+            "value": 255,
+            "error": "La descripción debe tener un largo menor a 255"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir una descripción"
+          }
+        },
+        "example": "Gran remate de artículos varios: Artículos para el hogar, herramientas y maquinaria agrícola",
+        "model": true
+      },
+      "dateStart": {
+        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
+        "format":"%d/%m/%YT%H:%M:%S%z",
+        "property": {
+          "type": {
+            "value": "date",
+            "error": "Debe introducir una fecha valida con el formato: %d/%m/%YT%H:%M:%S%z (01/01/2013T11:30:00+04:00)"
+          },
+          "max length": {
+            "value": 11,
+            "error": "La fecha debe tener 10 caracteres"
+          },
+          "min length": {
+            "value": 9,
+            "error": "La fecha debe tener 10 caracteres"
+          },
+          "min date":{
+            "value":"now",
+            "error":"La fecha introducida debe ser posterior a ahora"
+          },
+
+          "required": {
+            "value": true,
+            "error": "Debe introducir una fecha"
+          }
+        },
+        "example": "01/01/2013T11:30:00+04:00",
+        "model": true
+      },
+      
+      "removed": {
+        "description": "Borrado lógico, 1 es borrado y 0 que no lo esta ",
+        "property": {
+          "type": {
+            "value": "integer",
+            "error": "Debe introducir un numero entero valido"
+          },
+          "max": {
+            "value": 2,
+            "error": "El valor máximo es 1"
+          },
+          "min": {
+            "value": -1,
+            "error": "el valor mínimo es 0"
+          },
+          "default": {
+            "value": 0,
+            "error": ""
+          }
+        },
+        "example": 0,
+        "model": true
+      },
+      "dateOfCreate": {
+        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
+        "format":"%d/%m/%YT%H:%M:%S%z",
+        "property": {
+          "type": {
+            "value": "date",
+            "error": "Debe introducir una fecha valida"
+          },
+          "max length": {
+            "value": 11,
+            "error": "La fecha debe tener 10 caracteres"
+          },
+          "min length": {
+            "value": 9,
+            "error": "La fecha debe tener 10 caracteres"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir una fecha"
+          }
+        },
+        "example": "01/01/2013T11:30:00+04:00",
+        "model": true
+      },
+      "dateOfUpdate": {
+        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
+        "format":"%d/%m/%YT%H:%M:%S%z",
+        "property": {
+          "type": {
+            "value": "date",
+            "error": "Debe introducir una fecha valida con el formato: %d/%m/%YT%H:%M:%S%z (01/01/2013T11:30:00+04:00)"
+          },
+          "max length": {
+            "value": 11,
+            "error": "La fecha debe tener 10 caracteres"
+          },
+          "min length": {
+            "value": 9,
+            "error": "La fecha debe tener 10 caracteres"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir una fecha"
+          }
+        },
+        "example": "01/01/2013T11:30:00+04:00",
+        "model": true
+      }
+    },
+    "endpoint": {
+      "auctionCreate": {
+        "url": "/auctionCreate",
+        "method": "POST",
+        "description": "Creación de un remate ",
+        "explanation": "Crea y devuelve un remate. Requiere en el header 'x-access-tokens' el token de inicio de sesión",
+        "fields": ["company", "description","dateStart"]
+      },
+      "auctions": {
+        "url": "/auctions",
+        "method": "GET",
+        "description": "Obtener todas los remates",
+        "explanation": "",
+        "fields": []
+      },
+      "auctionsFinished": {
+        "url": "/auctionsFinished",
+        "method": "GET",
+        "description": "Obtener todas los remates terminados",
+        "explanation": "",
+        "fields": []
+      },
+      "auctionsNotFinished": {
+        "url": "/auctionsNotFinished",
+        "method": "GET",
+        "description": "Obtener todas los remates no terminados",
+        "explanation": "",
+        "fields": []
+      },
+      "auctionsStarted": {
+        "url": "/auctionsStarted",
+        "method": "GET",
+        "description": "Obtener todas los remates empezados y que no han terminado",
+        "explanation": "",
+        "fields": []
+      },
+      "auctionsNotStarted": {
+        "url": "/auctionsNotStarted",
+        "method": "GET",
+        "description": "Obtener todas los remates que no empezaron todavía ",
+        "explanation": "",
+        "fields": []
+      },
+      
+      "auction": {
+        "url": "/auction",
+        "method": "GET",
+        "description": "Obtener un remate por su uuid",
+        "explanation": "",
+        "fields": ["uuid"]
+      },
+      "auctionsByCompany": {
+        "url": "/auctionsByCompany",
+        "method": "GET",
+        "description": "Obtener todos los remates de una empresa",
+        "explanation": "",
+        "fields": ["uuid"]
+      },
+      "auctionUpdate": {
+        "url": "/auctionUpdate",
+        "method": "PUT",
+        "description": "Modificar un remate por su uuid",
+        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
+        "fields": ["company", "description","dateStart","uuid"]
+      },
+      "auctionFinished": {
+        "url": "/auctionUpdate",
+        "method": "PUT",
+        "description": "Terminar un remate por su uuid. Aca no anda por que esta diferente configurado. pero en una api anda ",
+        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
+        "fields": ["uuid"]
+      },
+      "auctionDelete": {
+        "url": "/auctionDelete",
+        "method": "DELETE",
+        "description": "Eliminar un remate por su uuid",
         "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
         "fields": ["uuid"]
       }

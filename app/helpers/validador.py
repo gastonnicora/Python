@@ -148,9 +148,10 @@ class Validador(object):
         date_obj = None
         try:
             date_obj = datetime.datetime.strptime(data, date_format)
-            date_max = datetime.datetime.strptime(max, date_format)
             if max=="now":
                 date_max=datetime.datetime.now()
+            else: 
+                date_max = datetime.datetime.strptime(max, date_format)
             if date_format=="%d/%m/%YT%H:%M:%S%z":
                 date_obj=date_obj.astimezone(timezone.utc)
                 date_max = date_max.astimezone(timezone.utc)
@@ -168,9 +169,10 @@ class Validador(object):
         date_obj = None
         try:
             date_obj = datetime.datetime.strptime(data, date_format)
-            date_min = datetime.datetime.strptime(min, date_format)
             if min=="now":
                 date_min=datetime.datetime.now()
+            else:
+                date_min = datetime.datetime.strptime(min, date_format)
             if date_format=="%d/%m/%YT%H:%M:%S%z":
                 date_obj=date_obj.astimezone(timezone.utc)
                 date_min = date_min.astimezone(timezone.utc)

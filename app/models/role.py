@@ -35,7 +35,6 @@ class Role(db.Model):
 
     @classmethod
     def create(cls,data, userUuid):
-        date_format = '%d/%m/%Y %H:%M:%S%z'
         date= datetime.datetime.now()
         strDate= date.strftime(date_format)
         role= cls(
