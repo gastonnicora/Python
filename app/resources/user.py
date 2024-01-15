@@ -20,7 +20,12 @@ def create():
         smsConfirm=ConfirmEMail.create(sms.content.uuid)
         if smsConfirm.error:
             return jsonify(smsConfirm.dump()),smsConfirm.cod
-        sendEmail(sms.content.email, smsConfirm.content.uuid)
+        try:
+            sendEmail(sms.content.email, smsConfirm.content.uuid)
+        except:
+          print('An exception occurred')
+        from app.helpers.celery import deleteConfirm
+        deleteConfirm(smsConfirm.content.uuid)
        
         return jsonify(sms.dump()),sms.cod
 

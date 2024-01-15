@@ -9,8 +9,6 @@ socketio = SocketIO( cors_allowed_origins='*')
 users={}
 @socketio.on('connect')
 def test_connect():
-    print(users)
-    print("conectado")
     emit('my_response', {'data': 'Connected'})
 
 @socketio.on('disconnect')

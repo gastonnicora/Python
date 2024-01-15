@@ -18,7 +18,7 @@ class Sessions:
     def addSession(cls,data):
         id= str(uuid.uuid4())
         session=  cls._dataSession(id,data)
-        cls._addUser(id,data)
+        cls._addUser(id,data) 
         # cls._addCompany(id,data)
         return id,session
     

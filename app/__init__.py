@@ -9,6 +9,7 @@ import os
 from app.socket.socketio import socketio
 
 
+
 from app.models.db import db
 from app.resources import user
 from app.resources import confirmEmail
@@ -62,6 +63,8 @@ def create_app(environment="development"):
     app.add_url_rule("/confirmEmail", "confirmEmails", confirmEmail.index)
     app.add_url_rule("/confirmEmail/<string:uuid>",
                      "confirmEmail", confirmEmail.confirm)
+    app.add_url_rule("/confirmEmailDelete/<string:uuid>",
+                     "confirmEmailDelete", confirmEmail.delete)
     
     #CRUD Company
     app.add_url_rule("/companies", "companies", company.index)
@@ -114,6 +117,7 @@ def create_app(environment="development"):
     app.add_url_rule("/employeePermissionsUpdate", "employeePermissionsUpdate",employeePermissions.update, methods=["PUT"])
     app.add_url_rule("/employeePermissionsDelete/<string:uuid>", "employeePermissionsDelete", employeePermissions.delete, methods=["DELETE"])
 
+
     @app.route("/")
     def home():
 
@@ -126,21 +130,9 @@ def create_app(environment="development"):
         currentFile.close()
         return render_template("home.html", data=data)
     
-    @app.route("/hola")
-    def hola():
-        import requests as R   
-        headers = {'Referer': request.headers.get("Host")}
-        celery=environ.get("CELERY", "127.0.0.1:5000")
-        r=R.get("http://"+celery+"/hola",headers=headers)
-
-        return jsonify({"sms":str(r.content)}),r.status_code
+    # login()
     
-    @app.route("/chau")
-    def chau():
-        print("chau")
-        return jsonify({"sms":"chau"}),202
-    
-    @app.route("/ping")
+    @app.route("/ping")  
     def ping():
         return jsonify({}),202
     return app

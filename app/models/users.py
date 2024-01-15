@@ -67,11 +67,7 @@ class User(db.Model):
         if usu is not None and usu.confirmEmail == 1:
             return Message(error="El email ya fue registrado")
         if usu is not None and usu.confirmEmail == 0:
-            from app.models.confirmEmail import ConfirmEMail
-            c=ConfirmEMail.deleteByUser(usu.uuid)
-            db.session.delete(usu)
-            db.session.commit()
-            db.session.close()
+            return Message(error="El email ya fue registrado. Por favor valide su email")
         user= cls(
                 name= data.get("name"), 
                 lastName= data.get("lastName"),

@@ -139,14 +139,14 @@
             "value": 7,
             "error": "La contraseña debe tener un largo mayor o igual a 8"
           },
-          "required": {
-            "value": true,
-            "error": "Debe introducir una contraseña"
-          },
           "repeat": {
             "value": true,
             "error": "Las contraseñas deben coincidir",
             "repetition": "password"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir una contraseña"
           }
         },
         "example": "12345678",
@@ -305,7 +305,7 @@
         "url": "/userCreate",
         "method": "POST",
         "description": "Creación de usuario",
-        "explanation": "Crea y devuelve un usuario. Si hay un el email esta registrado pero no confirmado elimina el usuario y link de creación antiguos y los vuelve a crear",
+        "explanation": "Crea y devuelve un usuario.  Se elimina el usuario y link de confirmación luego de 24hs",
         "fields": [
           "name",
           "lastName",
