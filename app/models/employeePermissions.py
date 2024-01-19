@@ -7,7 +7,7 @@ from app.helpers.modelosPlanos.employeePermissions import EmployeePermissions as
 from app.models.employee import Employee
 from app.models.permission import Permission
 
-date_format = '%d/%m/%Y %H:%M:%S%z'
+date_format = '%d/%m/%YT%H:%M:%S%z'
 class EmployeePermissions(db.Model):
     uuid=db.Column(
         db.String(255), primary_key=True, default=uuid.uuid4, nullable=True, unique=True
@@ -34,6 +34,7 @@ class EmployeePermissions(db.Model):
     @classmethod
     def create(cls,data, userUuid):
         date= datetime.datetime.now()
+        date=date.astimezone(datetime.timezone.utc)
         strDate= date.strftime(date_format)
         employeePermissions= cls(
                 employee= data.get("employee"),
@@ -75,6 +76,7 @@ class EmployeePermissions(db.Model):
     @classmethod
     def update(cls, data):
         date= datetime.datetime.now()
+        date=date.astimezone(datetime.timezone.utc)
         strDate= date.strftime(date_format)
         employeePermissions=cls.query.filter_by(uuid=data["uuid"]).first()
         if(not employeePermissions):

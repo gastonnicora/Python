@@ -4,25 +4,28 @@ import uuid
 from app.helpers.message import Message
 from app.models.user import User
 import datetime
-from app.helpers.modelosPlanos.company import Company as C
+from app.helpers.modelosPlanos.bid import Bid as B
+from app.models.article import Article
 
 
 date_format = '%d/%m/%YT%H:%M:%S%z'
-class Company(db.Model):
+class Bid(db.Model):
     uuid=db.Column(
         db.String(255), primary_key=True, default=uuid.uuid4, nullable=True, unique=True
         )
-    owner= db.Column(
+    
+    article= db.Column(
+        db.String(255),
+        ForeignKey(Article.uuid),
+        nullable= True
+    ) 
+    User= db.Column(
         db.String(255),
         ForeignKey(User.uuid),
         nullable= True
-    ) 
-    name= db.Column(
-        db.String(255),
-        nullable=True
     )
-    address=db.Column(
-        db.String(255),
+    value=db.Column(
+        db.Integer,
         nullable=True
     )
     removed =db.Column(
@@ -53,14 +56,14 @@ class Company(db.Model):
             )
         db.session.add(company)
         db.session.commit()
-        c= C(company)
+        c= B(company)
         db.session.close()
         return Message(content=c)
     
     @classmethod
     def all(cls):
         companies= cls.query.filter_by(removed=0).all()
-        com=C(None,companies)
+        com=B(None,companies)
         db.session.close()
         return Message(content=com)
     
@@ -69,7 +72,7 @@ class Company(db.Model):
         company= cls.query.filter_by(uuid=uuid,removed=0).first()
         if(not company):
             return Message(error="No se pudo obtener la empresa por que no existe")
-        com=C(company)
+        com=B(company)
         db.session.close()
         return Message(content=com)
     
@@ -101,7 +104,7 @@ class Company(db.Model):
         company.dateOfUpdate=strDate
         db.session.merge(company)
         db.session.commit()
-        com=C(company)
+        com=B(company)
         db.session.close()
         return Message(content=com)
         

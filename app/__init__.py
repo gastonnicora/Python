@@ -19,6 +19,8 @@ from app.resources import role
 from app.resources import permission
 from app.resources import employeePermissions
 from app.resources import auction
+from app.resources import article
+from app.resources import bid
 from uuid import uuid4
 
 
@@ -135,6 +137,21 @@ def create_app(environment="development"):
     app.add_url_rule("/auctionFinished/<string:uuid>", "auctionFinished", auction.finished, methods=["GET"])
     app.add_url_rule("/auctionDelete/<string:uuid>", "auctionDelete", auction.delete, methods=["DELETE"])
 
+    #CRUD Article
+    app.add_url_rule("/articles", "articles",article.index)
+    app.add_url_rule("/article/<string:uuid>", "article",
+                     article.get)
+    app.add_url_rule("/articleCreate", "articleCreate",
+                     article.create, methods=["POST"])
+    app.add_url_rule("/articleUpdate", "articleUpdate", article.update, methods=["PUT"])
+    app.add_url_rule("/articleDelete/<string:uuid>", "articleDelete", company.delete, methods=["DELETE"])
+    app.add_url_rule("/articleStart/<string:uuid>", "articleStart",
+                     article.start, methods=["PUT"])
+    app.add_url_rule("/articleFinish/<string:uuid>", "articleFinish",
+                     article.finish, methods=["PUT"])
+
+    app.add_url_rule("/bid/<string:uuid>", "bid",
+                     bid.get)
 
     @app.route("/")
     def home():

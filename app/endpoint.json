@@ -154,7 +154,7 @@
       },
       "birthdate": {
         "description": "Formato dia/mes/año (01/01/2013)",
-        "format":"%d/%m/%Y",
+        "format": "%d/%m/%Y",
         "property": {
           "type": {
             "value": "date",
@@ -224,7 +224,7 @@
       },
       "dateOfCreate": {
         "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
-        "format":"%d/%m/%YT%H:%M:%S%z",
+        "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
             "value": "date",
@@ -248,7 +248,7 @@
       },
       "dateOfUpdate": {
         "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
-        "format":"%d/%m/%YT%H:%M:%S%z",
+        "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
             "value": "date",
@@ -328,7 +328,7 @@
         "description": "Cerrar sesión",
         "explanation": "",
         "fields": [],
-        "requiredSession":true
+        "requiredSession": true
       },
       "users": {
         "url": "/users",
@@ -336,7 +336,7 @@
         "description": "Obtener todos los usuarios",
         "explanation": "",
         "fields": [],
-        "requiredSession":true
+        "requiredSession": true
       },
       "user": {
         "url": "/user",
@@ -344,7 +344,7 @@
         "description": "Obtener un usuario por su uuid",
         "explanation": "",
         "fields": ["uuid"],
-        "requiredSession":true
+        "requiredSession": true
       },
       "userUpdate": {
         "url": "/userUpdate",
@@ -352,7 +352,7 @@
         "description": "Modificar un usuario por su uuid",
         "explanation": "",
         "fields": ["name", "lastName", "email", "birthdate"],
-        "requiredSession":true
+        "requiredSession": true
       },
       "userUpdatePassword": {
         "url": "/userUpdatePassword",
@@ -360,7 +360,7 @@
         "description": "Modificar contraseña de un  por su uuid",
         "explanation": "",
         "fields": ["uuid", "oldPassword", "password", "repetitionPass"],
-        "requiredSession":true
+        "requiredSession": true
       },
       "userDelete": {
         "url": "/userDelete",
@@ -368,7 +368,7 @@
         "description": "Eliminar un usuario por su uuid",
         "explanation": "",
         "fields": ["uuid"],
-        "requiredSession":true
+        "requiredSession": true
       }
     }
   },
@@ -415,7 +415,7 @@
       },
       "dateOfCreate": {
         "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
-        "format":"%d/%m/%YT%H:%M:%S%z",
+        "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
             "value": "date",
@@ -565,7 +565,7 @@
       },
       "dateOfCreate": {
         "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
-        "format":"%d/%m/%YT%H:%M:%S%z",
+        "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
             "value": "date",
@@ -589,7 +589,7 @@
       },
       "dateOfUpdate": {
         "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
-        "format":"%d/%m/%YT%H:%M:%S%z",
+        "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
             "value": "date",
@@ -619,7 +619,7 @@
         "description": "Creación de una empresa que va a rematar objetos",
         "explanation": "Crea y devuelve una empresa.",
         "fields": ["name", "address"],
-        "requiredSession":true
+        "requiredSession": true
       },
       "companies": {
         "url": "/companies",
@@ -641,7 +641,7 @@
         "description": "Modificar una empresa por su uuid",
         "explanation": "",
         "fields": ["name", "address", "uuid"],
-        "requiredSession":true
+        "requiredSession": true
       },
       "companyDelete": {
         "url": "/companyDelete",
@@ -649,7 +649,7 @@
         "description": "Eliminar una empresa por su uuid",
         "explanation": "",
         "fields": ["uuid"],
-        "requiredSession":true
+        "requiredSession": true
       }
     }
   },
@@ -715,7 +715,7 @@
       },
       "dateOfCreate": {
         "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
-        "format":"%d/%m/%YT%H:%M:%S%z",
+        "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
             "value": "date",
@@ -739,7 +739,7 @@
       },
       "dateOfUpdate": {
         "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
-        "format":"%d/%m/%YT%H:%M:%S%z",
+        "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
             "value": "date",
@@ -769,7 +769,7 @@
         "description": "Obtener una relación empleado/empresa ",
         "explanation": "Obtiene una relación empleado/empresa por medio de su uuid.",
         "fields": ["uuid"],
-        "requiredSession":true
+        "requiredSession": true
       },
       "employeeByUser": {
         "url": "/employeeByUser",
@@ -777,7 +777,7 @@
         "description": "Obtener una relación empleado/empresa",
         "explanation": "Obtiene una relación empleado/empresa por medio del uuid del usuario.",
         "fields": ["uuid"],
-        "requiredSession":true
+        "requiredSession": true
       },
       "employeeByCompany": {
         "url": "/employeeByCompany",
@@ -785,7 +785,7 @@
         "description": "Obtener una relación empleado/empresa",
         "explanation": "Obtiene una relación empleado/empresa por medio del uuid de la Empresa.",
         "fields": ["uuid"],
-        "requiredSession":true
+        "requiredSession": true
       },
       "employees": {
         "url": "/employees",
@@ -793,7 +793,7 @@
         "description": "Lista todas las relaciones empleado/empresa",
         "explanation": "Lista todas las relaciones empleado/empresa",
         "fields": [],
-        "requiredSession":true
+        "requiredSession": true
       },
       "employeeCreate": {
         "url": "/employeeCreate",
@@ -801,7 +801,7 @@
         "description": "Crea una relación empleado/empresa",
         "explanation": "Crea una relación empleado/empresa.",
         "fields": ["user", "company"],
-        "requiredSession":true
+        "requiredSession": true
       },
       "employeeUpdate": {
         "url": "/employeeUpdate",
@@ -809,7 +809,7 @@
         "description": "Actualiza los datos de una relación empleado/empresa",
         "explanation": "Actualiza los datos de una relación empleado/empresa. ",
         "fields": ["uuid", "user", "company"],
-        "requiredSession":true
+        "requiredSession": true
       },
       "employeeDelete": {
         "url": "/employeeDelete",
@@ -817,7 +817,7 @@
         "description": "Elimina una relación empleado/empresa ",
         "explanation": "Elimina una relación empleado/empresa por medio de su uuid.",
         "fields": ["uuid"],
-        "requiredSession":true
+        "requiredSession": true
       },
       "employeeDeleteByUser": {
         "url": "/employeeDeleteByUser",
@@ -825,7 +825,7 @@
         "description": "Elimina una relación empleado/empresa",
         "explanation": "Elimina una relación empleado/empresa por medio del uuid del usuario.",
         "fields": ["uuid"],
-        "requiredSession":true
+        "requiredSession": true
       },
       "employeeDeleteByCompany": {
         "url": "/employeeDeleteByCompany",
@@ -833,7 +833,7 @@
         "description": "Elimina una relación empleado/empresa",
         "explanation": "Elimina una relación empleado/empresa por medio del uuid de la Empresa.",
         "fields": ["uuid"],
-        "requiredSession":true
+        "requiredSession": true
       }
     }
   },
@@ -922,7 +922,7 @@
       },
       "dateOfCreate": {
         "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
-        "format":"%d/%m/%YT%H:%M:%S%z",
+        "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
             "value": "date",
@@ -946,7 +946,7 @@
       },
       "dateOfUpdate": {
         "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
-        "format":"%d/%m/%YT%H:%M:%S%z",
+        "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
             "value": "date",
@@ -976,7 +976,7 @@
         "description": "Creación de un rol",
         "explanation": "Crea y devuelve un rol.",
         "fields": ["name", "description"],
-        "requiredSession":true
+        "requiredSession": true
       },
       "roles": {
         "url": "/roles",
@@ -984,7 +984,7 @@
         "description": "Obtener todos los roles",
         "explanation": "",
         "fields": [],
-        "requiredSession":true
+        "requiredSession": true
       },
       "role": {
         "url": "/role",
@@ -992,7 +992,7 @@
         "description": "Obtener un rol por su uuid",
         "explanation": "",
         "fields": ["uuid"],
-        "requiredSession":true
+        "requiredSession": true
       },
       "roleUpdate": {
         "url": "/roleUpdate",
@@ -1000,7 +1000,7 @@
         "description": "Modificar un rol por su uuid",
         "explanation": "",
         "fields": ["name", "description", "uuid"],
-        "requiredSession":true
+        "requiredSession": true
       },
       "roleDelete": {
         "url": "/roleDelete",
@@ -1008,7 +1008,7 @@
         "description": "Eliminar un rol por su uuid",
         "explanation": "",
         "fields": ["uuid"],
-        "requiredSession":true
+        "requiredSession": true
       }
     }
   },
@@ -1120,7 +1120,7 @@
       },
       "dateOfCreate": {
         "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
-        "format":"%d/%m/%YT%H:%M:%S%z",
+        "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
             "value": "date",
@@ -1144,7 +1144,7 @@
       },
       "dateOfUpdate": {
         "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
-        "format":"%d/%m/%YT%H:%M:%S%z",
+        "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
             "value": "date",
@@ -1174,7 +1174,7 @@
         "description": "Creación de un permiso",
         "explanation": "Crea y devuelve un permiso.",
         "fields": ["name", "description", "url"],
-        "requiredSession":true
+        "requiredSession": true
       },
       "permissions": {
         "url": "/permissions",
@@ -1182,7 +1182,7 @@
         "description": "Obtener todos los permisos",
         "explanation": "",
         "fields": [],
-        "requiredSession":true
+        "requiredSession": true
       },
       "permission": {
         "url": "/permission",
@@ -1190,7 +1190,7 @@
         "description": "Obtener un permiso por su uuid",
         "explanation": "",
         "fields": ["uuid"],
-        "requiredSession":true
+        "requiredSession": true
       },
       "permissionUpdate": {
         "url": "/permissionUpdate",
@@ -1198,7 +1198,7 @@
         "description": "Modificar un permiso por su uuid",
         "explanation": "",
         "fields": ["name", "description", "uuid", "url"],
-        "requiredSession":true
+        "requiredSession": true
       },
       "permissionDelete": {
         "url": "/permissionDelete",
@@ -1206,7 +1206,7 @@
         "description": "Eliminar un permiso por su uuid",
         "explanation": "",
         "fields": ["uuid"],
-        "requiredSession":true
+        "requiredSession": true
       }
     }
   },
@@ -1272,7 +1272,7 @@
       },
       "dateOfCreate": {
         "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
-        "format":"%d/%m/%YT%H:%M:%S%z",
+        "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
             "value": "date",
@@ -1296,7 +1296,7 @@
       },
       "dateOfUpdate": {
         "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
-        "format":"%d/%m/%YT%H:%M:%S%z",
+        "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
             "value": "date",
@@ -1326,7 +1326,7 @@
         "description": "Creación de una relación permiso/empleado",
         "explanation": "Crea y devuelve una relación permiso/empleado. ",
         "fields": ["employee", "permission"],
-        "requiredSession":true
+        "requiredSession": true
       },
       "employeePermissions": {
         "url": "/employeePermissions",
@@ -1334,7 +1334,7 @@
         "description": "Obtener todos las relaciones permiso/empleado",
         "explanation": "",
         "fields": [],
-        "requiredSession":true
+        "requiredSession": true
       },
       "employeePermission": {
         "url": "/employeePermission",
@@ -1342,7 +1342,7 @@
         "description": "Obtener una relación permiso/empleado por su uuid",
         "explanation": "",
         "fields": ["uuid"],
-        "requiredSession":true
+        "requiredSession": true
       },
       "employeePermissionsUpdate": {
         "url": "/employeePermissionsUpdate",
@@ -1350,7 +1350,7 @@
         "description": "Modificar una relación permiso/empleado por su uuid",
         "explanation": "",
         "fields": ["employee", "permission", "uuid"],
-        "requiredSession":true
+        "requiredSession": true
       },
       "employeePermissionsDelete": {
         "url": "/employeePermissionsDelete",
@@ -1358,7 +1358,7 @@
         "description": "Eliminar una relación permiso/empleado por su uuid",
         "explanation": "",
         "fields": ["uuid"],
-        "requiredSession":true
+        "requiredSession": true
       }
     }
   },
@@ -1424,23 +1424,15 @@
       },
       "dateStart": {
         "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
-        "format":"%d/%m/%YT%H:%M:%S%z",
+        "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
             "value": "date",
             "error": "Debe introducir una fecha valida con el formato: %d/%m/%YT%H:%M:%S%z (01/01/2013T11:30:00+04:00)"
           },
-          "max length": {
-            "value": 11,
-            "error": "La fecha debe tener 10 caracteres"
-          },
-          "min length": {
-            "value": 9,
-            "error": "La fecha debe tener 10 caracteres"
-          },
-          "min date":{
-            "value":"now",
-            "error":"La fecha introducida debe ser posterior a ahora"
+          "min date": {
+            "value": "now",
+            "error": "La fecha introducida debe ser posterior a ahora"
           },
 
           "required": {
@@ -1451,7 +1443,7 @@
         "example": "01/01/2013T11:30:00+04:00",
         "model": true
       },
-      
+
       "removed": {
         "description": "Borrado lógico, 1 es borrado y 0 que no lo esta ",
         "property": {
@@ -1477,7 +1469,7 @@
       },
       "dateOfCreate": {
         "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
-        "format":"%d/%m/%YT%H:%M:%S%z",
+        "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
             "value": "date",
@@ -1501,7 +1493,7 @@
       },
       "dateOfUpdate": {
         "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
-        "format":"%d/%m/%YT%H:%M:%S%z",
+        "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
             "value": "date",
@@ -1530,8 +1522,8 @@
         "method": "POST",
         "description": "Creación de un remate ",
         "explanation": "Crea y devuelve un remate.",
-        "fields": ["company", "description","dateStart"],
-        "requiredSession":true
+        "fields": ["company", "description", "dateStart"],
+        "requiredSession": true
       },
       "auctions": {
         "url": "/auctions",
@@ -1568,7 +1560,7 @@
         "explanation": "",
         "fields": []
       },
-      
+
       "auction": {
         "url": "/auction",
         "method": "GET",
@@ -1588,16 +1580,16 @@
         "method": "PUT",
         "description": "Modificar un remate por su uuid",
         "explanation": "",
-        "fields": ["company", "description","dateStart","uuid"],
-        "requiredSession":true
+        "fields": ["company", "description", "dateStart", "uuid"],
+        "requiredSession": true
       },
       "auctionFinished": {
-        "url": "/auctionsFinished" ,
+        "url": "/auctionsFinished",
         "method": "GET",
         "description": "Terminar un remate por su uuid. Es get por como esta configurado el template de la api.",
         "explanation": "",
         "fields": ["uuid"],
-        "requiredSession":true
+        "requiredSession": true
       },
       "auctionDelete": {
         "url": "/auctionDelete",
@@ -1605,8 +1597,359 @@
         "description": "Eliminar un remate por su uuid",
         "explanation": "",
         "fields": ["uuid"],
-        "requiredSession":true
+        "requiredSession": true
       }
+    }
+  },
+  "Articulo": {
+    "description": "Endpoint de articulos",
+    "fields": {
+      "uuid": {
+        "description": "",
+        "property": {
+          "type": {
+            "value": "string",
+            "error": "El identificador debe ser una cadena de caracteres"
+          },
+          "max length": {
+            "value": 255,
+            "error": "El identificador debe tener un largo menor a 255"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir un identificador"
+          }
+        },
+        "example": "f8773c44-bd9a-4ffe-922f-4b661ebca35e",
+        "model": true
+      },
+      "auction": {
+        "description": "Identificador del remate al que pertenece",
+        "property": {
+          "type": {
+            "value": "string",
+            "error": "El identificador debe ser una cadena de caracteres"
+          },
+          "max length": {
+            "value": 255,
+            "error": "El identificador debe tener un largo menor a 255"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir un identificador"
+          }
+        },
+        "example": "f8773c44-bd9a-4ffe-922f-4b661ebca35e",
+        "model": true
+      },
+      "next": {
+        "description": "Identificador del siguiente articulo",
+        "property": {
+          "type": {
+            "value": "string",
+            "error": "El identificador debe ser una cadena de caracteres"
+          },
+          "max length": {
+            "value": 255,
+            "error": "El identificador debe tener un largo menor a 255"
+          }
+        },
+        "example": "f8773c44-bd9a-4ffe-922f-4b661ebca35e",
+        "model": true
+      },
+      "before": {
+        "description": "Identificador del articulo anterior",
+        "property": {
+          "type": {
+            "value": "string",
+            "error": "El identificador debe ser una cadena de caracteres"
+          },
+          "max length": {
+            "value": 255,
+            "error": "El identificador debe tener un largo menor a 255"
+          }
+
+        },
+        "example": "f8773c44-bd9a-4ffe-922f-4b661ebca35e",
+        "model": true
+      },
+      "maxBid": {
+        "description": "Identificador de la puja mas alta",
+        "property": {
+          "type": {
+            "value": "string",
+            "error": "El identificador debe ser una cadena de caracteres"
+          },
+          "max length": {
+            "value": 255,
+            "error": "El identificador debe tener un largo menor a 255"
+          }
+        },
+        "example": "f8773c44-bd9a-4ffe-922f-4b661ebca35e",
+        "model": true
+      },
+      "description": {
+        "description": "Descripción del articulo",
+        "property": {
+          "type": {
+            "value": "string",
+            "error": "El nombre debe ser una cadena de caracteres"
+          },
+          "max length": {
+            "value": 255,
+            "error": "El nombre debe tener un largo menor a 255"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir una descripción"
+          }
+        },
+        "example": "Juego de llaves de boca desde 8 a 22",
+        "model": true
+      },
+
+      "removed": {
+        "description": "Borrado lógico, 1 es borrado y 0 que no lo esta ",
+        "property": {
+          "type": {
+            "value": "integer",
+            "error": "Debe introducir un numero entero valido"
+          },
+          "max": {
+            "value": 2,
+            "error": "El valor máximo es 1"
+          },
+          "min": {
+            "value": -1,
+            "error": "el valor mínimo es 0"
+          },
+          "default": {
+            "value": 0,
+            "error": ""
+          }
+        },
+        "example": 0,
+        "model": true
+      },
+      "started": {
+        "description": "Iniciado, 0 si todavía no inicio y 1 si ya inicio la subasta del articulo",
+        "property": {
+          "type": {
+            "value": "integer",
+            "error": "Debe introducir un numero entero valido"
+          },
+          "max": {
+            "value": 2,
+            "error": "El valor máximo es 1"
+          },
+          "min": {
+            "value": -1,
+            "error": "el valor mínimo es 0"
+          },
+          "default": {
+            "value": 0,
+            "error": ""
+          }
+        },
+        "example": 0,
+        "model": true
+      },
+      "finished": {
+        "description": "Terminado, 0 si no lo esta y 1 si esta finalizada la subasta del articulo",
+        "property": {
+          "type": {
+            "value": "integer",
+            "error": "Debe introducir un numero entero valido"
+          },
+          "max": {
+            "value": 2,
+            "error": "El valor máximo es 1"
+          },
+          "min": {
+            "value": -1,
+            "error": "el valor mínimo es 0"
+          },
+          "default": {
+            "value": 0,
+            "error": ""
+          }
+        },
+        "example": 0,
+        "model": true
+      },
+      "minValue": {
+        "description": "valor mínimo de la primer puja",
+        "property": {
+          "type": {
+            "value": "integer",
+            "error": "Debe introducir un numero entero valido"
+          },
+          "min": {
+            "value": -1,
+            "error": "el valor mínimo es 0"
+          }
+        },
+        "example": 500,
+        "model": true
+      },
+      "tipe": {
+        "description": "Tipo de inicio de subasta. 0 si inicia y finaliza a una hora especifica, 1 si la subasta finaliza luego de X segundos pasados luego de la ultima puja valida y luego inicia la subasta del siguiente articulo",
+        "property": {
+          "type": {
+            "value": "integer",
+            "error": "Debe introducir un numero entero valido"
+          },
+          "max": {
+            "value": 2,
+            "error": "El valor máximo es 1"
+          },
+          "min": {
+            "value": -1,
+            "error": "el valor mínimo es 0"
+          },
+          "default": {
+            "value": 0,
+            "error": ""
+          }
+        },
+        "example": 1,
+        "model": true
+      },
+      "minStepValue": {
+        "description": "Diferencia de valor entre la ultima puja y la anterior",
+        "property": {
+          "type": {
+            "value": "integer",
+            "error": "Debe introducir un numero entero valido"
+          },
+          "min": {
+            "value": -1,
+            "error": "el valor mínimo es 0"
+          }
+        },
+        "example": 200,
+        "model": true
+      },
+      "timeAfterBid": {
+        "description": "Tiempo desde la ultima puja para que finalice la subasta",
+        "property": {
+          "type": {
+            "value": "integer",
+            "error": "Debe introducir un numero entero valido"
+          },
+          "min": {
+            "value": -1,
+            "error": "el valor mínimo es 0"
+          }
+        },
+        "example": 10,
+        "model": true
+      },
+      "dateOfFinish": {
+        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
+        "format": "%d/%m/%YT%H:%M:%S%z",
+        "property": {
+          "type": {
+            "value": "date",
+            "error": "Debe introducir una fecha valida con el formato: %d/%m/%YT%H:%M:%S%z (01/01/2013T11:30:00+04:00)"
+          }
+        },
+        "example": "01/01/2013T11:30:00+04:00",
+        "model": true
+      },
+      "dateOfStart": {
+        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
+        "format": "%d/%m/%YT%H:%M:%S%z",
+        "property": {
+          "type": {
+            "value": "date",
+            "error": "Debe introducir una fecha valida con el formato: %d/%m/%YT%H:%M:%S%z (01/01/2013T11:30:00+04:00)"
+          }
+        },
+        "example": "01/01/2013T11:30:00+04:00",
+        "model": true
+      },
+      "dateOfCreate": {
+        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
+        "format": "%d/%m/%YT%H:%M:%S%z",
+        "property": {
+          "type": {
+            "value": "date",
+            "error": "Debe introducir una fecha valida"
+          },
+          "max length": {
+            "value": 11,
+            "error": "La fecha debe tener 10 caracteres"
+          },
+          "min length": {
+            "value": 9,
+            "error": "La fecha debe tener 10 caracteres"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir una fecha"
+          }
+        },
+        "example": "01/01/2013T11:30:00+04:00",
+        "model": true
+      },
+      "dateOfUpdate": {
+        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
+        "format": "%d/%m/%YT%H:%M:%S%z",
+        "property": {
+          "type": {
+            "value": "date",
+            "error": "Debe introducir una fecha valida con el formato: %d/%m/%YT%H:%M:%S%z (01/01/2013T11:30:00+04:00)"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir una fecha"
+          }
+        },
+        "example": "01/01/2013T11:30:00+04:00",
+        "model": true
+      }
+    },
+    "endpoint": {
+      "articleCreate": {
+        "url": "/articleCreate",
+        "method": "POST",
+        "description": "Creación de un articulo que se va a rematar ",
+        "explanation": "Crea y devuelve un articulo.",
+        "fields": ["auction","before","description","dateOfStart","dateOfFinish","timeAfterBid","tipe","minValue","minStepValue"],
+        "requiredSession": true
+      },
+      "articles": {
+        "url": "/articles",
+        "method": "GET",
+        "description": "Obtener todos los articulos",
+        "explanation": "",
+        "fields": []
+      },
+      "article": {
+        "url": "/article",
+        "method": "GET",
+        "description": "Obtener un articulo por su uuid",
+        "explanation": "",
+        "fields": ["uuid"]
+      },
+      "articleUpdate": {
+        "url": "/articleUpdate",
+        "method": "PUT",
+        "description": "Modificar un articulo por su uuid",
+        "explanation": "",
+        "fields": ["description","dateOfStart","dateOfFinish","timeAfterBid","tipe","minValue","minStepValue"],
+        "requiredSession": true
+      },
+      "articleDelete": {
+        "url": "/articleDelete",
+        "method": "DELETE",
+        "description": "Eliminar un articulo por su uuid",
+        "explanation": "",
+        "fields": ["uuid"],
+        "requiredSession": true
+      }
+      
     }
   }
 }

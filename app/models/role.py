@@ -5,7 +5,7 @@ import datetime
 from app.helpers.modelosPlanos.role import Role as R
 
 
-date_format = '%d/%m/%Y %H:%M:%S%z'
+date_format = '%d/%m/%YT%H:%M:%S%z'
 class Role(db.Model):
     uuid=db.Column(
         db.String(255), primary_key=True, default=uuid.uuid4, nullable=True, unique=True
@@ -36,6 +36,7 @@ class Role(db.Model):
     @classmethod
     def create(cls,data, userUuid):
         date= datetime.datetime.now()
+        date=date.astimezone(datetime.timezone.utc)
         strDate= date.strftime(date_format)
         role= cls(
                 name= data.get("name"),
@@ -67,6 +68,7 @@ class Role(db.Model):
     @classmethod
     def delete(cls, uuid):
         date= datetime.datetime.now()
+        date=date.astimezone(datetime.timezone.utc)
         strDate= date.strftime(date_format)
         role=cls.query.filter_by(uuid=uuid, removed=0).first()
         if(not role):
@@ -81,6 +83,7 @@ class Role(db.Model):
     @classmethod
     def update(cls, data):
         date= datetime.datetime.now()
+        date=date.astimezone(datetime.timezone.utc)
         strDate= date.strftime(date_format)
         role=cls.query.filter_by(uuid=data["uuid"], removed=0).first()
         if(not role):

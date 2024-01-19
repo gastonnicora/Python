@@ -1,7 +1,7 @@
 from flask import jsonify,  request, abort
 import jwt
 from os import environ
-from app.models.users import User
+from app.models.user import User
 from app.helpers.message import Message
 from app.helpers.validador import Validador
 from app.models.confirmEmail import ConfirmEMail

@@ -8,7 +8,7 @@ from app.helpers.modelosPlanos.user import User  as U
 from app.helpers.message import Message
 
 
-date_format = '%d/%m/%Y %H:%M:%S%z'
+date_format = '%d/%m/%YT%H:%M:%S%z'
 
 class User(db.Model):
     uuid= db.Column(
@@ -62,6 +62,7 @@ class User(db.Model):
     @classmethod
     def create(cls,data):
         date= datetime.datetime.now()
+        date=date.astimezone(datetime.timezone.utc)
         strDate= date.strftime(date_format)
         usu= cls.existEmail(data.get("email"))
         if usu is not None and usu.confirmEmail == 1:
@@ -119,6 +120,7 @@ class User(db.Model):
     @classmethod
     def delete(cls, uuid):
         date= datetime.datetime.now()
+        date=date.astimezone(datetime.timezone.utc)
         strDate= date.strftime(date_format)
         usuario=cls.query.filter_by(uuid=uuid, removed=0).first()
         if(not usuario):
@@ -144,6 +146,7 @@ class User(db.Model):
     @classmethod
     def update(cls,uuid,data):
         date= datetime.datetime.now()
+        date=date.astimezone(datetime.timezone.utc)
         strDate= date.strftime(date_format)
         
         usu= cls.query.filter_by(uuid=uuid, removed=0).first()
@@ -165,6 +168,7 @@ class User(db.Model):
     @classmethod
     def updatePassword(cls,data):
         date= datetime.datetime.now()
+        date=date.astimezone(datetime.timezone.utc)
         strDate= date.strftime(date_format)
         usu= cls.query.filter_by(uuid=data.get("uuid"), removed=0).first()
         if not usu:

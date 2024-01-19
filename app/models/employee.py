@@ -2,13 +2,13 @@ from app.models.db import db
 from sqlalchemy.sql.schema import ForeignKey
 import uuid
 from app.helpers.message import Message
-from app.models.users import User
+from app.models.user import User
 from app.models.company import Company
 import datetime
 from app.helpers.modelosPlanos.employee import Employee as C
 
 
-date_format = '%d/%m/%Y %H:%M:%S%z'
+date_format = '%d/%m/%YT%H:%M:%S%z'
 class Employee(db.Model):
     uuid=db.Column(
         db.String(255), primary_key=True, default=uuid.uuid4, nullable=True, unique=True
@@ -46,6 +46,7 @@ class Employee(db.Model):
     @classmethod
     def create(cls,data):
         date= datetime.datetime.now()
+        date=date.astimezone(datetime.timezone.utc)
         strDate= date.strftime(date_format)
         employee= cls(
                 user= data.get("user"),
@@ -95,6 +96,7 @@ class Employee(db.Model):
     @classmethod
     def delete(cls, uuid):
         date= datetime.datetime.now()
+        date=date.astimezone(datetime.timezone.utc)
         strDate= date.strftime(date_format)
         employee=cls.query.filter_by(uuid=uuid, removed=0).first()
         if(not employee):
@@ -129,6 +131,7 @@ class Employee(db.Model):
     @classmethod
     def update(cls, data):
         date= datetime.datetime.now()
+        date=date.astimezone(datetime.timezone.utc)
         strDate= date.strftime(date_format)
         employee=cls.query.filter_by(uuid=data["uuid"], removed=0).first()
         if(not employee):

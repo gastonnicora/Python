@@ -2,7 +2,7 @@ from app.models.db import db
 from sqlalchemy.sql.schema import ForeignKey
 import uuid
 from app.helpers.message import Message
-from app.models.users import User
+from app.models.user import User
 import datetime
 from app.helpers.modelosPlanos.confirmEmail import ConfirmEmail as C
 
@@ -24,6 +24,7 @@ class ConfirmEMail(db.Model):
     def create(cls,user):
         date_format = '%d/%m/%Y %H:%M:%S%z'
         date= datetime.datetime.now()
+        date=date.astimezone(datetime.timezone.utc)
         strDate= date.strftime(date_format)
         confirm= cls(
                 user=user,

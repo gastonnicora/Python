@@ -1,5 +1,5 @@
 from flask import jsonify,  request, abort
-from app.models.users import User
+from app.models.user import User
 from app.helpers.message import Message
 from app.models.confirmEmail import ConfirmEMail
 

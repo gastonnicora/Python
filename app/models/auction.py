@@ -8,7 +8,7 @@ import datetime
 from app.helpers.modelosPlanos.auction import Auction as A
 
 
-date_format = '%d/%m/%Y %H:%M:%S%z'
+date_format = '%d/%m/%YT%H:%M:%S%z'
 class Auction(db.Model):
     uuid=db.Column(
         db.String(255), primary_key=True, default=uuid.uuid4, nullable=True, unique=True
@@ -26,7 +26,7 @@ class Auction(db.Model):
         db.String(255),
         nullable=True
     )
-    finished=db.Column(
+    finished= db.Column(
         db.Integer,
         nullable=True,
         default=0
@@ -49,6 +49,7 @@ class Auction(db.Model):
     @classmethod
     def create(cls,data):
         date= datetime.datetime.now()
+        date=date.astimezone(datetime.timezone.utc)
         strDate= date.strftime(date_format)
         auction= cls(
                 company=data.get("company"),
@@ -92,7 +93,7 @@ class Auction(db.Model):
             date_max = datetime.datetime.strptime(auc.dateStart, date_format)
             date_max = date_max.astimezone(timezone.utc)
             now = now.astimezone(timezone.utc)
-            if(date_max > now):
+            if(date_max < now):
                 aucs.append(auc)
         auc=A(None,aucs)
         db.session.close()
@@ -107,7 +108,7 @@ class Auction(db.Model):
             date_max = datetime.datetime.strptime(auc.dateStart, date_format)
             date_max = date_max.astimezone(timezone.utc)
             now = now.astimezone(timezone.utc)
-            if(date_max < now):
+            if(date_max > now):
                 aucs.append(auc)
         auc=A(None,aucs)
         db.session.close()
@@ -132,6 +133,7 @@ class Auction(db.Model):
     @classmethod
     def delete(cls, uuid):
         date= datetime.datetime.now()
+        date=date.astimezone(datetime.timezone.utc)
         strDate= date.strftime(date_format)
         auction=cls.query.filter_by(uuid=uuid, removed=0).first()
         if(not auction):
@@ -146,6 +148,7 @@ class Auction(db.Model):
     @classmethod
     def update(cls, data):
         date= datetime.datetime.now()
+        date=date.astimezone(datetime.timezone.utc)
         strDate= date.strftime(date_format)
         auction=cls.query.filter_by(uuid=data["uuid"], removed=0).first()
         if(not auction):
@@ -161,8 +164,9 @@ class Auction(db.Model):
         return Message(content=auc)
 
     @classmethod
-    def finished(cls, uuid):
+    def setFinished(cls, uuid):
         date= datetime.datetime.now()
+        date=date.astimezone(datetime.timezone.utc)
         strDate= date.strftime(date_format)
         auction=cls.query.filter_by(uuid=uuid, removed=0).first()
         if(not auction):
