@@ -326,43 +326,49 @@
         "url": "/logout",
         "method": "GET",
         "description": "Cerrar sesión",
-        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": []
+        "explanation": "",
+        "fields": [],
+        "requiredSession":true
       },
       "users": {
         "url": "/users",
         "method": "GET",
         "description": "Obtener todos los usuarios",
-        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": []
+        "explanation": "",
+        "fields": [],
+        "requiredSession":true
       },
       "user": {
         "url": "/user",
         "method": "GET",
         "description": "Obtener un usuario por su uuid",
-        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["uuid"]
+        "explanation": "",
+        "fields": ["uuid"],
+        "requiredSession":true
       },
       "userUpdate": {
         "url": "/userUpdate",
         "method": "PUT",
         "description": "Modificar un usuario por su uuid",
-        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["name", "lastName", "email", "birthdate"]
+        "explanation": "",
+        "fields": ["name", "lastName", "email", "birthdate"],
+        "requiredSession":true
       },
       "userUpdatePassword": {
         "url": "/userUpdatePassword",
         "method": "PUT",
         "description": "Modificar contraseña de un  por su uuid",
-        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["uuid", "oldPassword", "password", "repetitionPass"]
+        "explanation": "",
+        "fields": ["uuid", "oldPassword", "password", "repetitionPass"],
+        "requiredSession":true
       },
       "userDelete": {
         "url": "/userDelete",
         "method": "DELETE",
         "description": "Eliminar un usuario por su uuid",
-        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["uuid"]
+        "explanation": "",
+        "fields": ["uuid"],
+        "requiredSession":true
       }
     }
   },
@@ -434,14 +440,14 @@
     },
     "endpoint": {
       "confirmEmail": {
-        "url": "/confirmEmail/",
+        "url": "/confirmEmail",
         "method": "GET",
         "description": "Confirmación de email",
         "explanation": "Confirma el email de un usuario y elimina la de la tabla de confirmación pendiente",
         "fields": ["uuid"]
       },
       "get_confirmEmail": {
-        "url": "/get_confirmEmail/",
+        "url": "/get_confirmEmail",
         "method": "GET",
         "description": "Obtener una confirmación de email",
         "explanation": "Obtiene una confirmación  de email mediante un uuid",
@@ -611,8 +617,9 @@
         "url": "/companyCreate",
         "method": "POST",
         "description": "Creación de una empresa que va a rematar objetos",
-        "explanation": "Crea y devuelve una empresa. Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["name", "address"]
+        "explanation": "Crea y devuelve una empresa.",
+        "fields": ["name", "address"],
+        "requiredSession":true
       },
       "companies": {
         "url": "/companies",
@@ -632,15 +639,17 @@
         "url": "/companyUpdate",
         "method": "PUT",
         "description": "Modificar una empresa por su uuid",
-        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["name", "address", "uuid"]
+        "explanation": "",
+        "fields": ["name", "address", "uuid"],
+        "requiredSession":true
       },
       "companyDelete": {
         "url": "/companyDelete",
         "method": "DELETE",
         "description": "Eliminar una empresa por su uuid",
-        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["uuid"]
+        "explanation": "",
+        "fields": ["uuid"],
+        "requiredSession":true
       }
     }
   },
@@ -755,67 +764,76 @@
     },
     "endpoint": {
       "employee": {
-        "url": "/employee/",
+        "url": "/employee",
         "method": "GET",
         "description": "Obtener una relación empleado/empresa ",
-        "explanation": "Obtiene una relación empleado/empresa por medio de su uuid. Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["uuid"]
+        "explanation": "Obtiene una relación empleado/empresa por medio de su uuid.",
+        "fields": ["uuid"],
+        "requiredSession":true
       },
       "employeeByUser": {
-        "url": "/employeeByUser/",
+        "url": "/employeeByUser",
         "method": "GET",
         "description": "Obtener una relación empleado/empresa",
-        "explanation": "Obtiene una relación empleado/empresa por medio del uuid del usuario. Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["uuid"]
+        "explanation": "Obtiene una relación empleado/empresa por medio del uuid del usuario.",
+        "fields": ["uuid"],
+        "requiredSession":true
       },
       "employeeByCompany": {
-        "url": "/employeeByCompany/",
+        "url": "/employeeByCompany",
         "method": "GET",
         "description": "Obtener una relación empleado/empresa",
-        "explanation": "Obtiene una relación empleado/empresa por medio del uuid de la Empresa. Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["uuid"]
+        "explanation": "Obtiene una relación empleado/empresa por medio del uuid de la Empresa.",
+        "fields": ["uuid"],
+        "requiredSession":true
       },
       "employees": {
         "url": "/employees",
         "method": "GET",
         "description": "Lista todas las relaciones empleado/empresa",
-        "explanation": "Lista todas las relaciones empleado/empresa. Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": []
+        "explanation": "Lista todas las relaciones empleado/empresa",
+        "fields": [],
+        "requiredSession":true
       },
       "employeeCreate": {
         "url": "/employeeCreate",
         "method": "POST",
         "description": "Crea una relación empleado/empresa",
-        "explanation": "Crea una relación empleado/empresa. Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["user", "company"]
+        "explanation": "Crea una relación empleado/empresa.",
+        "fields": ["user", "company"],
+        "requiredSession":true
       },
       "employeeUpdate": {
         "url": "/employeeUpdate",
         "method": "PUT",
         "description": "Actualiza los datos de una relación empleado/empresa",
-        "explanation": "Actualiza los datos de una relación empleado/empresa. Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["uuid", "user", "company"]
+        "explanation": "Actualiza los datos de una relación empleado/empresa. ",
+        "fields": ["uuid", "user", "company"],
+        "requiredSession":true
       },
       "employeeDelete": {
-        "url": "/employeeDelete/",
+        "url": "/employeeDelete",
         "method": "DELETE",
         "description": "Elimina una relación empleado/empresa ",
-        "explanation": "Elimina una relación empleado/empresa por medio de su uuid. Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["uuid"]
+        "explanation": "Elimina una relación empleado/empresa por medio de su uuid.",
+        "fields": ["uuid"],
+        "requiredSession":true
       },
       "employeeDeleteByUser": {
-        "url": "/employeeDeleteByUser/",
+        "url": "/employeeDeleteByUser",
         "method": "DELETE",
         "description": "Elimina una relación empleado/empresa",
-        "explanation": "Elimina una relación empleado/empresa por medio del uuid del usuario. Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["uuid"]
+        "explanation": "Elimina una relación empleado/empresa por medio del uuid del usuario.",
+        "fields": ["uuid"],
+        "requiredSession":true
       },
       "employeeDeleteByCompany": {
-        "url": "/employeeDeleteByCompany/",
+        "url": "/employeeDeleteByCompany",
         "method": "DELETE",
         "description": "Elimina una relación empleado/empresa",
-        "explanation": "Elimina una relación empleado/empresa por medio del uuid de la Empresa. Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["uuid"]
+        "explanation": "Elimina una relación empleado/empresa por medio del uuid de la Empresa.",
+        "fields": ["uuid"],
+        "requiredSession":true
       }
     }
   },
@@ -955,37 +973,42 @@
       "roleCreate": {
         "url": "/roleCreate",
         "method": "POST",
-        "description": "Creación de un rol que va a rematar objetos",
-        "explanation": "Crea y devuelve un rol. Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["name", "description"]
+        "description": "Creación de un rol",
+        "explanation": "Crea y devuelve un rol.",
+        "fields": ["name", "description"],
+        "requiredSession":true
       },
       "roles": {
         "url": "/roles",
         "method": "GET",
         "description": "Obtener todos los roles",
-        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": []
+        "explanation": "",
+        "fields": [],
+        "requiredSession":true
       },
       "role": {
         "url": "/role",
         "method": "GET",
         "description": "Obtener un rol por su uuid",
-        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["uuid"]
+        "explanation": "",
+        "fields": ["uuid"],
+        "requiredSession":true
       },
       "roleUpdate": {
         "url": "/roleUpdate",
         "method": "PUT",
         "description": "Modificar un rol por su uuid",
-        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["name", "description", "uuid"]
+        "explanation": "",
+        "fields": ["name", "description", "uuid"],
+        "requiredSession":true
       },
       "roleDelete": {
         "url": "/roleDelete",
         "method": "DELETE",
         "description": "Eliminar un rol por su uuid",
-        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["uuid"]
+        "explanation": "",
+        "fields": ["uuid"],
+        "requiredSession":true
       }
     }
   },
@@ -1149,36 +1172,41 @@
         "url": "/permissionCreate",
         "method": "POST",
         "description": "Creación de un permiso",
-        "explanation": "Crea y devuelve un permiso. Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["name", "description", "url"]
+        "explanation": "Crea y devuelve un permiso.",
+        "fields": ["name", "description", "url"],
+        "requiredSession":true
       },
       "permissions": {
         "url": "/permissions",
         "method": "GET",
         "description": "Obtener todos los permisos",
-        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": []
+        "explanation": "",
+        "fields": [],
+        "requiredSession":true
       },
       "permission": {
         "url": "/permission",
         "method": "GET",
         "description": "Obtener un permiso por su uuid",
-        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["uuid"]
+        "explanation": "",
+        "fields": ["uuid"],
+        "requiredSession":true
       },
       "permissionUpdate": {
         "url": "/permissionUpdate",
         "method": "PUT",
         "description": "Modificar un permiso por su uuid",
-        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["name", "description", "uuid", "url"]
+        "explanation": "",
+        "fields": ["name", "description", "uuid", "url"],
+        "requiredSession":true
       },
       "permissionDelete": {
         "url": "/permissionDelete",
         "method": "DELETE",
         "description": "Eliminar un permiso por su uuid",
-        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["uuid"]
+        "explanation": "",
+        "fields": ["uuid"],
+        "requiredSession":true
       }
     }
   },
@@ -1296,36 +1324,41 @@
         "url": "/employeePermissionsCreate",
         "method": "POST",
         "description": "Creación de una relación permiso/empleado",
-        "explanation": "Crea y devuelve una relación permiso/empleado. Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["employee", "permission"]
+        "explanation": "Crea y devuelve una relación permiso/empleado. ",
+        "fields": ["employee", "permission"],
+        "requiredSession":true
       },
       "employeePermissions": {
         "url": "/employeePermissions",
         "method": "GET",
         "description": "Obtener todos las relaciones permiso/empleado",
-        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": []
+        "explanation": "",
+        "fields": [],
+        "requiredSession":true
       },
       "employeePermission": {
         "url": "/employeePermission",
         "method": "GET",
         "description": "Obtener una relación permiso/empleado por su uuid",
-        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["uuid"]
+        "explanation": "",
+        "fields": ["uuid"],
+        "requiredSession":true
       },
       "employeePermissionsUpdate": {
         "url": "/employeePermissionsUpdate",
         "method": "PUT",
         "description": "Modificar una relación permiso/empleado por su uuid",
-        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["employee", "permission", "uuid"]
+        "explanation": "",
+        "fields": ["employee", "permission", "uuid"],
+        "requiredSession":true
       },
       "employeePermissionsDelete": {
         "url": "/employeePermissionsDelete",
         "method": "DELETE",
         "description": "Eliminar una relación permiso/empleado por su uuid",
-        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["uuid"]
+        "explanation": "",
+        "fields": ["uuid"],
+        "requiredSession":true
       }
     }
   },
@@ -1496,8 +1529,9 @@
         "url": "/auctionCreate",
         "method": "POST",
         "description": "Creación de un remate ",
-        "explanation": "Crea y devuelve un remate. Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["company", "description","dateStart"]
+        "explanation": "Crea y devuelve un remate.",
+        "fields": ["company", "description","dateStart"],
+        "requiredSession":true
       },
       "auctions": {
         "url": "/auctions",
@@ -1547,28 +1581,31 @@
         "method": "GET",
         "description": "Obtener todos los remates de una empresa",
         "explanation": "",
-        "fields": ["uuid"]
+        "fields": ["company"]
       },
       "auctionUpdate": {
         "url": "/auctionUpdate",
         "method": "PUT",
         "description": "Modificar un remate por su uuid",
-        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["company", "description","dateStart","uuid"]
+        "explanation": "",
+        "fields": ["company", "description","dateStart","uuid"],
+        "requiredSession":true
       },
       "auctionFinished": {
-        "url": "/auctionUpdate",
-        "method": "PUT",
-        "description": "Terminar un remate por su uuid. Aca no anda por que esta diferente configurado. pero en una api anda ",
-        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["uuid"]
+        "url": "/auctionsFinished" ,
+        "method": "GET",
+        "description": "Terminar un remate por su uuid. Es get por como esta configurado el template de la api.",
+        "explanation": "",
+        "fields": ["uuid"],
+        "requiredSession":true
       },
       "auctionDelete": {
         "url": "/auctionDelete",
         "method": "DELETE",
         "description": "Eliminar un remate por su uuid",
-        "explanation": "Requiere en el header 'x-access-tokens' el token de inicio de sesión",
-        "fields": ["uuid"]
+        "explanation": "",
+        "fields": ["uuid"],
+        "requiredSession":true
       }
     }
   }

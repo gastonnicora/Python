@@ -55,6 +55,10 @@
       <div>{{value.url}} </div>
       <div class="row " style="display: flex;
 align-items: center">
+{% if value.requiredSession %}
+
+<div class="session">Requiere sesión</div>
+{% endif %}
         <div class="{{value.method}}">{{value.method}}</div><i class="fa fa-chevron-down align-middle"></i>
       </div>
     </div>
@@ -65,8 +69,8 @@ align-items: center">
       {% if value.method == "GET" or value.method == "DELETE" %}
       {% if value.fields %}
       <br>
-      <label for="uuid_{{v}}">uuid</label>
-      <input type="text" id="uuid_{{v}}" name="uuid_{{v}}">
+      <label for="uuid_{{v}}">{{value.fields[0]}}: </label>
+      <input type="text" id="uuid_{{v}}" name="uuid_{{v}}" value="{{data[e].fields[value.fields[0]].example}}">
       <button class="btn btn-primary float-right "
         onclick="get('{{ url_for(v, uuid= 0) }}','campo_{{v}}_cod','campo_{{v}}','{{value.method}}','uuid_{{v}}')"
         id="Ejecutar_{{v}}">Ejecutar</button>
@@ -174,7 +178,14 @@ align-items: center">
             undefined,
             2
           );
-        });
+
+        document.getElementById("cargando").style.visibility = "hidden"
+        })
+        .catch(error => {
+        var campo_usuarios_get = document.getElementById(sms)
+        campo_usuarios_get.textContent = JSON.stringify(error)
+        document.getElementById("cargando").style.visibility = "hidden"
+      })
     } else {
       fetch(url, {
         method: method,
@@ -205,7 +216,14 @@ align-items: center">
             undefined,
             2
           );
-        });
+
+        document.getElementById("cargando").style.visibility = "hidden"
+        })
+        .catch(error => {
+        var campo_usuarios_get = document.getElementById(sms)
+        campo_usuarios_get.textContent = JSON.stringify(error)
+        document.getElementById("cargando").style.visibility = "hidden"
+      })
     }
 
     console.log(token)
@@ -251,12 +269,14 @@ align-items: center">
       .catch(error => {
         var campo_usuarios_get = document.getElementById(sms)
         campo_usuarios_get.textContent = JSON.stringify(error)
+
+        document.getElementById("cargando").style.visibility = "hidden"
       })
       .catch(error => {
         var campo_usuarios_get = document.getElementById(sms)
         campo_usuarios_get.textContent = JSON.stringify(error)
+        document.getElementById("cargando").style.visibility = "hidden"
       })
-      console.log(token)
   }
 </script>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"

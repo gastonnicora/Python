@@ -164,6 +164,14 @@ td {
 .comentario {
   color: #aaa;
 }
+  
+.session {
+  background-color: #fff0;
+  color: #d22;
+  padding: 0.5rem;
+  margin: 0rem 0.5rem;
+  font-weight: 700;
+}
 
 .GET {
   background-color: #fff0;
