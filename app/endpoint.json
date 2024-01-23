@@ -1601,8 +1601,8 @@
       }
     }
   },
-  "Articulo": {
-    "description": "Endpoint de articulos",
+  "Articulos": {
+    "description": "Endpoint de artículos",
     "fields": {
       "uuid": {
         "description": "",
@@ -1775,6 +1775,21 @@
           }
         },
         "example": 0,
+        "model": true
+      },
+      "bidValue": {
+        "description": "Valor de la ultima puja",
+        "property": {
+          "type": {
+            "value": "integer",
+            "error": "Debe introducir un numero entero valido"
+          },
+          "min": {
+            "value": -1,
+            "error": "el valor mínimo es 0"
+          }
+        },
+        "example": 500,
         "model": true
       },
       "minValue": {
@@ -1950,6 +1965,208 @@
         "requiredSession": true
       }
       
+    }
+  },
+  "Pujas": {
+    "description": "Endpoint de pujas",
+    "fields": {
+      "uuid": {
+        "description": "",
+        "property": {
+          "type": {
+            "value": "string",
+            "error": "El identificador debe ser una cadena de caracteres"
+          },
+          "max length": {
+            "value": 255,
+            "error": "El identificador debe tener un largo menor a 255"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir un identificador"
+          }
+        },
+        "example": "f8773c44-bd9a-4ffe-922f-4b661ebca35e",
+        "model": true
+      },
+      "user": {
+        "description": "Identificador del dueño de la puja",
+        "property": {
+          "type": {
+            "value": "string",
+            "error": "El identificador debe ser una cadena de caracteres"
+          },
+          "max length": {
+            "value": 255,
+            "error": "El identificador debe tener un largo menor a 255"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir un identificador"
+          }
+        },
+        "example": "f8773c44-bd9a-4ffe-922f-4b661ebca35e",
+        "model": true
+      },
+      "article": {
+        "description": "Identificador del articulo  a pujar",
+        "property": {
+          "type": {
+            "value": "string",
+            "error": "El identificador debe ser una cadena de caracteres"
+          },
+          "max length": {
+            "value": 255,
+            "error": "El identificador debe tener un largo menor a 255"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir un identificador"
+          }
+        },
+        "example": "f8773c44-bd9a-4ffe-922f-4b661ebca35e",
+        "model": true
+      },
+      "removed": {
+        "description": "Borrado lógico, 1 es borrado y 0 que no lo esta ",
+        "property": {
+          "type": {
+            "value": "integer",
+            "error": "Debe introducir un numero entero valido"
+          },
+          "max": {
+            "value": 2,
+            "error": "El valor máximo es 1"
+          },
+          "min": {
+            "value": -1,
+            "error": "el valor mínimo es 0"
+          },
+          "default": {
+            "value": 0,
+            "error": ""
+          }
+        },
+        "example": 0,
+        "model": true
+      },
+      "value": {
+        "description": "Valor de la puja",
+        "property": {
+          "type": {
+            "value": "integer",
+            "error": "Debe introducir un numero entero valido"
+          },
+          "min": {
+            "value": -1,
+            "error": "el valor mínimo es 0"
+          },
+          "required":{
+            "value":true,
+            "error": "Debe introducir un valor"
+          }
+        },
+        "example": 500,
+        "model": true
+      },
+      "dateOfCreate": {
+        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
+        "format": "%d/%m/%YT%H:%M:%S%z",
+        "property": {
+          "type": {
+            "value": "date",
+            "error": "Debe introducir una fecha valida"
+          },
+          "max length": {
+            "value": 11,
+            "error": "La fecha debe tener 10 caracteres"
+          },
+          "min length": {
+            "value": 9,
+            "error": "La fecha debe tener 10 caracteres"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir una fecha"
+          }
+        },
+        "example": "01/01/2013T11:30:00+04:00",
+        "model": true
+      },
+      "dateOfUpdate": {
+        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
+        "format": "%d/%m/%YT%H:%M:%S%z",
+        "property": {
+          "type": {
+            "value": "date",
+            "error": "Debe introducir una fecha valida con el formato: %d/%m/%YT%H:%M:%S%z (01/01/2013T11:30:00+04:00)"
+          },
+          "max length": {
+            "value": 11,
+            "error": "La fecha debe tener 10 caracteres"
+          },
+          "min length": {
+            "value": 9,
+            "error": "La fecha debe tener 10 caracteres"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir una fecha"
+          }
+        },
+        "example": "01/01/2013T11:30:00+04:00",
+        "model": true
+      }
+    },
+    "endpoint": {
+      "bidCreate": {
+        "url": "/bidCreate",
+        "method": "POST",
+        "description": "Creación de una puja por un objeto",
+        "explanation": "Crea y devuelve una puja.",
+        "fields": ["value","article"],
+        "requiredSession": true
+      },
+      "bids": {
+        "url": "/bids",
+        "method": "GET",
+        "description": "Obtener todas las pujas",
+        "explanation": "",
+        "fields": [],
+        "requiredSession":true
+      },
+      "bid": {
+        "url": "/bid",
+        "method": "GET",
+        "description": "Obtener una puja por su uuid",
+        "explanation": "",
+        "fields": ["uuid"],
+        "requiredSession":true
+      },
+      "bidDelete": {
+        "url": "/bidDelete",
+        "method": "DELETE",
+        "description": "Eliminar una puja por su uuid",
+        "explanation": "",
+        "fields": ["uuid"],
+        "requiredSession": true
+      },
+      "bidByArticle": {
+        "url": "/bidByArticle",
+        "method": "GET",
+        "description": "Obtener todas las pujas sobre un articulo",
+        "explanation": "",
+        "fields": ["article"],
+        "requiredSession": true
+      },
+      "bidByUser": {
+        "url": "/bidByUser",
+        "method": "GET",
+        "description": "Obtener todas las pujas de un usuario",
+        "explanation": "",
+        "fields": ["article"],
+        "requiredSession": true
+      }
     }
   }
 }

@@ -19,7 +19,7 @@ class Bid(db.Model):
         ForeignKey(Article.uuid),
         nullable= True
     ) 
-    User= db.Column(
+    user= db.Column(
         db.String(255),
         ForeignKey(User.uuid),
         nullable= True
@@ -44,67 +44,53 @@ class Bid(db.Model):
     )
 
     @classmethod
-    def create(cls,data, userUuid):
+    def create(cls,data,userUuid):
         date= datetime.datetime.now()
         date=date.astimezone(datetime.timezone.utc)
         strDate= date.strftime(date_format)
-        company= cls(
-                owner=userUuid,
-                name= data.get("name"),
-                address= data.get("address"),
+        bid= cls(
+                user=userUuid,
+                value= data.get("value"),
+                article= data.get("article"),
                 dateOfCreate= strDate
             )
-        db.session.add(company)
-        db.session.commit()
-        c= B(company)
-        db.session.close()
-        return Message(content=c)
+        db.session.add(bid)
+        sms=Article.setMaxBid(data.get("article"), bid.uuid,data.get("value"))
+        if(sms.cod == 202):
+            db.session.commit()
+            c= B(bid)
+            db.session.close()
+            return Message(content=c)
+        else: 
+            return Message(error=sms.error)
     
     @classmethod
     def all(cls):
-        companies= cls.query.filter_by(removed=0).all()
-        com=B(None,companies)
+        bids= cls.query.filter_by(removed=0).all()
+        com=B(None,bids)
         db.session.close()
         return Message(content=com)
     
     @classmethod
     def get(cls,uuid):
-        company= cls.query.filter_by(uuid=uuid,removed=0).first()
-        if(not company):
-            return Message(error="No se pudo obtener la empresa por que no existe")
-        com=B(company)
+        bid= cls.query.filter_by(uuid=uuid,removed=0).first()
+        if(not bid):
+            return Message(error="No se pudo obtener la puja por que no existe")
+        com=B(bid)
         db.session.close()
         return Message(content=com)
-    
+   
     @classmethod
-    def delete(cls, uuid):
-        date= datetime.datetime.now()
-        date=date.astimezone(datetime.timezone.utc)
-        strDate= date.strftime(date_format)
-        company=cls.query.filter_by(uuid=uuid, removed=0).first()
-        if(not company):
-            return Message(error="No se pudo eliminar la empresa por que no existe")
-        company.removed=1
-        company.dateOfUpdate=strDate
-        db.session.merge(company)
-        db.session.commit()
-        db.session.close()
-        return Message(content="Empresa eliminada correctamente")
+    def getByArticle(cls,article):
+        bids= cls.query.filter_by(article=article, removed=0).all()
+        return bids
 
     @classmethod
-    def update(cls, data):
-        date= datetime.datetime.now()
-        date=date.astimezone(datetime.timezone.utc)
-        strDate= date.strftime(date_format)
-        company=cls.query.filter_by(uuid=data["uuid"], removed=0).first()
-        if(not company):
-            return Message(error="No se pudo actualizar la empresa por que no existe")
-        company.name=data.get("name")
-        company.address= data.get("address")
-        company.dateOfUpdate=strDate
-        db.session.merge(company)
-        db.session.commit()
-        com=B(company)
-        db.session.close()
-        return Message(content=com)
-        
+    def getByUser(cls,user):
+        bids= cls.query.filter_by(user=user).all()
+        return bids
+
+    @classmethod
+    def delete(cls,uuid):
+        bids= cls.query.filter_by(uuid=uuid).first()
+        return bids

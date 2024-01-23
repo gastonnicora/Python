@@ -144,14 +144,23 @@ def create_app(environment="development"):
     app.add_url_rule("/articleCreate", "articleCreate",
                      article.create, methods=["POST"])
     app.add_url_rule("/articleUpdate", "articleUpdate", article.update, methods=["PUT"])
-    app.add_url_rule("/articleDelete/<string:uuid>", "articleDelete", company.delete, methods=["DELETE"])
+    app.add_url_rule("/articleDelete/<string:uuid>", "articleDelete", article.delete, methods=["DELETE"])
     app.add_url_rule("/articleStart/<string:uuid>", "articleStart",
                      article.start, methods=["PUT"])
     app.add_url_rule("/articleFinish/<string:uuid>", "articleFinish",
                      article.finish, methods=["PUT"])
 
+    #CRUD Bid
+    app.add_url_rule("/bids", "bids",bid.index)
     app.add_url_rule("/bid/<string:uuid>", "bid",
                      bid.get)
+    app.add_url_rule("/bidCreate", "bidCreate",
+                     bid.create, methods=["POST"])
+    app.add_url_rule("/bidDelete/<string:uuid>", "bidDelete", bid.delete, methods=["DELETE"])
+    app.add_url_rule("/bidByArticle/<string:uuid>", "bidByArticle",
+                     bid.getByArticle)
+    app.add_url_rule("/bidByUser/<string:uuid>", "bidByUser",
+                     bid.getByUser)
 
     @app.route("/")
     def home():

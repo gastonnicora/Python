@@ -19,6 +19,7 @@ class Article():
             cls.tipe= data.tipe
             cls.minValue= data.get("minValue")
             cls.minStepValue= data.get("minStepValue")
+            cls.bidValue= data.get("bidValue")
 
         if lista:
             listado=[]

@@ -6,7 +6,7 @@ from app.helpers.tokenCelery import token_required_celery
 
 @token_required
 def create(current_user): 
-    v= Validador("Empresas","companyCreate",request.get_json())
+    v= Validador("Articulos","articleCreate",request.get_json())
     if v.haveError:
         return jsonify(v.errors().dump()),v.errors().cod
     sms=Article.create(request.get_json())
@@ -22,7 +22,7 @@ def get(uuid):
 
 @token_required
 def update(session): 
-    v= Validador("Empresas","companyUpdate",request.get_json())
+    v= Validador("Articulos","articleUpdate",request.get_json())
     if v.haveError:
         return jsonify(v.errors().dump()),v.errors().cod
     sms=Article.update(request.get_json())

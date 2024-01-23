@@ -6,6 +6,9 @@ class Bid():
             cls.dateOfCreate=data.dateOfCreate
             cls.dateOfUpdate=data.dateOfUpdate
             cls.removed= data.removed
+            cls.user= data.user
+            cls.value= data.value
+            cls.article= data.article
         if lista:
             listado=[]
             for i in lista:

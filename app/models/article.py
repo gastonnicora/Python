@@ -29,6 +29,9 @@ class Article(db.Model):
         db.String(255),
         ForeignKey("bid.uuid")
     ) 
+    bidValue= db.Column(
+        db.Integer,
+    )
     description=db.Column(
         db.String(255),
         nullable=True
@@ -228,17 +231,17 @@ class Article(db.Model):
 
     
     @classmethod
-    def setMaxBid(cls, uuid,bid):
+    def setMaxBid(cls, uuid,uuidBid,value):
         article= cls.query.filter_by(uuid=uuid,removed=0).first()
         if(not article):
             return Message(error="No se pudo actualizar el articulo por que no existe")
-        bid2= Bid.query.filter_by(uuid=bid,removed=0).first()
-        if(not bid2):
-            return Message(error="No se pudo actualizar el articulo por que no existe la puja")
-        article.maxBid=bid
+        if(value- article.bidValue)>= article.minStepValue:
+            return Message(error="La diferencia con la puja mas alta anterior es menor a lo permitido")
         date= datetime.datetime.now()
         date=date.astimezone(datetime.timezone.utc)
         strDate= date.strftime(date_format)
+        article.maxBid=uuidBid
+        article.bidValue=value
         article.dateOfUpdate=strDate
         db.session.merge(article)
         db.session.commit()
