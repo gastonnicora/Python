@@ -174,7 +174,7 @@ def create_app(environment="development"):
         currentFile.close()
         return render_template("home.html", data=data)
     
-    # login()
+     
     
     @app.route("/ping")  
     def ping():

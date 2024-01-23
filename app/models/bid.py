@@ -6,9 +6,10 @@ from app.models.user import User
 import datetime
 from app.helpers.modelosPlanos.bid import Bid as B
 from app.models.article import Article
-
+from pytz import timezone
 
 date_format = '%d/%m/%YT%H:%M:%S%z'
+zona_horaria= timezone("America/Argentina/Buenos_Aires")
 class Bid(db.Model):
     uuid=db.Column(
         db.String(255), primary_key=True, default=uuid.uuid4, nullable=True, unique=True
@@ -46,7 +47,7 @@ class Bid(db.Model):
     @classmethod
     def create(cls,data,userUuid):
         date= datetime.datetime.now()
-        date=date.astimezone(datetime.timezone.utc)
+        date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
         bid= cls(
                 user=userUuid,
@@ -55,14 +56,14 @@ class Bid(db.Model):
                 dateOfCreate= strDate
             )
         db.session.add(bid)
-        sms=Article.setMaxBid(data.get("article"), bid.uuid,data.get("value"))
-        if(sms.cod == 202):
-            db.session.commit()
-            c= B(bid)
-            db.session.close()
-            return Message(content=c)
+        db.session.commit()
+        c= B(bid)
+        db.session.close()
+        sms=Article.setMaxBid(data.get("article"),bid.uuid,data.get("value"))
+        if(sms.cod != 202 ):
+            return sms
         else: 
-            return Message(error=sms.error)
+            return Message(content=c)
     
     @classmethod
     def all(cls):
@@ -83,14 +84,24 @@ class Bid(db.Model):
     @classmethod
     def getByArticle(cls,article):
         bids= cls.query.filter_by(article=article, removed=0).all()
-        return bids
+        return Message(content=bids)
 
     @classmethod
     def getByUser(cls,user):
         bids= cls.query.filter_by(user=user).all()
-        return bids
+        return  Message(content=bids)
 
     @classmethod
     def delete(cls,uuid):
-        bids= cls.query.filter_by(uuid=uuid).first()
-        return bids
+        date= datetime.datetime.now()
+        date=date.astimezone(zona_horaria)
+        strDate= date.strftime(date_format)
+        bid= cls.query.filter_by(uuid=uuid,removed=0).first()
+        if(not bid):
+            return Message(error="No se pudo eliminar la puja por que no existe")
+        bid.removed= 1
+        bid.dateOfUpdate=strDate
+        db.session.commit()
+        c= B(bid)
+        db.session.close()
+        return  Message(content="Puja eliminada correctamente")

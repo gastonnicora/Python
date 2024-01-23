@@ -5,6 +5,10 @@ from app.helpers.message import Message
 from app.models.user import User
 import datetime
 from app.helpers.modelosPlanos.confirmEmail import ConfirmEmail as C
+from pytz import timezone
+
+date_format = '%d/%m/%YT%H:%M:%S%z'
+zona_horaria= timezone("America/Argentina/Buenos_Aires")
 
 class ConfirmEMail(db.Model):
     uuid=db.Column(
@@ -24,7 +28,7 @@ class ConfirmEMail(db.Model):
     def create(cls,user):
         date_format = '%d/%m/%Y %H:%M:%S%z'
         date= datetime.datetime.now()
-        date=date.astimezone(datetime.timezone.utc)
+        date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
         confirm= cls(
                 user=user,

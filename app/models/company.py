@@ -5,9 +5,10 @@ from app.helpers.message import Message
 from app.models.user import User
 import datetime
 from app.helpers.modelosPlanos.company import Company as C
-
+from pytz import timezone
 
 date_format = '%d/%m/%YT%H:%M:%S%z'
+zona_horaria= timezone("America/Argentina/Buenos_Aires")
 class Company(db.Model):
     uuid=db.Column(
         db.String(255), primary_key=True, default=uuid.uuid4, nullable=True, unique=True
@@ -43,7 +44,7 @@ class Company(db.Model):
     @classmethod
     def create(cls,data, userUuid):
         date= datetime.datetime.now()
-        date=date.astimezone(datetime.timezone.utc)
+        date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
         company= cls(
                 owner=userUuid,
@@ -76,7 +77,7 @@ class Company(db.Model):
     @classmethod
     def delete(cls, uuid):
         date= datetime.datetime.now()
-        date=date.astimezone(datetime.timezone.utc)
+        date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
         company=cls.query.filter_by(uuid=uuid, removed=0).first()
         if(not company):
@@ -91,7 +92,7 @@ class Company(db.Model):
     @classmethod
     def update(cls, data):
         date= datetime.datetime.now()
-        date=date.astimezone(datetime.timezone.utc)
+        date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
         company=cls.query.filter_by(uuid=data["uuid"], removed=0).first()
         if(not company):

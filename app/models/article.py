@@ -5,9 +5,10 @@ from app.helpers.message import Message
 from app.models.auction import Auction
 import datetime
 from app.helpers.modelosPlanos.article import Article as A
-
+from pytz import timezone
 
 date_format = '%d/%m/%YT%H:%M:%S%z'
+zona_horaria= timezone("America/Argentina/Buenos_Aires")
 class Article(db.Model):
     uuid=db.Column(
         db.String(255), primary_key=True, default=uuid.uuid4, nullable=True, unique=True
@@ -30,7 +31,7 @@ class Article(db.Model):
         ForeignKey("bid.uuid")
     ) 
     bidValue= db.Column(
-        db.Integer,
+        db.Integer
     )
     description=db.Column(
         db.String(255),
@@ -58,7 +59,7 @@ class Article(db.Model):
         db.String(255)
     )
     timeAfterBid=db.Column(
-        db.Integer,
+        db.Integer
     )
     tipe= db.Column(
         db.Integer,
@@ -86,7 +87,7 @@ class Article(db.Model):
     @classmethod
     def create(cls,data):
         date= datetime.datetime.now()
-        date=date.astimezone(datetime.timezone.utc)
+        date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
         article= cls(
                 auction= data.get("auction"),
@@ -94,7 +95,7 @@ class Article(db.Model):
                 description= data.get("description"),
                 dateOfStart= data.get("dateOfStart"),
                 dateOfFinish=data.get("dateOfFinish"),
-                timeAfterBid= data.get("timeAfterBid"),
+                timeAfterBid= data.get("timeAfterBid") ,
                 tipe= data.get("tipe"),
                 minValue=data.get("minValue"),
                 minStepValue=data.get("minStepValue"),
@@ -125,7 +126,7 @@ class Article(db.Model):
     @classmethod
     def delete(cls, uuid):
         date= datetime.datetime.now()
-        date=date.astimezone(datetime.timezone.utc)
+        date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
         article=cls.query.filter_by(uuid=uuid, removed=0).first()
         if(not article):
@@ -140,7 +141,7 @@ class Article(db.Model):
     @classmethod
     def update(cls, data):
         date= datetime.datetime.now()
-        date=date.astimezone(datetime.timezone.utc)
+        date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
         article=cls.query.filter_by(uuid=data["uuid"], removed=0).first()
         if(not article):
@@ -169,7 +170,7 @@ class Article(db.Model):
             return Message(error="No se pudo obtener el articulo anterior por que no existe")
         article.before= uuidBefore
         date= datetime.datetime.now()
-        date=date.astimezone(datetime.timezone.utc)
+        date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
         article.dateOfUpdate=strDate
         db.session.merge(article)
@@ -188,7 +189,7 @@ class Article(db.Model):
             return Message(error="No se pudo actualizar el articulo siguiente por que no existe")
         article.next= uuidNext
         date= datetime.datetime.now()
-        date=date.astimezone(datetime.timezone.utc)
+        date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
         article.dateOfUpdate=strDate
         db.session.merge(article)
@@ -204,7 +205,7 @@ class Article(db.Model):
             return Message(error="No se pudo actualizar el articulo por que no existe")
         article.started=1
         date= datetime.datetime.now()
-        date=date.astimezone(datetime.timezone.utc)
+        date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
         article.dateOfUpdate=strDate
         db.session.merge(article)
@@ -220,7 +221,7 @@ class Article(db.Model):
             return Message(error="No se pudo actualizar el articulo por que no existe")
         article.finished=1
         date= datetime.datetime.now()
-        date=date.astimezone(datetime.timezone.utc)
+        date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
         article.dateOfUpdate=strDate
         db.session.merge(article)
@@ -235,15 +236,14 @@ class Article(db.Model):
         article= cls.query.filter_by(uuid=uuid,removed=0).first()
         if(not article):
             return Message(error="No se pudo actualizar el articulo por que no existe")
-        if(value- article.bidValue)>= article.minStepValue:
+        if article.bidValue and (value- article.bidValue)< article.minStepValue:
             return Message(error="La diferencia con la puja mas alta anterior es menor a lo permitido")
         date= datetime.datetime.now()
-        date=date.astimezone(datetime.timezone.utc)
+        date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
         article.maxBid=uuidBid
         article.bidValue=value
         article.dateOfUpdate=strDate
-        db.session.merge(article)
         db.session.commit()
         art=A(article)
         db.session.close()

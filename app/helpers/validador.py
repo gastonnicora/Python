@@ -59,6 +59,12 @@ class Validador(object):
 
     def _string(self, field):
         data= self.data.get(field)
+        data2= data
+        if isinstance(data, str) and data:
+            data2=data.strip()
+        if not (data2 != None and data2 !="" and data2 != [] and data2 !={}):
+            return
+        date_format = self
         if not (isinstance(data, str)):
             self._logError(field,"type")
     
@@ -92,6 +98,12 @@ class Validador(object):
 
     def _date(self, field):
         data= self.data.get(field)
+
+        data2= data
+        if isinstance(data, str) and data:
+            data2=data.strip()
+        if not (data2 != None and data2 !="" and data2 != [] and data2 !={}):
+            return
         date_format = self.DB.get("fields").get(field).get("format")
         date_obj = None
         try:
@@ -107,6 +119,11 @@ class Validador(object):
     
     def _repeat(self,field):
         data= self.data.get(field)
+        data2= data
+        if isinstance(data, str) and data:
+            data2=data.strip()
+        if not (data2 != None and data2 !="" and data2 != [] and data2 !={}):
+            return
         field1=self.DB.get("fields").get(field).get("property").get("repeat")["repetition"]
         data1= self.data.get(field1)
         if isinstance(data, str) :
@@ -116,6 +133,11 @@ class Validador(object):
     def _maxLength(self, field):
         max= self.DB.get("fields").get(field).get("property")["max length"]["value"]
         data= self.data.get(field)
+        data2= data
+        if isinstance(data, str) and data:
+            data2=data.strip()
+        if not (data2 != None and data2 !="" and data2 != [] and data2 !={}):
+            return
         if isinstance(data, str) and data:
             if not(len(data) < max  ):
                 self._logError(field,"max length")
@@ -123,6 +145,11 @@ class Validador(object):
     def _minLength(self, field):
         min= self.DB.get("fields").get(field).get("property")["min length"]["value"]
         data= self.data.get(field)
+        data2= data
+        if isinstance(data, str) and data:
+            data2=data.strip()
+        if not (data2 != None and data2 !="" and data2 != [] and data2 !={}):
+            return
         if isinstance(data, str)  :
             if not( len(data) > min ):
                 self._logError(field,"min length")
@@ -130,6 +157,11 @@ class Validador(object):
     def _max(self, field):
         max= self.DB.get("fields").get(field).get("property")["max"]["value"]
         data= self.data.get(field)
+        data2= data
+        if isinstance(data, str) and data:
+            data2=data.strip()
+        if not (data2 != None and data2 !="" and data2 != [] and data2 !={}):
+            return
         if isinstance(data, int) :
             if not ( data < max ):
                 self._logError(field,"max")
@@ -137,6 +169,11 @@ class Validador(object):
     def _min(self, field):
         min= self.DB.get("fields").get(field).get("property")["min"]["value"]
         data= self.data.get(field)
+        data2= data
+        if isinstance(data, str) and data:
+            data2=data.strip()
+        if not (data2 != None and data2 !="" and data2 != [] and data2 !={}):
+            return
         if isinstance(data, int):
             if not ( data > min ):
                 self._logError(field,"min")
@@ -144,6 +181,11 @@ class Validador(object):
     def _maxDate(self, field):
         max= self.DB.get("fields").get(field).get("property")["max date"]["value"]
         data= self.data.get(field)
+        data2= data
+        if isinstance(data, str) and data:
+            data2=data.strip()
+        if not (data2 != None and data2 !="" and data2 != [] and data2 !={}):
+            return
         date_format = self.DB.get("fields").get(field).get("format")
         date_obj = None
         try:
@@ -165,6 +207,11 @@ class Validador(object):
     def _minDate(self, field):
         min= self.DB.get("fields").get(field).get("property")["min date"]["value"]
         data= self.data.get(field)
+        data2= data
+        if isinstance(data, str) and data:
+            data2=data.strip()
+        if not (data2 != None and data2 !="" and data2 != [] and data2 !={}):
+            return
         date_format = self.DB.get("fields").get(field).get("format")
         date_obj = None
         try:
