@@ -45,8 +45,12 @@ def delete(session,uuid):
 
 @token_required_celery
 def start(uuid):
-    return Article.setStarted(uuid)
+    sms= Article.setStarted(uuid)
+    return jsonify(sms.dump()),sms.cod
 
 @token_required_celery
 def finish(uuid):
-    return Article.setFinished(uuid)
+    sms= Article.setFinished(uuid)
+    return jsonify(sms.dump()),sms.cod
+
+

@@ -223,7 +223,7 @@
         "model": true
       },
       "dateOfCreate": {
-        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
+        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (23/01/2024T12:29:31-0300)",
         "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
@@ -243,11 +243,11 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "01/01/2013T11:30:00+04:00",
+        "example": "23/01/2024T12:29:31-0300",
         "model": true
       },
       "dateOfUpdate": {
-        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
+        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (23/01/2024T12:29:31-0300)",
         "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
@@ -267,7 +267,7 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "01/01/2013T11:30:00+04:00",
+        "example": "23/01/2024T12:29:31-0300",
         "model": true
       },
       "terms": {
@@ -414,7 +414,7 @@
         "model": true
       },
       "dateOfCreate": {
-        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
+        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (23/01/2024T12:29:31-0300)",
         "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
@@ -434,7 +434,7 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "01/01/2013T11:30:00+04:00",
+        "example": "23/01/2024T12:29:31-0300",
         "model": true
       }
     },
@@ -564,7 +564,7 @@
         "model": true
       },
       "dateOfCreate": {
-        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
+        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (23/01/2024T12:29:31-0300)",
         "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
@@ -584,16 +584,16 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "01/01/2013T11:30:00+04:00",
+        "example": "23/01/2024T12:29:31-0300",
         "model": true
       },
       "dateOfUpdate": {
-        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
+        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (23/01/2024T12:29:31-0300)",
         "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
             "value": "date",
-            "error": "Debe introducir una fecha valida con el formato: %d/%m/%YT%H:%M:%S%z (01/01/2013T11:30:00+04:00)"
+            "error": "Debe introducir una fecha valida con el formato: %d/%m/%YT%H:%M:%S%z (23/01/2024T12:29:31-0300)"
           },
           "max length": {
             "value": 11,
@@ -608,7 +608,7 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "01/01/2013T11:30:00+04:00",
+        "example": "23/01/2024T12:29:31-0300",
         "model": true
       }
     },
@@ -714,7 +714,7 @@
         "model": true
       },
       "dateOfCreate": {
-        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
+        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (23/01/2024T12:29:31-0300)",
         "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
@@ -734,11 +734,11 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "01/01/2013T11:30:00+04:00",
+        "example": "23/01/2024T12:29:31-0300",
         "model": true
       },
       "dateOfUpdate": {
-        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
+        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (23/01/2024T12:29:31-0300)",
         "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
@@ -758,7 +758,7 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "01/01/2013T11:30:00+04:00",
+        "example": "23/01/2024T12:29:31-0300",
         "model": true
       }
     },
@@ -921,7 +921,7 @@
         "model": true
       },
       "dateOfCreate": {
-        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
+        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (23/01/2024T12:29:31-0300)",
         "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
@@ -941,11 +941,11 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "01/01/2013T11:30:00+04:00",
+        "example": "23/01/2024T12:29:31-0300",
         "model": true
       },
       "dateOfUpdate": {
-        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
+        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (23/01/2024T12:29:31-0300)",
         "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
@@ -965,7 +965,7 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "01/01/2013T11:30:00+04:00",
+        "example": "23/01/2024T12:29:31-0300",
         "model": true
       }
     },
@@ -1119,7 +1119,7 @@
         "model": true
       },
       "dateOfCreate": {
-        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
+        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (23/01/2024T12:29:31-0300)",
         "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
@@ -1139,11 +1139,11 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "01/01/2013T11:30:00+04:00",
+        "example": "23/01/2024T12:29:31-0300",
         "model": true
       },
       "dateOfUpdate": {
-        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
+        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (23/01/2024T12:29:31-0300)",
         "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
@@ -1163,7 +1163,7 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "01/01/2013T11:30:00+04:00",
+        "example": "23/01/2024T12:29:31-0300",
         "model": true
       }
     },
@@ -1271,7 +1271,7 @@
         "model": true
       },
       "dateOfCreate": {
-        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
+        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (23/01/2024T12:29:31-0300)",
         "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
@@ -1291,11 +1291,11 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "01/01/2013T11:30:00+04:00",
+        "example": "23/01/2024T12:29:31-0300",
         "model": true
       },
       "dateOfUpdate": {
-        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
+        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (23/01/2024T12:29:31-0300)",
         "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
@@ -1315,7 +1315,7 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "01/01/2013T11:30:00+04:00",
+        "example": "23/01/2024T12:29:31-0300",
         "model": true
       }
     },
@@ -1423,12 +1423,12 @@
         "model": true
       },
       "dateStart": {
-        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
+        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (23/01/2024T12:29:31-0300)",
         "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
             "value": "date",
-            "error": "Debe introducir una fecha valida con el formato: %d/%m/%YT%H:%M:%S%z (01/01/2013T11:30:00+04:00)"
+            "error": "Debe introducir una fecha valida con el formato: %d/%m/%YT%H:%M:%S%z (23/01/2024T12:29:31-0300)"
           },
           "min date": {
             "value": "now",
@@ -1440,7 +1440,7 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "01/01/2013T11:30:00+04:00",
+        "example": "23/01/2024T12:29:31-0300",
         "model": true
       },
 
@@ -1468,7 +1468,7 @@
         "model": true
       },
       "dateOfCreate": {
-        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
+        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (23/01/2024T12:29:31-0300)",
         "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
@@ -1488,16 +1488,16 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "01/01/2013T11:30:00+04:00",
+        "example": "23/01/2024T12:29:31-0300",
         "model": true
       },
       "dateOfUpdate": {
-        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
+        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (23/01/2024T12:29:31-0300)",
         "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
             "value": "date",
-            "error": "Debe introducir una fecha valida con el formato: %d/%m/%YT%H:%M:%S%z (01/01/2013T11:30:00+04:00)"
+            "error": "Debe introducir una fecha valida con el formato: %d/%m/%YT%H:%M:%S%z (23/01/2024T12:29:31-0300)"
           },
           "max length": {
             "value": 11,
@@ -1512,7 +1512,7 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "01/01/2013T11:30:00+04:00",
+        "example": "23/01/2024T12:29:31-0300",
         "model": true
       }
     },
@@ -1861,31 +1861,31 @@
         "model": true
       },
       "dateOfFinish": {
-        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
+        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (23/01/2024T12:29:31-0300)",
         "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
             "value": "date",
-            "error": "Debe introducir una fecha valida con el formato: %d/%m/%YT%H:%M:%S%z (01/01/2013T11:30:00+04:00)"
+            "error": "Debe introducir una fecha valida con el formato: %d/%m/%YT%H:%M:%S%z (23/01/2024T12:29:31-0300)"
           }
         },
-        "example": "01/01/2013T11:30:00+04:00",
+        "example": "23/01/2024T12:29:31-0300",
         "model": true
       },
       "dateOfStart": {
-        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
+        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (23/01/2024T12:29:31-0300)",
         "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
             "value": "date",
-            "error": "Debe introducir una fecha valida con el formato: %d/%m/%YT%H:%M:%S%z (01/01/2013T11:30:00+04:00)"
+            "error": "Debe introducir una fecha valida con el formato: %d/%m/%YT%H:%M:%S%z (23/01/2024T12:29:31-0300)"
           }
         },
-        "example": "01/01/2013T11:30:00+04:00",
+        "example": "23/01/2024T12:29:31-0300",
         "model": true
       },
       "dateOfCreate": {
-        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
+        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (23/01/2024T12:29:31-0300)",
         "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
@@ -1905,23 +1905,23 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "01/01/2013T11:30:00+04:00",
+        "example": "23/01/2024T12:29:31-0300",
         "model": true
       },
       "dateOfUpdate": {
-        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
+        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (23/01/2024T12:29:31-0300)",
         "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
             "value": "date",
-            "error": "Debe introducir una fecha valida con el formato: %d/%m/%YT%H:%M:%S%z (01/01/2013T11:30:00+04:00)"
+            "error": "Debe introducir una fecha valida con el formato: %d/%m/%YT%H:%M:%S%z (23/01/2024T12:29:31-0300)"
           },
           "required": {
             "value": true,
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "01/01/2013T11:30:00+04:00",
+        "example": "23/01/2024T12:29:31-0300",
         "model": true
       }
     },
@@ -2070,7 +2070,7 @@
         "model": true
       },
       "dateOfCreate": {
-        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
+        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (23/01/2024T12:29:31-0300)",
         "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
@@ -2090,16 +2090,16 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "01/01/2013T11:30:00+04:00",
+        "example": "23/01/2024T12:29:31-0300",
         "model": true
       },
       "dateOfUpdate": {
-        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (01/01/2013T11:30:00+04:00)",
+        "description": "Formato dia/mes/añoThora:minutos:segundosUTC (23/01/2024T12:29:31-0300)",
         "format": "%d/%m/%YT%H:%M:%S%z",
         "property": {
           "type": {
             "value": "date",
-            "error": "Debe introducir una fecha valida con el formato: %d/%m/%YT%H:%M:%S%z (01/01/2013T11:30:00+04:00)"
+            "error": "Debe introducir una fecha valida con el formato: %d/%m/%YT%H:%M:%S%z (23/01/2024T12:29:31-0300)"
           },
           "max length": {
             "value": 11,
@@ -2114,7 +2114,7 @@
             "error": "Debe introducir una fecha"
           }
         },
-        "example": "01/01/2013T11:30:00+04:00",
+        "example": "23/01/2024T12:29:31-0300",
         "model": true
       }
     },

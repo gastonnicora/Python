@@ -6,20 +6,20 @@ class Article():
             cls.auction= data.auction
             cls.dateOfCreate=data.dateOfCreate
             cls.dateOfUpdate=data.dateOfUpdate
-            cls.before= data.get("before")
-            cls.next= data.get("next")
-            cls.maxBid= data.get("maxBid")
+            cls.before= data.before
+            cls.next= data.next
+            cls.maxBid= data.maxBid
             cls.description= data.description
             cls.started= data.started
             cls.finished = data.finished
             cls.removed= data.removed
-            cls.dateOfStart= data.get("dateOfStart")
-            cls.dateOfFinish= data.get("dateOfFinish")
-            cls.timeAfterBid= data.get("timeAfterBid")
+            cls.dateOfStart= data.dateOfStart
+            cls.dateOfFinish= data.dateOfFinish
+            cls.timeAfterBid= data.timeAfterBid
             cls.tipe= data.tipe
-            cls.minValue= data.get("minValue")
-            cls.minStepValue= data.get("minStepValue")
-            cls.bidValue= data.get("bidValue")
+            cls.minValue= data.minValue
+            cls.minStepValue= data.minStepValue
+            cls.bidValue= data.bidValue
 
         if lista:
             listado=[]

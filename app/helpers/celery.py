@@ -1,3 +1,4 @@
+import json
 from flask import request, jsonify
 import jwt
 from os import environ
@@ -27,6 +28,7 @@ def login():
     link,r= url(celery)
     if r== 404:
         return jsonify({"error":"La url esta mal o el servidor desconectado"}),404  
+    Celery().setLink(link)
     headers = {'Referer': request.headers.get("Host"),"X-Access-Tokens":token}
     r=R.get(link+"/login",headers=headers)
 
@@ -34,12 +36,26 @@ def login():
 def deleteConfirm(uuid):
     if Celery()._uuid== None:
         login()
-    link,code= url(celery)
-    if(code==404):
-        return jsonify({"error":"La url esta mal o el servidor desconectado"}),404
-    
+    link= Celery().getLink()
     headers = {'Referer': request.headers.get("Host")}
     r=R.get(link+"/deleteConfirm/"+uuid,headers=headers)
+
+def finishedArticle(uuid,time):
+    if Celery()._uuid== None:
+        login()
+    link= Celery().getLink()
+    headers = {'Referer': request.headers.get("Host")}
+    data= {"article":uuid,"time":time}
+    r=R.post(link+"/finishedArticle",headers=headers,json=data)
+
+
+def startedArticle(uuid,time):
+    if Celery()._uuid== None:
+        login()
+    link= Celery().getLink()
+    headers = {'Referer': request.headers.get("Host")}
+    data= {"article":uuid,"time":time}
+    r=R.post(link+"/startedArticle",headers=headers,json=data)
 
 
 
@@ -48,6 +64,7 @@ def deleteConfirm(uuid):
 class Celery:
     _instance = None
     _uuid=None
+    _link=None
 
     def __new__(cls):
         if cls._instance is None:
@@ -62,3 +79,9 @@ class Celery:
     
     def setUuid(cls, uuid):
         cls._uuid=uuid
+
+    def setLink(cls,link):
+        cls._link= link
+    
+    def getLink(cls):
+        return cls._link
