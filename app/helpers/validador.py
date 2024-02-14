@@ -2,6 +2,23 @@ import datetime
 from datetime import timezone
 import os, json
 from app.helpers.message import Message
+from functools import wraps
+from flask import jsonify, request
+
+def validate_request(nameDB, nameUrl):
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            data = request.get_json()  
+            validator = Validador(nameDB, nameUrl, data)
+            if validator.haveError:
+                return jsonify(validator.errors().dump()),validator.errors().cod
+            return func(*args, **kwargs)
+
+        return wrapper
+
+    return decorator
+
 class Validador(object):
     def __init__(self, nameDB, nameUrl, data):
         self.data = data
@@ -237,16 +254,20 @@ class Validador(object):
            self._logError(field,"required")
         
            
-
-
 class EndPoint(object):
+    _json_data = None
+
     @classmethod
     def json(cls):
+        if cls._json_data is None:
+            cls._json_data = cls._load_json()
+        return cls._json_data
+
+    @classmethod
+    def _load_json(cls):
         script_dir = os.path.dirname(__file__)
         rel_path = "../endpoint.json"
         abs_file_path = os.path.join(script_dir, rel_path)
 
-        currentFile = open(abs_file_path)
-        data = json.load(currentFile)
-        currentFile.close()
-        return data
+        with open(abs_file_path, 'r') as file:
+            return json.load(file)

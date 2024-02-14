@@ -2,7 +2,9 @@ from flask import jsonify,  request, abort
 from app.models.user import User
 from app.helpers.message import Message
 from app.models.confirmEmail import ConfirmEMail
+from app.helpers.validador import validate_request
 
+@validate_request("ConfirmarEmail","confirmEmail")
 def confirm(uuid): 
     sms=ConfirmEMail.get(uuid)
     if(sms.error):
@@ -17,6 +19,7 @@ def index():
     sms = ConfirmEMail.all()
     return jsonify(sms.dump()),sms.cod
 
+@validate_request("ConfirmarEmail","get_confirmEmail")
 def get(uuid):
     sms= ConfirmEMail.get(uuid)
     return jsonify(sms.dump()),sms.cod

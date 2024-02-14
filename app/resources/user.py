@@ -3,16 +3,14 @@ import jwt
 from os import environ
 from app.models.user import User
 from app.helpers.message import Message
-from app.helpers.validador import Validador
+from app.helpers.validador import validate_request, Validador
 from app.models.confirmEmail import ConfirmEMail
 from app.helpers.sendEmail import sendEmail
 from app.helpers.token import token_required
 from app.helpers.sessions import Sessions
 
+@validate_request("Usuarios","userCreate")
 def create(): 
-    v= Validador("Usuarios","userCreate",request.get_json())
-    if v.haveError:
-        return jsonify(v.errors().dump()),v.errors().cod
     sms=User.create(request.get_json())
     if sms.error:
         return jsonify(sms.dump()),sms.cod
@@ -33,6 +31,7 @@ def create():
 def index(session):
     sms = User.all()
     return jsonify(sms.dump()),sms.cod
+
 
 def login():
     token = request.headers['x-access-tokens']
@@ -63,15 +62,14 @@ def logout(current_user):
     return jsonify(sms.dump()),sms.cod
     
 @token_required
+@validate_request("Usuarios","user")
 def get(session,uuid):
     sms= User.get(uuid)
     return jsonify(sms.dump()),sms.cod
 
 @token_required
+@validate_request("Usuarios","userUpdate")
 def update(session): 
-    v= Validador("Usuarios","userUpdate",request.get_json())
-    if v.haveError:
-        return jsonify(v.errors().dump()),v.errors().cod
     sms=User.update(session["uuid"],request.get_json())
     aux=User.get(request.get_json().get("uuid")).content
     if sms.error:
@@ -86,14 +84,13 @@ def update(session):
         return jsonify(sms.dump()),sms.cod
 
 @token_required 
+@validate_request("Usuarios","userDelete")
 def delete(session,uuid):
     sms= User.delete(uuid)
     return jsonify(sms.dump()),sms.cod
 
 @token_required
+@validate_request("Usuarios","userUpdatePassword")
 def updatePassword(session):
-    v= Validador("Usuarios","userUpdatePassword",request.get_json())
-    if v.haveError:
-        return jsonify(v.errors().dump()),v.errors().cod
     sms=User.updatePassword(request.get_json())
     return jsonify(sms.dump()),sms.cod

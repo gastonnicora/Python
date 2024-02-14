@@ -1,13 +1,11 @@
 from flask import request, jsonify
-from app.helpers.validador import Validador
+from app.helpers.validador import validate_request
 from app.models.permission import Permission
 from app.helpers.token import token_required
 
 @token_required
+@validate_request("Permisos","permissionCreate")
 def create(current_user): 
-    v= Validador("Permisos","permissionCreate",request.get_json())
-    if v.haveError:
-        return jsonify(v.errors().dump()),v.errors().cod
     sms=Permission.create(request.get_json(),current_user["uuid"])
     return jsonify(sms.dump()),sms.cod
 
@@ -17,19 +15,19 @@ def index(session):
     return jsonify(sms.dump()),sms.cod
 
 @token_required
+@validate_request("Permisos","permission")
 def get(session,uuid):
     sms=Permission.get(uuid)
     return jsonify(sms.dump()),sms.cod
 
 @token_required
+@validate_request("Permisos","permissionUpdate")
 def update(session): 
-    v= Validador("Permisos","permissionUpdate",request.get_json())
-    if v.haveError:
-        return jsonify(v.errors().dump()),v.errors().cod
     sms=Permission.update(request.get_json())
     return jsonify(sms.dump()),sms.cod
 
 @token_required 
+@validate_request("Permisos","permissionDelete")
 def delete(session,uuid):
     sms= Permission.delete(uuid)
     return jsonify(sms.dump()),sms.cod

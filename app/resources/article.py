@@ -1,14 +1,13 @@
 from flask import request, jsonify
-from app.helpers.validador import Validador
+from app.helpers.validador import validate_request
 from app.models.article import Article
 from app.helpers.token import token_required
 from app.helpers.tokenCelery import token_required_celery
 
+
 @token_required
+@validate_request("Articulos","articleCreate")
 def create(current_user): 
-    v= Validador("Articulos","articleCreate",request.get_json())
-    if v.haveError:
-        return jsonify(v.errors().dump()),v.errors().cod
     sms=Article.create(request.get_json())
     return jsonify(sms.dump()),sms.cod
 
@@ -16,19 +15,19 @@ def index():
     sms = Article.all()
     return jsonify(sms.dump()),sms.cod
 
+@validate_request("Articulos","article")
 def get(uuid):
     sms=Article.get(uuid)
     return jsonify(sms.dump()),sms.cod
 
 @token_required
+@validate_request("Articulos","articleUpdate")
 def update(session): 
-    v= Validador("Articulos","articleUpdate",request.get_json())
-    if v.haveError:
-        return jsonify(v.errors().dump()),v.errors().cod
     sms=Article.update(request.get_json())
     return jsonify(sms.dump()),sms.cod
 
 @token_required 
+@validate_request("Articulos","articleDelete")
 def delete(session,uuid):
     article= Article.get(uuid)
     sms= Article.delete(uuid)

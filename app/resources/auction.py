@@ -1,17 +1,14 @@
 import datetime
 from flask import request, jsonify
-from app.helpers.validador import Validador
 from app.models.auction import Auction
 from app.helpers.token import token_required
 from app.helpers.tokenCelery import token_required_celery
 from app.helpers.celery import startedAuction
+from app.helpers.validador import validate_request
 
 @token_required
+@validate_request("Remates","auctionCreate")
 def create(current_user): 
-    v= Validador("Remates","auctionCreate",request.get_json())
-    if v.haveError:
-        return jsonify(v.errors().dump()),v.errors().cod
-    
     sms=Auction.create(request.get_json())
     auc=sms.content
     date_format="%d/%m/%YT%H:%M:%S%z"
@@ -44,6 +41,7 @@ def allNotStarted():
     return jsonify(sms.dump()),sms.cod
 
 
+@validate_request("Remates","auction")
 def get(uuid):
     sms=Auction.get(uuid)
     return jsonify(sms.dump()),sms.cod
@@ -60,10 +58,8 @@ def finished(uuid):
     return jsonify(sms.dump()),sms.cod
 
 @token_required
+@validate_request("Remates","auctionUpdate")
 def update(session): 
-    v= Validador("Remates","auctionUpdate",request.get_json())
-    if v.haveError:
-        return jsonify(v.errors().dump()),v.errors().cod
     sms=Auction.update(request.get_json())
     auc=sms.content
     date_format="%d/%m/%YT%H:%M:%S%z"
@@ -76,6 +72,7 @@ def update(session):
     return jsonify(sms.dump()),sms.cod
 
 @token_required 
+@validate_request("Remates","auctionDelete")
 def delete(session,uuid):
     sms= Auction.delete(uuid)
     return jsonify(sms.dump()),sms.cod
