@@ -1583,14 +1583,6 @@
         "fields": ["company", "description", "dateStart", "uuid"],
         "requiredSession": true
       },
-      "auctionFinished": {
-        "url": "/auctionsFinished",
-        "method": "GET",
-        "description": "Terminar un remate por su uuid. Es get por como esta configurado el template de la api.",
-        "explanation": "",
-        "fields": ["uuid"],
-        "requiredSession": true
-      },
       "auctionDelete": {
         "url": "/auctionDelete",
         "method": "DELETE",

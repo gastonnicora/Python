@@ -58,6 +58,14 @@ def startedArticle(uuid,time):
     r=R.post(link+"/startedArticle",headers=headers,json=data)
 
 
+def startedAuction(uuid,time):
+    if Celery()._uuid== None:
+        login()
+    link= Celery().getLink()
+    headers = {'Referer': request.headers.get("Host")}
+    data= {"article":uuid,"time":time}
+    r=R.post(link+"/startedAuction",headers=headers,json=data)
+
 
 
 
