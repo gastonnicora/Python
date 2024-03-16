@@ -92,7 +92,6 @@ def create_app(environment="development"):
                      employee.getByCompany)
     app.add_url_rule("/employeeCreate", "employeeCreate",
                      employee.create, methods=["POST"])
-    app.add_url_rule("/employeeUpdate", "employeeUpdate", employee.update, methods=["PUT"])
     app.add_url_rule("/employeeDelete/<string:uuid>", "employeeDelete", employee.delete, methods=["DELETE"])
     app.add_url_rule("/employeeDeleteByUser/<string:uuid>", "employeeDeleteByUser", employee.delete, methods=["DELETE"])
     app.add_url_rule("/employeeDeleteByCompany/<string:uuid>", "employeeDeleteByCompany", employee.delete, methods=["DELETE"])
@@ -121,7 +120,6 @@ def create_app(environment="development"):
                      employeePermissions.get)
     app.add_url_rule("/employeePermissionsCreate", "employeePermissionsCreate",
                      employeePermissions.create, methods=["POST"])
-    app.add_url_rule("/employeePermissionsUpdate", "employeePermissionsUpdate",employeePermissions.update, methods=["PUT"])
     app.add_url_rule("/employeePermissionsDelete/<string:uuid>", "employeePermissionsDelete", employeePermissions.delete, methods=["DELETE"])
 
     #CRUD Auctions

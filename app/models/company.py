@@ -46,6 +46,9 @@ class Company(db.Model):
         date= datetime.datetime.now()
         date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
+        sms=  User.get(userUuid)
+        if sms.dump()["error"]:
+            return Message(error="No se puede crear la compañía por que no existe el usuario")
         company= cls(
                 owner=userUuid,
                 name= data.get("name"),

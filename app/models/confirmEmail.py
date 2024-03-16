@@ -30,6 +30,9 @@ class ConfirmEMail(db.Model):
         date= datetime.datetime.now()
         date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
+        sms=  User.get(user)
+        if sms.dump()["error"]:
+            return Message(error="No se puede guardar confirmación por que no existe el usuario")
         confirm= cls(
                 user=user,
                 dateOfCreate= strDate

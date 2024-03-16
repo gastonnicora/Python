@@ -89,9 +89,14 @@ class Article(db.Model):
         date= datetime.datetime.now()
         date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
+        sms=  Auction.get(data.get("auction"))
+        if sms.dump()["error"]:
+            return Message(error="No se puede guardar el articulo por que no existe el remate")
+        
+        before= cls.query.filter_by(uuid=data.get("before"),removed=0).first() or None
         article= cls(
                 auction= data.get("auction"),
-                before= data.get("before"),
+                before= before,
                 description= data.get("description"),
                 dateOfStart= data.get("dateOfStart"),
                 dateOfFinish=data.get("dateOfFinish"),
@@ -146,6 +151,9 @@ class Article(db.Model):
         article=cls.query.filter_by(uuid=data["uuid"], removed=0).first()
         if(not article):
             return Message(error="No se pudo actualizar el articulo por que no existe")
+        sms=  Auction.get(data.get("auction"))
+        if sms.dump()["error"]:
+            return Message(error="No se puede actualizar el articulo por que no existe el remate")
         article.description=data.get("description")
         article.dateOfStart= data.get("dateOfStart")
         article.dateOfFinish= data.get("dateOfFinish")

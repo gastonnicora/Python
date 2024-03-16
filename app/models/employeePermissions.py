@@ -38,6 +38,12 @@ class EmployeePermissions(db.Model):
         date= datetime.datetime.now()
         date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
+        sms=  Employee.get(data.get("employee"))
+        if sms.dump()["error"]:
+            return Message(error="No se puede crear la relación empleado/permisos por que no existe el empleado")
+        sms=  Permission.get(data.get("permission"))
+        if sms.dump()["error"]:
+            return Message(error="No se puede crear la relación empleado/permisos por que no existe el permiso")
         employeePermissions= cls(
                 employee= data.get("employee"),
                 permission= data.get("permission"),
@@ -75,20 +81,5 @@ class EmployeePermissions(db.Model):
         db.session.close()
         return Message(content="Relación permiso/empleado  eliminado correctamente")
 
-    @classmethod
-    def update(cls, data):
-        date= datetime.datetime.now()
-        date=date.astimezone(zona_horaria)
-        strDate= date.strftime(date_format)
-        employeePermissions=cls.query.filter_by(uuid=data["uuid"]).first()
-        if(not employeePermissions):
-            return Message(error="No se pudo actualizar el permiso por que no existe")
-        employeePermissions.employee=data.get("employee")
-        employeePermissions.permission= data.get("permission")
-        employeePermissions.dateOfUpdate=strDate
-        db.session.merge(employeePermissions)
-        db.session.commit()
-        rol= R(employeePermissions)
-        db.session.close()
-        return Message(content=rol)
+    
         

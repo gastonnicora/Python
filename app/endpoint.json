@@ -803,14 +803,7 @@
         "fields": ["user", "company"],
         "requiredSession": true
       },
-      "employeeUpdate": {
-        "url": "/employeeUpdate",
-        "method": "PUT",
-        "description": "Actualiza los datos de una relación empleado/empresa",
-        "explanation": "Actualiza los datos de una relación empleado/empresa. ",
-        "fields": ["uuid", "user", "company"],
-        "requiredSession": true
-      },
+      
       "employeeDelete": {
         "url": "/employeeDelete",
         "method": "DELETE",
@@ -1342,14 +1335,6 @@
         "description": "Obtener una relación permiso/empleado por su uuid",
         "explanation": "",
         "fields": ["uuid"],
-        "requiredSession": true
-      },
-      "employeePermissionsUpdate": {
-        "url": "/employeePermissionsUpdate",
-        "method": "PUT",
-        "description": "Modificar una relación permiso/empleado por su uuid",
-        "explanation": "",
-        "fields": ["employee", "permission", "uuid"],
         "requiredSession": true
       },
       "employeePermissionsDelete": {

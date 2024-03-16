@@ -20,11 +20,6 @@ def get(session,uuid):
     sms=EmployeePermissions.get(uuid)
     return jsonify(sms.dump()),sms.cod
 
-@token_required
-@validate_request("PermisosDeEmpleado","employeePermissionsUpdate")
-def update(session): 
-    sms=EmployeePermissions.update(request.get_json())
-    return jsonify(sms.dump()),sms.cod
 
 @token_required 
 @validate_request("PermisosDeEmpleado","employeePermissionsDelete")

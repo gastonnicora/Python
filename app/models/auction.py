@@ -52,6 +52,10 @@ class Auction(db.Model):
         date= datetime.datetime.now()
         date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
+        sms=  Company.get(data.get("company"))
+        if sms.dump()["error"]:
+            return Message(error="No se puede guardar el remate por que no existe la compañía")
+        
         auction= cls(
                 company=data.get("company"),
                 description= data.get("description"),
@@ -151,6 +155,9 @@ class Auction(db.Model):
         date= datetime.datetime.now()
         date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
+        sms=  Company.get(data.get("company"))
+        if sms.dump()["error"]:
+            return Message(error="No se puede actualizar el remate por que no existe la compañía")
         auction=cls.query.filter_by(uuid=data["uuid"], removed=0).first()
         if(not auction):
             return Message(error="No se pudo actualizar el remate por que no existe")

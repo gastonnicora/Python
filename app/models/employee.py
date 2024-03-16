@@ -21,11 +21,6 @@ class Employee(db.Model):
         ForeignKey(User.uuid),
         nullable= True
     ) 
-    user= db.Column(
-        db.String(255),
-        ForeignKey(User.uuid),
-        nullable= True
-    ) 
     company= db.Column(
         db.String(255),
         ForeignKey(Company.uuid),
@@ -51,6 +46,12 @@ class Employee(db.Model):
         date= datetime.datetime.now()
         date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
+        sms=  User.get(data.get("user"))
+        if sms.dump()["error"]:
+            return Message(error="No se puede crear el empleado por que no existe el usuario")
+        sms=  Company.get(data.get("company"))
+        if sms.dump()["error"]:
+            return Message(error="No se puede crear el empleado por que no existe la compañía")
         employee= cls(
                 user= data.get("user"),
                 company= data.get("company"),
@@ -131,22 +132,6 @@ class Employee(db.Model):
         db.session.close()
         return Message(content="Relaciones empleado/empresa eliminadas correctamente")
 
-    @classmethod
-    def update(cls, data):
-        date= datetime.datetime.now()
-        date=date.astimezone(zona_horaria)
-        strDate= date.strftime(date_format)
-        employee=cls.query.filter_by(uuid=data["uuid"], removed=0).first()
-        if(not employee):
-            return Message(error="No se pudo actualizar la relación empleado/empresa por que no existe")
-        employee.name=data.get("name")
-        employee.address= data.get("address")
-        employee.dateOfUpdate=strDate
-        db.session.merge(employee)
-        db.session.commit()
-        c= C(employee)
-        db.session.close()
-        return Message(content=c)
     
     
         

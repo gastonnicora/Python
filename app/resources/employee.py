@@ -32,11 +32,7 @@ def getByCompany(session,uuid):
     sms=Employee.getByCompany(uuid)
     return jsonify(sms.dump()),sms.cod
 
-@token_required
-@validate_request("Empleados","employeeUpdate")
-def update(session): 
-    sms=Employee.update(request.get_json())
-    return jsonify(sms.dump()),sms.cod
+
 
 @token_required 
 @validate_request("Empleados","employeeDelete")
