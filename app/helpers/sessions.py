@@ -11,7 +11,7 @@ class Sessions:
     def __new__(cls):
         if cls._instance is None:
             cls._instance = super().__new__(cls)
-            data= loadDict("Sessions")
+            data= loadDict("Sessions.pkl")
             if data:
                 cls._sessions= data["sessions"]  
                 cls._users= data["users"] 

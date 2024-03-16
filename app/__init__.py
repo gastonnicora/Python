@@ -185,10 +185,8 @@ def create_app(environment="development"):
         return jsonify({}),202
     
     def sessions():
-        saveDict(Sessions().toDict(),"Sessions")
-        saveDict(Celery().toDict(),"Celery")
-        print(Celery().toDict()) 
-        print("save")
+        saveDict(Sessions().toDict(),"Sessions.pkl")
+        saveDict(Celery().toDict(),"Celery.pkl")
 
     atexit.register(sessions)
     return app

@@ -79,9 +79,7 @@ class Celery:
     def __new__(cls):
         if cls._instance is None:
             cls._instance = super().__new__(cls)
-            data= loadDict("Celery")
-            print(data)
-            print("data cargata")
+            data= loadDict("Celery.pkl")
             if data:
                 cls._uuid= data["uuid"]  
                 cls._link= data["link"] 
