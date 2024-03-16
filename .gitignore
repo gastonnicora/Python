@@ -1,3 +1,6 @@
+Celery
+Sessions
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -5,6 +8,7 @@ __pycache__/
 
 com.txt
 pass.txt
+
 
 *.rdb
 # C extensions

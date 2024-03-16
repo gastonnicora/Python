@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+
+Celery
+Sessions
 com.txt
 pass.txt
 
