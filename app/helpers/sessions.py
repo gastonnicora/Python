@@ -1,5 +1,6 @@
 import uuid 
 import datetime
+from app.helpers.saveSession import loadDict
 
 class Sessions:
     _instance = None
@@ -10,10 +11,16 @@ class Sessions:
     def __new__(cls):
         if cls._instance is None:
             cls._instance = super().__new__(cls)
+            data= loadDict("Sessions")
+            if data:
+                cls._sessions= data["sessions"]  
+                cls._users= data["users"] 
+                cls._companies= data["companies"]
         return cls._instance
 
     def __init__(cls):
         cls.variable = "Soy un Singleton"
+       
     
     def addSession(cls,data):
         id= str(uuid.uuid4())
@@ -74,7 +81,12 @@ class Sessions:
         for i in uuidS:
             cls._sessions.pop(i)
         cls._users[uuid]=[]
-    
-    
 
-
+    def toDict(cls):
+        dict= {}
+        dict["sessions"]= cls._sessions
+        dict["users"]= cls._users
+        dict["companies"]= cls._companies
+        return dict
+         
+    

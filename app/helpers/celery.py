@@ -5,6 +5,8 @@ from os import environ
 from uuid import uuid4
 import requests as R   
 
+from app.helpers.saveSession import loadDict
+
 celery=environ.get("CELERY", "127.0.0.1:5000")
 
 def url(referer):
@@ -77,6 +79,12 @@ class Celery:
     def __new__(cls):
         if cls._instance is None:
             cls._instance = super().__new__(cls)
+            data= loadDict("Celery")
+            print(data)
+            print("data cargata")
+            if data:
+                cls._uuid= data["uuid"]  
+                cls._link= data["link"] 
         return cls._instance
 
     def __init__(cls):
@@ -93,3 +101,7 @@ class Celery:
     
     def getLink(cls):
         return cls._link
+    
+    def toDict(cls):
+        data={"uuid":cls._uuid,"link":cls._link}
+        return data 

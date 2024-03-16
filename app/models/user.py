@@ -76,7 +76,8 @@ class User(db.Model):
                 email= data.get("email"),
                 password = genph(data.get("password")), 
                 birthdate= data.get("birthdate"), 
-                dateOfCreate= strDate
+                dateOfCreate= strDate,
+                confirmEmail=1
                 
             )
         

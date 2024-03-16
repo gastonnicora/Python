@@ -5,6 +5,9 @@ from os import path, environ
 from config import config
 from app import db_config
 import os
+import atexit
+
+from uuid import uuid4
 
 from app.socket.socketio import socketio
 
@@ -21,8 +24,9 @@ from app.resources import employeePermissions
 from app.resources import auction
 from app.resources import article
 from app.resources import bid
-from uuid import uuid4
-
+from app.helpers.saveSession import saveDict
+from app.helpers.sessions import Sessions
+from app.helpers.celery import Celery
 
 def create_app(environment="development"):
 
@@ -179,4 +183,12 @@ def create_app(environment="development"):
     @app.route("/ping")  
     def ping():
         return jsonify({}),202
+    
+    def sessions():
+        saveDict(Sessions().toDict(),"Sessions")
+        saveDict(Celery().toDict(),"Celery")
+        print(Celery().toDict()) 
+        print("save")
+
+    atexit.register(sessions)
     return app
