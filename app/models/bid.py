@@ -8,6 +8,8 @@ from app.helpers.modelosPlanos.bid import Bid as B
 from app.models.article import Article
 from pytz import timezone
 
+from app.socket.socketio import emit_bid
+
 date_format = '%d/%m/%YT%H:%M:%S%z'
 zona_horaria= timezone("America/Argentina/Buenos_Aires")
 class Bid(db.Model):
@@ -65,10 +67,12 @@ class Bid(db.Model):
         db.session.commit()
         c= B(bid)
         db.session.close()
+        emit_bid({"value":data.get("value"), "room":data.get("article")})
         sms=Article.setMaxBid(data.get("article"),bid.uuid,data.get("value"))
         if(sms.cod != 202 ):
             return sms
         else: 
+
             return Message(content=c)
     
     @classmethod
