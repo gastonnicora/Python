@@ -10,18 +10,27 @@ socketio = SocketIO( cors_allowed_origins='*')
 users={}
 @socketio.on('connect')
 def test_connect():
-    emit('my_response', {'data': 'Connected'})
+    emit('coneccion', {'data': 'Connected'})
 
 @socketio.on('disconnect')
 def test_disconnect():
     users.pop(request.sid,'No user found')
     print('Client disconnected')
     print(users)
+
+@socketio.on('borrarUser')
+def disconnect(data):
+    users.pop(request.sid,'No user found')
+    print('Client disconnected')
+    print(users)
     
 @socketio.on('coneccion')
 def test_coneccion(data):
+    print("client connected")
+    print(users)
+    print(data)
     users[request.sid] = data
-
+ 
 @socketio.on('join')
 def on_join(data):
     room = data['room']
@@ -44,3 +53,4 @@ def emit_finish(room):
 
 def emit_start(room):
     emit('starthRoom/'+room, {'data': "finish"}, room= room)
+

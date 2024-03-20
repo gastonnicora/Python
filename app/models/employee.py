@@ -7,6 +7,7 @@ from app.models.company import Company
 import datetime
 from app.helpers.modelosPlanos.employee import Employee as C
 from pytz import timezone
+from sqlalchemy.orm import relationship
 
 date_format = '%d/%m/%YT%H:%M:%S%z'
 zona_horaria= timezone("America/Argentina/Buenos_Aires")
@@ -21,11 +22,14 @@ class Employee(db.Model):
         ForeignKey(User.uuid),
         nullable= True
     ) 
+    dataUser = relationship(User, foreign_keys=[user])
+    permissions= db.relationship('EmployeePermissions', backref="Employee", lazy=True)
     company= db.Column(
         db.String(255),
         ForeignKey(Company.uuid),
         nullable= True
     ) 
+    dataCompany = relationship(Company, foreign_keys=[company])
     removed =db.Column(
         db.Integer,
         nullable=True,

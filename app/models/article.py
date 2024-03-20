@@ -1,6 +1,7 @@
 from app.models.db import db
 from sqlalchemy.sql.schema import ForeignKey
 import uuid
+from sqlalchemy.orm import relationship
 from app.helpers.message import Message
 from app.models.auction import Auction
 import datetime
@@ -18,6 +19,7 @@ class Article(db.Model):
         ForeignKey(Auction.uuid),
         nullable= True
     ) 
+    dataAuction= relationship(Auction,foreign_keys=auction)
     before = db.Column(
         db.String(255),
         ForeignKey("article.uuid")
@@ -29,7 +31,8 @@ class Article(db.Model):
     maxBid= db.Column(
         db.String(255),
         ForeignKey("bid.uuid")
-    ) 
+    )
+    dataBid = relationship("Bid", foreign_keys=[maxBid])
     bidValue= db.Column(
         db.Integer
     )

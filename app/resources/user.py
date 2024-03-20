@@ -51,6 +51,7 @@ def login():
         else:
             uuid, session= Sessions().addSession(sms.dump()["content"])
             token = jwt.encode({'uuid':uuid}, environ.get("SECRET_KEY", "1234"), algorithm="HS256")
+ 
             return jsonify({"content":session,"token":token}),sms.cod
 
 @token_required

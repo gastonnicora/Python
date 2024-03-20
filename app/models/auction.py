@@ -7,6 +7,7 @@ from app.models.company import Company
 import datetime
 from app.helpers.modelosPlanos.auction import Auction as A
 from pytz import timezone
+from sqlalchemy.orm import relationship
 
 date_format = '%d/%m/%YT%H:%M:%S%z'
 zona_horaria= timezone("America/Argentina/Buenos_Aires")
@@ -19,6 +20,7 @@ class Auction(db.Model):
         ForeignKey(Company.uuid),
         nullable= True
     ) 
+    dataCompany = relationship(Company, foreign_keys=[company])
     description= db.Column(
         db.String(255),
         nullable= True

@@ -10,6 +10,8 @@ from app.helpers.validador import validate_request
 @validate_request("Remates","auctionCreate")
 def create(current_user): 
     sms=Auction.create(request.get_json())
+    if sms.dump()["error"]:
+        return jsonify(sms.dump()),sms.cod
     auc=sms.content
     date_format="%d/%m/%YT%H:%M:%S%z"
     d=  datetime.datetime.strptime(auc.dateStart, date_format)

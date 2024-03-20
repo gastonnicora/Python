@@ -1,4 +1,5 @@
 import json
+from app.helpers.modelosPlanos.user import User
 class Bid():
     def __init__(cls,data=None,lista:list=[]):
         if data: 
@@ -9,6 +10,7 @@ class Bid():
             cls.user= data.user
             cls.value= data.value
             cls.article= data.article
+            cls.dataUser= User(data.dataUser)
         if lista:
             listado=[]
             for i in lista:

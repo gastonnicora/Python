@@ -6,6 +6,7 @@ from app.models.user import User
 import datetime
 from app.helpers.modelosPlanos.company import Company as C
 from pytz import timezone
+from sqlalchemy.orm import relationship
 
 date_format = '%d/%m/%YT%H:%M:%S%z'
 zona_horaria= timezone("America/Argentina/Buenos_Aires")
@@ -18,6 +19,7 @@ class Company(db.Model):
         ForeignKey(User.uuid),
         nullable= True
     ) 
+    dataOwner = relationship(User, foreign_keys=[owner])
     name= db.Column(
         db.String(255),
         nullable=True

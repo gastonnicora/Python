@@ -1,4 +1,7 @@
 import json
+from app.helpers.modelosPlanos.user import User
+from app.helpers.modelosPlanos.company import Company
+from app.helpers.modelosPlanos.employeePermissions import EmployeePermissions
 class Employee():
     def __init__(cls,data=None,lista=None):
         if data: 
@@ -7,6 +10,9 @@ class Employee():
             cls.company=data.company
             cls.dateOfCreate=data.dateOfCreate
             cls.dateOfUpdate=data.dateOfUpdate
+            cls.dataUser= User(data.dataUser)
+            cls.dataCompany= Company(data.dataCompany)
+            cls.permissions= EmployeePermissions(lista=data.permissions)
         if lista:
             listado=[]
             for i in lista:

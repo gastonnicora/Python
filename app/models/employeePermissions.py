@@ -7,6 +7,7 @@ from app.helpers.modelosPlanos.employeePermissions import EmployeePermissions as
 from app.models.employee import Employee
 from app.models.permission import Permission
 from pytz import timezone
+from sqlalchemy.orm import relationship
 
 date_format = '%d/%m/%YT%H:%M:%S%z'
 zona_horaria= timezone("America/Argentina/Buenos_Aires")
@@ -24,6 +25,7 @@ class EmployeePermissions(db.Model):
         ForeignKey(Permission.uuid),
         nullable= True
     )
+    dataPermission = relationship(Permission, foreign_keys=[permission])
     dateOfCreate=db.Column(
         db.String(255),
         nullable=True

@@ -7,6 +7,7 @@ import datetime
 from app.helpers.modelosPlanos.bid import Bid as B
 from app.models.article import Article
 from pytz import timezone
+from sqlalchemy.orm import relationship
 
 from app.socket.socketio import emit_bid
 
@@ -27,6 +28,7 @@ class Bid(db.Model):
         ForeignKey(User.uuid),
         nullable= True
     )
+    dataUser = relationship(User, foreign_keys=[user])
     value=db.Column(
         db.Integer,
         nullable=True
