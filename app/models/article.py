@@ -19,14 +19,13 @@ class Article(db.Model):
         ForeignKey(Auction.uuid),
         nullable= True
     ) 
-    dataAuction= relationship(Auction,foreign_keys=auction)
     before = db.Column(
         db.String(255),
         ForeignKey("article.uuid")
     ) 
     next = db.Column(
         db.String(255),
-        ForeignKey("article.uuid")
+        ForeignKey("article.uuid") 
     ) 
     maxBid= db.Column(
         db.String(255),
@@ -88,15 +87,19 @@ class Article(db.Model):
 
 
     @classmethod
-    def create(cls,data):
+    def create(cls,data,owner):
         date= datetime.datetime.now()
         date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
         sms=  Auction.get(data.get("auction"))
         if sms.dump()["error"]:
             return Message(error="No se puede guardar el articulo por que no existe el remate")
+        if sms.dump()["content"]["dataCompany"]["owner"]!= owner:
+            return Message(error="No se puede guardar el articulo por que eres el propietario del remate")
         
         before= cls.query.filter_by(uuid=data.get("before"),removed=0).first() or None
+        if before:
+            before= before.uuid
         article= cls(
                 auction= data.get("auction"),
                 before= before,
@@ -112,6 +115,8 @@ class Article(db.Model):
         db.session.add(article)
         db.session.commit()
         a= A(article)
+        if before:
+            cls.setNext(article.uuid,before)
         db.session.close()
         return Message(content=a)
     
@@ -132,13 +137,16 @@ class Article(db.Model):
         return Message(content=art)
     
     @classmethod
-    def delete(cls, uuid):
+    def delete(cls, uuid,owner):
         date= datetime.datetime.now()
         date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
         article=cls.query.filter_by(uuid=uuid, removed=0).first()
         if(not article):
             return Message(error="No se pudo eliminar el articulo por que no existe")
+        sms=  Auction.get(article.auction)
+        if sms.dump()["content"]["dataCompany"]["owner"]!= owner:
+            return Message(error="No se puede eliminar el articulo por que eres el propietario del remate")
         article.removed=1
         article.dateOfUpdate=strDate
         db.session.merge(article)
@@ -147,7 +155,7 @@ class Article(db.Model):
         return Message(content="Articulo eliminado correctamente")
 
     @classmethod
-    def update(cls, data):
+    def update(cls, data,owner):
         date= datetime.datetime.now()
         date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
@@ -157,6 +165,8 @@ class Article(db.Model):
         sms=  Auction.get(data.get("auction"))
         if sms.dump()["error"]:
             return Message(error="No se puede actualizar el articulo por que no existe el remate")
+        if sms.dump()["content"]["dataCompany"]["owner"]!= owner:
+            return Message(error="No se puede eliminar el articulo por que eres el propietario del remate")
         article.description=data.get("description")
         article.dateOfStart= data.get("dateOfStart")
         article.dateOfFinish= data.get("dateOfFinish")

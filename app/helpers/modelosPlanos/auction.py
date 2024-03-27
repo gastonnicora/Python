@@ -1,5 +1,6 @@
 import json
 from app.helpers.modelosPlanos.company import Company
+from app.helpers.modelosPlanos.article import Article
 class Auction():
     def __init__(cls,data=None,lista:list=[]):
         if data: 
@@ -12,6 +13,7 @@ class Auction():
             cls.removed= data.removed
             cls.finished= data.finished
             cls.dataCompany= Company(data.dataCompany)
+            cls.articles= Article(lista=data.articles)
         if lista:
             listado=[]
             for i in lista:

@@ -1,5 +1,4 @@
 class  Serializacion(object):
-    #Serializa los campos para poder pasarlos en formato json
 
     @classmethod
     def dump(cls, obj,name="", paged=False, many=False):

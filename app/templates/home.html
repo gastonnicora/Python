@@ -164,6 +164,7 @@ align-items: center">
         })
         .then((json) => {
           var campo_usuarios_get = document.getElementById(sms);
+          console.log(json)
           if (json.cod >= 400) {
             campo_usuarios_get.textContent = JSON.stringify(json.error, undefined, 2)
           } else {
@@ -202,6 +203,7 @@ align-items: center">
         })
         .then((json) => {
           var campo_usuarios_get = document.getElementById(sms)
+          console.log(json)
           if (json.cod >= 400 ) {
             campo_usuarios_get.textContent = JSON.stringify(json.error, undefined, 2)
           } else {

@@ -10,7 +10,7 @@ def sendEmail(receiver_email,uuid):
     message["From"] = sender_email
     message["To"] = receiver_email
 
-    # Create the plain-text and HTML version of your message
+    
     link=environ.get("HOST", "http://localhost:4000/")+"confirmEmail/"+uuid
     
     text = f"""\
@@ -36,12 +36,11 @@ def sendEmail(receiver_email,uuid):
     </html>
     """
 
-    # Turn these into plain/html MIMEText objects
+    
     part1 = MIMEText(text, "plain")
     part2 = MIMEText(html, "html")
 
-    # Add HTML/plain-text parts to MIMEMultipart message
-    # The email client will try to render the last part first
+   
     message.attach(part1)
     message.attach(part2)
 

@@ -24,9 +24,7 @@ class Validador(object):
         self.data = data
         self.error = {}
         self.haveError = False
-        #todos los datos de la clase
         self.DB= EndPoint.json().get(nameDB)
-        #datos del endpoint
         self.url= self.DB.get("endpoint").get(nameUrl)
         self.checkError()
     

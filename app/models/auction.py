@@ -21,6 +21,8 @@ class Auction(db.Model):
         nullable= True
     ) 
     dataCompany = relationship(Company, foreign_keys=[company])
+    articles=db.relationship('Article', backref="Auction", lazy='dynamic',
+                                primaryjoin="and_(Article.auction==Auction.uuid, Article.removed==0)")
     description= db.Column(
         db.String(255),
         nullable= True
@@ -50,14 +52,15 @@ class Auction(db.Model):
     )
 
     @classmethod
-    def create(cls,data):
+    def create(cls,data,owner):
         date= datetime.datetime.now()
         date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
         sms=  Company.get(data.get("company"))
         if sms.dump()["error"]:
             return Message(error="No se puede guardar el remate por que no existe la compañía")
-        
+        if sms.dump()["content"]["owner"]!= owner:
+            return Message(error="No se puede guardar el remate por que no sos el dueño de la compañía")
         auction= cls(
                 company=data.get("company"),
                 description= data.get("description"),
@@ -138,13 +141,15 @@ class Auction(db.Model):
         return Message(content=auc)
     
     @classmethod
-    def delete(cls, uuid):
+    def delete(cls, uuid, owner):
         date= datetime.datetime.now()
         date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
         auction=cls.query.filter_by(uuid=uuid, removed=0).first()
         if(not auction):
             return Message(error="No se pudo eliminar el remate por que no existe")
+        if auction.dataCompany.owner != owner:
+            return Message(error="No se puede eliminar el remate por que no sos el dueño de la compañía propietaria del remate")
         auction.removed=1
         auction.dateOfUpdate=strDate
         db.session.merge(auction)
@@ -153,7 +158,7 @@ class Auction(db.Model):
         return Message(content="Remate eliminado correctamente")
 
     @classmethod
-    def update(cls, data):
+    def update(cls, data,owner):
         date= datetime.datetime.now()
         date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
@@ -163,6 +168,8 @@ class Auction(db.Model):
         auction=cls.query.filter_by(uuid=data["uuid"], removed=0).first()
         if(not auction):
             return Message(error="No se pudo actualizar el remate por que no existe")
+        if auction.dataCompany.owner != owner:
+            return Message(error="No se puede actualizar el remate por que no sos el dueño de la compañía propietaria del remate")
         auction.description=data.get("description")
         auction.dateStart= data.get("dateStart")
         auction.company= data.get("company")

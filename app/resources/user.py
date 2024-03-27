@@ -63,7 +63,6 @@ def logout(current_user):
     return jsonify(sms.dump()),sms.cod
     
 @token_required
-@validate_request("Usuarios","user")
 def get(session,uuid):
     sms= User.get(uuid)
     return jsonify(sms.dump()),sms.cod
@@ -85,7 +84,6 @@ def update(session):
         return jsonify(sms.dump()),sms.cod
 
 @token_required 
-@validate_request("Usuarios","userDelete")
 def delete(session,uuid):
     sms= User.delete(uuid)
     return jsonify(sms.dump()),sms.cod

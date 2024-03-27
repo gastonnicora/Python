@@ -60,6 +60,9 @@ class User(db.Model):
         default=1
     )
 
+    companies = db.relationship('Company', backref="User", lazy='dynamic',
+                                primaryjoin="and_(Company.owner==User.uuid, Company.removed==0)")
+
     @classmethod
     def create(cls,data):
         date= datetime.datetime.now()

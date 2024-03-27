@@ -1,5 +1,4 @@
 import json
-from app.helpers.modelosPlanos.auction import Auction
 from app.helpers.modelosPlanos.bid import Bid
 
 class Article():
@@ -24,7 +23,6 @@ class Article():
             cls.minStepValue= data.minStepValue
             cls.maxBid= data.maxBid
             cls.dataBid= Bid(data.dataBid)
-            cls.dataAuction= Auction(data.dataAuction)
 
         if lista:
             listado=[]

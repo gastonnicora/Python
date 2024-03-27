@@ -15,14 +15,12 @@ def index(session):
     return jsonify(sms.dump()),sms.cod
 
 @token_required
-@validate_request("PermisosDeEmpleado","employeePermission")
 def get(session,uuid):
     sms=EmployeePermissions.get(uuid)
     return jsonify(sms.dump()),sms.cod
 
 
 @token_required 
-@validate_request("PermisosDeEmpleado","employeePermissionsDelete")
 def delete(session,uuid):
     sms= EmployeePermissions.delete(uuid)
     return jsonify(sms.dump()),sms.cod

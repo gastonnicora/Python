@@ -6,7 +6,8 @@ from app.models.user import User
 import datetime
 from app.helpers.modelosPlanos.company import Company as C
 from pytz import timezone
-from sqlalchemy.orm import relationship
+from app.helpers.sessions import Sessions
+from app.socket.socketio import emit_updateSesion
 
 date_format = '%d/%m/%YT%H:%M:%S%z'
 zona_horaria= timezone("America/Argentina/Buenos_Aires")
@@ -19,7 +20,6 @@ class Company(db.Model):
         ForeignKey(User.uuid),
         nullable= True
     ) 
-    dataOwner = relationship(User, foreign_keys=[owner])
     name= db.Column(
         db.String(255),
         nullable=True
@@ -60,7 +60,11 @@ class Company(db.Model):
         db.session.add(company)
         db.session.commit()
         c= C(company)
+        user= User.get(userUuid).dump()["content"]
+        Sessions().updateSessionByUser(user["uuid"],user)
+        emit_updateSesion(user)
         db.session.close()
+
         return Message(content=c)
     
     @classmethod
@@ -80,28 +84,35 @@ class Company(db.Model):
         return Message(content=com)
     
     @classmethod
-    def delete(cls, uuid):
+    def delete(cls, uuid,owner):
         date= datetime.datetime.now()
         date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
         company=cls.query.filter_by(uuid=uuid, removed=0).first()
         if(not company):
             return Message(error="No se pudo eliminar la empresa por que no existe")
+        if(company.owner != owner):
+            return Message(error="No se pudo eliminar la empresa por que no sos el dueño de la empresa")
         company.removed=1
         company.dateOfUpdate=strDate
         db.session.merge(company)
         db.session.commit()
         db.session.close()
+        user= User.get(owner).dump()["content"]
+        Sessions().updateSessionByUser(user["uuid"],user)
+        emit_updateSesion(user)
         return Message(content="Empresa eliminada correctamente")
 
     @classmethod
-    def update(cls, data):
+    def update(cls, data,owner):
         date= datetime.datetime.now()
         date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
         company=cls.query.filter_by(uuid=data["uuid"], removed=0).first()
         if(not company):
             return Message(error="No se pudo actualizar la empresa por que no existe")
+        if(company.owner != owner):
+            return Message(error="No se pudo actualizar la empresa por que no sos el dueño de la empresa")
         company.name=data.get("name")
         company.address= data.get("address")
         company.dateOfUpdate=strDate
@@ -109,5 +120,8 @@ class Company(db.Model):
         db.session.commit()
         com=C(company)
         db.session.close()
+        user= User.get(company.owner).dump()["content"]
+        Sessions().updateSessionByUser(user["uuid"],user)
+        emit_updateSesion(user)
         return Message(content=com)
         

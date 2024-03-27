@@ -59,6 +59,10 @@ class Bid(db.Model):
         sms=  User.get(userUuid)
         if sms.dump()["error"]:
             return Message(error="No se puede guardar la puja por que no existe el usuario")
+        if sms.dump()["started"] == 0:
+            return Message(error="No se puede guardar la puja por que el la subasta del articulo no comenzó")
+        if sms.dump()["finished"] == 1:
+            return Message(error="No se puede guardar la puja por que el la subasta del articulo ya finalizo")
         bid= cls(
                 user=userUuid,
                 value= data.get("value"),
@@ -69,12 +73,12 @@ class Bid(db.Model):
         db.session.commit()
         c= B(bid)
         db.session.close()
-        emit_bid({"value":data.get("value"), "room":data.get("article")})
         sms=Article.setMaxBid(data.get("article"),bid.uuid,data.get("value"))
         if(sms.cod != 202 ):
+            cls.delete(bid.uuid)
             return sms
         else: 
-
+            emit_bid({"bid":c, "room":data.get("article")})
             return Message(content=c)
     
     @classmethod

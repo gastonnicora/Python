@@ -1,5 +1,4 @@
 import json
-from app.helpers.modelosPlanos.user import User
 class Company():
     def __init__(cls,data=None,lista:list=[]):
         if data: 
@@ -10,7 +9,6 @@ class Company():
             cls.addres= data.address
             cls.owner= data.owner
             cls.removed= data.removed
-            cls.dataOwner= User(data.dataOwner)
         if lista:
             listado=[]
             for i in lista:

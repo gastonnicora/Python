@@ -14,7 +14,6 @@ def index():
     return jsonify(sms.dump()),sms.cod
 
 
-@validate_request("Empresas","company")
 def get(uuid):
     sms=Company.get(uuid)
     return jsonify(sms.dump()),sms.cod
@@ -22,11 +21,10 @@ def get(uuid):
 @token_required
 @validate_request("Empresas","companyUpdate")
 def update(session): 
-    sms=Company.update(request.get_json())
+    sms=Company.update(request.get_json(),session["uuid"])
     return jsonify(sms.dump()),sms.cod
 
 @token_required 
-@validate_request("Empresas","companyDelete")
 def delete(session,uuid):
-    sms= Company.delete(uuid)
+    sms= Company.delete(uuid,session["uuid"])
     return jsonify(sms.dump()),sms.cod

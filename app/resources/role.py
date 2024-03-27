@@ -15,7 +15,6 @@ def index(session):
     return jsonify(sms.dump()),sms.cod
 
 @token_required
-@validate_request("Roles","role")
 def get(session,uuid):
     sms=Role.get(uuid)
     return jsonify(sms.dump()),sms.cod
@@ -27,7 +26,6 @@ def update(session):
     return jsonify(sms.dump()),sms.cod
 
 @token_required 
-@validate_request("Roles","roleDelete")
 def delete(session,uuid):
     sms= Role.delete(uuid)
     return jsonify(sms.dump()),sms.cod

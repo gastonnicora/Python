@@ -9,44 +9,44 @@ from app.socket.socketio import emit_finish, emit_start
 @token_required
 @validate_request("Articulos","articleCreate")
 def create(current_user): 
-    sms=Article.create(request.get_json())
+    sms=Article.create(request.get_json(),current_user["uuid"])
     return jsonify(sms.dump()),sms.cod
 
 def index():
     sms = Article.all()
     return jsonify(sms.dump()),sms.cod
 
-@validate_request("Articulos","article")
 def get(uuid):
     sms=Article.get(uuid)
+    emit_start(uuid, sms.dump()["content"]["timeAfterBid"]) #sacar
     return jsonify(sms.dump()),sms.cod
 
 @token_required
 @validate_request("Articulos","articleUpdate")
 def update(session): 
-    sms=Article.update(request.get_json())
+    sms=Article.update(request.get_json(),session["uuid"])
     return jsonify(sms.dump()),sms.cod
 
 @token_required 
-@validate_request("Articulos","articleDelete")
 def delete(session,uuid):
-    article= Article.get(uuid)
-    sms= Article.delete(uuid)
-    before= article.before
-    next= article.next
-    if before and next:
-        Article.setBefore(before,next)
-        Article.setNext(next,before)
-    elif before:
-        Article.setNext(None,before)
-    elif next:
-        Article.setBefore(None,next)
+    article= Article.get(uuid)    
+    sms= Article.delete(uuid,session["uuid"])
+    if not sms.dump()["error"]:
+        before= article.dump()["content"]["before"]
+        next= article.dump()["content"]["next"]
+        if before and next:
+            Article.setBefore(before,next)
+            Article.setNext(next,before)
+        elif before:
+            Article.setNext(None,before)
+        elif next:
+            Article.setBefore(None,next)
     return jsonify(sms.dump()),sms.cod
 
 @token_required_celery
 def start(uuid):
     sms= Article.setStarted(uuid)
-    emit_start(uuid)
+    emit_start(uuid, sms.dump()["content"]["timeAfterBid"])
     return jsonify(sms.dump()),sms.cod
 
 @token_required_celery
