@@ -19,6 +19,7 @@ def create():
         if smsConfirm.error:
             return jsonify(smsConfirm.dump()),smsConfirm.cod
         try:
+            link = request.host
             sendEmail(sms.content.email, smsConfirm.content.uuid)
         except:
           print('An exception occurred')
@@ -80,7 +81,8 @@ def update(session):
             if smsConfirm.error:
                 User.update(aux)
                 return jsonify(smsConfirm.dump()),smsConfirm.cod
-            sendEmail(sms.content.email, smsConfirm.content.uuid)
+            link = request.host
+            sendEmail(sms.content.email, smsConfirm.content.uuid, link)
         return jsonify(sms.dump()),sms.cod
 
 @token_required 

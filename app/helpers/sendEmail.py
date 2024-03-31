@@ -3,7 +3,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from os import environ
 
-def sendEmail(receiver_email,uuid):
+def sendEmail(receiver_email,uuid, link):
     sender_email = environ.get("EMAIL", "pepito@gmail.com")
     message = MIMEMultipart("alternative")
     message["Subject"] = "Confirmacion de Email"
@@ -11,7 +11,7 @@ def sendEmail(receiver_email,uuid):
     message["To"] = receiver_email
 
     
-    link=environ.get("HOST", "http://localhost:4000/")+"confirmEmail/"+uuid
+    link=link +"/confirmEmail/"+uuid
     
     text = f"""\
         Hola,
