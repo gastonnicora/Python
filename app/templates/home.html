@@ -47,7 +47,7 @@
     </div>
     <br>
 
-
+ 
     {% for v in data[e].endpoint %}
     {% set value=data[e].endpoint[v] %}
     <div class="item2 " type="button" data-toggle="collapse" data-target="#{{v}}" aria-expanded="false"
@@ -94,7 +94,7 @@ align-items: center">
         {
         {% for o in value.fields %}
               {% set ob = data[e].fields[o] %}
-              {% if ob.property.type.value=="string" or ob.property.type.value=="email" or ob.property.type.value=="pass" or ob.property.type.value=="date"%}
+              {% if ob.property.type.value=="string" or ob.property.type.value=="email" or ob.property.type.value=="pass" or ob.property.type.value=="date" or ob.property.type.value=="url"%}
                 "{{o}}":"{{ob.example}}"
               {% else %}
                 "{{o}}":{{ob.example}}

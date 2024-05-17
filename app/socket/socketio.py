@@ -22,12 +22,12 @@ def test_disconnect():
 
 @socketio.on('borrarUser')
 def disconnect(data):
-    users.pop(request.sid,'No user found')
-    print(users)
+    users[request.sid] = {}
     
 @socketio.on('coneccion')
 def test_coneccion(data):
     users[request.sid] = data
+    join_room(data["uuid"],request.sid)
  
 @socketio.on('join')
 def on_join(data):
@@ -59,10 +59,10 @@ def emit_finish(room):
 
 @socketio.on('leave_session')
 def on_leave_session(data):
-    leave_room(data.uuid,request.sid)
+    leave_room(data["uuid"],request.sid)
 
 def emit_updateSesion(data):
-    socketio.emit('updateSession/'+data.uuid, {'data': data}, room= data.uuid)
+    socketio.emit('updateSession/'+data["uuid"], {'data': data}, room= data["uuid"])
 
 def emit_start(room, time):
     if not room in rooms:

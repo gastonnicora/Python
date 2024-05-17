@@ -14,6 +14,9 @@ class Auction():
             cls.finished= data.finished
             cls.dataCompany= Company(data.dataCompany)
             cls.articles= Article(lista=data.articles)
+            cls.type= data.type
+            cls.dateFinish= data.dateFinish
+            cls.timeAfterBid= data.timeAfterBid
         if lista:
             listado=[]
             for i in lista:

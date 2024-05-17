@@ -11,6 +11,15 @@
             MYSQL_USER: user
             MYSQL_PASSWORD: user
             MYSQL_DATABASE: Remates
+      web:
+         image: gastonnicora/vue
+         ports:
+            - "8080:8080"
+         restart: always
+         depends_on:
+            - api
+         links:
+            - api
       api:
          image: gastonnicora/python
          restart: always

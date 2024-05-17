@@ -7,6 +7,8 @@ from app.models.db import db
 from app.helpers.modelosPlanos.user import User  as U
 from app.helpers.message import Message
 from pytz import timezone
+from app.helpers.sessions import Sessions
+from app.socket.socketio import emit_updateSesion
 
 date_format = '%d/%m/%YT%H:%M:%S%z'
 zona_horaria= timezone("America/Argentina/Buenos_Aires")
@@ -60,7 +62,7 @@ class User(db.Model):
         default=1
     )
 
-    companies = db.relationship('Company', backref="User", lazy='dynamic',
+    companies = db.relationship('Company', backref="User", lazy=False,
                                 primaryjoin="and_(Company.owner==User.uuid, Company.removed==0)")
 
     @classmethod
@@ -135,6 +137,8 @@ class User(db.Model):
         db.session.merge(usuario)
         db.session.commit()
         db.session.close()
+        from app.models.company import Company
+        Company().deleteByOwner(uuid)
         return Message(content="Usuario eliminado correctamente")
     
     @classmethod
@@ -142,6 +146,10 @@ class User(db.Model):
         usuario=cls.query.filter_by(uuid=uuid, removed=0).first()
         if(not usuario):
             return Message(error="El usuario no existe")
+        date= datetime.datetime.now()
+        date=date.astimezone(zona_horaria)
+        strDate= date.strftime(date_format)
+        usuario.dateOfUpdate=strDate
         usuario.confirmEmail=1
         db.session.merge(usuario)
         db.session.commit()
@@ -161,21 +169,23 @@ class User(db.Model):
             usu.confirmEmail=0
         usu.name= data.get("name")
         usu.lastName= data.get("lastName")
-        usu.email= data.get("email")
         usu.birthdate= data.get("birthdate")
         usu.dateOfUpdate=strDate
         db.session.merge(usu)
         db.session.commit()
         usuario= U(usu)
         db.session.close()
+        user= User.get(usu.uuid).dump()["content"]
+        Sessions().updateSessionByUser(user["uuid"],user)
+        emit_updateSesion(user)
         return Message(content=usuario)
     
     @classmethod
-    def updatePassword(cls,data):
+    def updatePassword(cls,uuid,data):
         date= datetime.datetime.now()
         date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
-        usu= cls.query.filter_by(uuid=data.get("uuid"), removed=0).first()
+        usu= cls.query.filter_by(uuid=uuid, removed=0).first()
         if not usu:
             return Message(error="El usuario no se pudo editar por que no existe")
         if not  checkph(usu.password, data.get("oldPassword")):

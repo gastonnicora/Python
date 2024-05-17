@@ -1,3 +1,4 @@
+from sqlalchemy import and_
 from app.models.db import db
 from sqlalchemy.sql.schema import ForeignKey
 import uuid
@@ -63,7 +64,7 @@ class Article(db.Model):
     timeAfterBid=db.Column(
         db.Integer
     )
-    tipe= db.Column(
+    type= db.Column(
         db.Integer,
         nullable=True,
         default=0
@@ -83,6 +84,10 @@ class Article(db.Model):
         nullable=True,
         default=None
     )
+    urlPhoto=db.Column(
+        db.String(255),
+        nullable=True
+    )
     
 
 
@@ -97,26 +102,41 @@ class Article(db.Model):
         if sms.dump()["content"]["dataCompany"]["owner"]!= owner:
             return Message(error="No se puede guardar el articulo por que eres el propietario del remate")
         
-        before= cls.query.filter_by(uuid=data.get("before"),removed=0).first() or None
-        if before:
-            before= before.uuid
-        article= cls(
+        before= cls.query.filter(and_(cls.auction == data.get("auction"),cls.removed == 0,cls.next.is_(None) )).first()
+        article= None
+        if not before:
+            article= cls(
+                    auction= data.get("auction"),
+                    description= data.get("description"),
+                    dateOfStart= data.get("dateOfStart"),
+                    dateOfFinish=data.get("dateOfFinish"),
+                    timeAfterBid= data.get("timeAfterBid") ,
+                    type= data.get("type"),
+                    minValue=data.get("minValue"),
+                    minStepValue=data.get("minStepValue"),
+                    dateOfCreate= strDate,
+                    urlPhoto=data.get("urlPhoto")
+                )
+        else:
+            article= cls(
                 auction= data.get("auction"),
-                before= before,
+                before= before.uuid or None,
                 description= data.get("description"),
                 dateOfStart= data.get("dateOfStart"),
                 dateOfFinish=data.get("dateOfFinish"),
                 timeAfterBid= data.get("timeAfterBid") ,
-                tipe= data.get("tipe"),
+                type= data.get("type"),
                 minValue=data.get("minValue"),
                 minStepValue=data.get("minStepValue"),
-                dateOfCreate= strDate
+                dateOfCreate= strDate,
+                urlPhoto=data.get("urlPhoto")
             )
+        
         db.session.add(article)
         db.session.commit()
         a= A(article)
         if before:
-            cls.setNext(article.uuid,before)
+            cls.setNext(article.uuid,before.uuid)
         db.session.close()
         return Message(content=a)
     
@@ -153,6 +173,19 @@ class Article(db.Model):
         db.session.commit()
         db.session.close()
         return Message(content="Articulo eliminado correctamente")
+    
+    @classmethod
+    def deleteByAuction(cls, uuid):
+        date= datetime.datetime.now()
+        date=date.astimezone(zona_horaria)
+        strDate= date.strftime(date_format)
+        articles=cls.query.filter_by(auction=uuid, removed=0).all()
+        for article in articles:
+            article.removed=1
+            article.dateOfUpdate=strDate
+        db.session.commit()
+        db.session.close()
+        return Message(content="Artículos eliminados correctamente")
 
     @classmethod
     def update(cls, data,owner):
@@ -171,10 +204,11 @@ class Article(db.Model):
         article.dateOfStart= data.get("dateOfStart")
         article.dateOfFinish= data.get("dateOfFinish")
         article.timeAfterBid= data.get("timeAfterBid")
-        article.tipe= data.get("tipe")
+        article.type= data.get("type")
         article.minValue= data.get("minValue")
         article.minStepValue = data.get("minStepValue")
         article.dateOfUpdate=strDate
+        article.urlPhoto=data.get("urlPhoto")
         db.session.merge(article)
         db.session.commit()
         art=A(article)
@@ -182,13 +216,27 @@ class Article(db.Model):
         return Message(content=art)
     
     @classmethod
+    def updateForAuction(cls, data):
+        date= datetime.datetime.now()
+        date=date.astimezone(zona_horaria)
+        strDate= date.strftime(date_format)
+        articles=cls.query.filter_by(auction=data.uuid, removed=0).all()
+        for article in articles: 
+            article.dateOfStart= data.dateStart
+            article.dateOfFinish= data.dateFinish
+            article.timeAfterBid= data.timeAfterBid
+            article.type= data.type
+            article.dateOfUpdate=strDate
+            db.session.merge(article)
+            db.session.commit()
+        db.session.close()
+        return Message(content="Artículos actualizados")
+    
+    @classmethod
     def setBefore(cls, uuidBefore, uuid):
         article= cls.query.filter_by(uuid=uuid,removed=0).first()
         if(not article):
             return Message(error="No se pudo obtener el articulo por que no existe")
-        article2= cls.query.filter_by(uuid=uuidBefore,removed=0).first()
-        if(not article2 and not uuidBefore):
-            return Message(error="No se pudo obtener el articulo anterior por que no existe")
         article.before= uuidBefore
         date= datetime.datetime.now()
         date=date.astimezone(zona_horaria)
@@ -205,9 +253,6 @@ class Article(db.Model):
         article= cls.query.filter_by(uuid=uuid,removed=0).first()
         if(not article):
             return Message(error="No se pudo actualizar el articulo por que no existe")
-        article2= cls.query.filter_by(uuid=uuidNext,removed=0).first()
-        if(not article2 and not uuidNext):
-            return Message(error="No se pudo actualizar el articulo siguiente por que no existe")
         article.next= uuidNext
         date= datetime.datetime.now()
         date=date.astimezone(zona_horaria)

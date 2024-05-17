@@ -20,7 +20,8 @@ def create(current_user):
     now=datetime.datetime.now()
     now=now.astimezone(datetime.timezone.utc)
     delta= (d-now).total_seconds()
-    startedAuction(auc.uuid,delta)
+    print(delta)
+    # startedAuction(auc.uuid,delta) sacar #
     return jsonify(sms.dump()),sms.cod
 
 def index():
@@ -69,6 +70,8 @@ def finished(uuid):
 @validate_request("Remates","auctionUpdate")
 def update(session): 
     sms=Auction.update(request.get_json(),session["uuid"])
+    if sms.dump()["error"]:
+        return jsonify(sms.dump()),sms.cod
     auc=sms.content
     date_format="%d/%m/%YT%H:%M:%S%z"
     d=  datetime.datetime.strptime(auc.dateStart, date_format)
@@ -76,7 +79,7 @@ def update(session):
     now=datetime.datetime.now()
     now=now.astimezone(datetime.timezone.utc)
     delta= (d-now).total_seconds()
-    startedAuction(auc.uuid,delta)
+    # startedAuction(auc.uuid,delta)
     return jsonify(sms.dump()),sms.cod
 
 @token_required 

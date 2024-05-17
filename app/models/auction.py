@@ -10,7 +10,7 @@ from pytz import timezone
 from sqlalchemy.orm import relationship
 
 date_format = '%d/%m/%YT%H:%M:%S%z'
-zona_horaria= timezone("America/Argentina/Buenos_Aires")
+zona_horaria= timezone("America/Argentina/Buenos_Aires") 
 class Auction(db.Model):
     uuid=db.Column(
         db.String(255), primary_key=True, default=uuid.uuid4, nullable=True, unique=True
@@ -30,6 +30,17 @@ class Auction(db.Model):
     dateStart= db.Column(
         db.String(255),
         nullable=True
+    )
+    dateFinish= db.Column(
+        db.String(255)
+    )
+    type= db.Column(
+        db.Integer,
+        nullable=True,
+        default=0
+    )
+    timeAfterBid= db.Column(
+        db.Integer
     )
     finished= db.Column(
         db.Integer,
@@ -57,6 +68,10 @@ class Auction(db.Model):
         date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
         sms=  Company.get(data.get("company"))
+        if data.get("type")==0 and not data.get("dateFinish"):
+            return Message(error="No se puede guardar el remate por que debe ingresar una fecha de finalización  valida")
+        if data.get("type")==1 and not data.get("timeAfterBid"):
+            return Message(error="No se puede guardar el remate por que debe ingresar un tiempo para finalizar el remate después de la ultima puja")
         if sms.dump()["error"]:
             return Message(error="No se puede guardar el remate por que no existe la compañía")
         if sms.dump()["content"]["owner"]!= owner:
@@ -65,7 +80,10 @@ class Auction(db.Model):
                 company=data.get("company"),
                 description= data.get("description"),
                 dateStart= data.get("dateStart"),
-                dateOfCreate= strDate
+                dateOfCreate= strDate,
+                type= data.get("type"),
+                dateFinish= data.get("dateFinish"),
+                timeAfterBid= data.get("timeAfterBid")
             )
         db.session.add(auction)
         db.session.commit()
@@ -155,6 +173,23 @@ class Auction(db.Model):
         db.session.merge(auction)
         db.session.commit()
         db.session.close()
+        from app.models.article import Article
+        Article.deleteByAuction(uuid)
+        return Message(content="Remate eliminado correctamente")
+    
+    @classmethod
+    def deleteByCompany(cls, uuid):
+        date= datetime.datetime.now()
+        date=date.astimezone(zona_horaria)
+        strDate= date.strftime(date_format)
+        auctions=cls.query.filter_by(company=uuid, removed=0).all()
+        from app.models.article import Article
+        for auction in auctions:
+            auction.removed=1
+            auction.dateOfUpdate=strDate
+            Article.deleteByAuction(auction.uuid)
+        db.session.commit()
+        db.session.close()
         return Message(content="Remate eliminado correctamente")
 
     @classmethod
@@ -163,6 +198,10 @@ class Auction(db.Model):
         date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
         sms=  Company.get(data.get("company"))
+        if data.get("type")==0 and not data.get("dateFinish"):
+            return Message(error="No se puede actualizar el remate por que debe ingresar una fecha de finalización  valida")
+        if data.get("type")==1 and not data.get("timeAfterBid"):
+            return Message(error="No se puede actualizar el remate por que debe ingresar un tiempo para finalizar el remate despues de la ultima puja")
         if sms.dump()["error"]:
             return Message(error="No se puede actualizar el remate por que no existe la compañía")
         auction=cls.query.filter_by(uuid=data["uuid"], removed=0).first()
@@ -173,10 +212,15 @@ class Auction(db.Model):
         auction.description=data.get("description")
         auction.dateStart= data.get("dateStart")
         auction.company= data.get("company")
+        auction.type= data.get("type"),
+        auction.dateFinish= data.get("dateFinish"),
+        auction.timeAfterBid= data.get("timeAfterBid")
         auction.dateOfUpdate=strDate
         db.session.merge(auction)
         db.session.commit()
         auc=A(auction)
+        from app.models.article import Article
+        Article.updateForAuction(auc)
         db.session.close()
         return Message(content=auc)
 

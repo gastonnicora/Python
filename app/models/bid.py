@@ -53,15 +53,15 @@ class Bid(db.Model):
         date= datetime.datetime.now()
         date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
-        sms=  Article.get(data.get("article"))
-        if sms.dump()["error"]:
-            return Message(error="No se puede guardar la puja por que no existe el articulo")
         sms=  User.get(userUuid)
         if sms.dump()["error"]:
             return Message(error="No se puede guardar la puja por que no existe el usuario")
-        if sms.dump()["started"] == 0:
+        sms=  Article.get(data.get("article"))
+        if sms.dump()["error"]:
+            return Message(error="No se puede guardar la puja por que no existe el articulo")
+        if sms.dump()["content"]["started"] == 0:
             return Message(error="No se puede guardar la puja por que el la subasta del articulo no comenzó")
-        if sms.dump()["finished"] == 1:
+        if sms.dump()["content"]["finished"] == 1:
             return Message(error="No se puede guardar la puja por que el la subasta del articulo ya finalizo")
         bid= cls(
                 user=userUuid,
@@ -99,13 +99,15 @@ class Bid(db.Model):
    
     @classmethod
     def getByArticle(cls,article):
-        bids= cls.query.filter_by(article=article, removed=0).all()
-        return Message(content=bids)
+        bids= cls.query.filter_by(article=article, removed=0).order_by(cls.value).all()
+        com=B(lista=bids)
+        return Message(content=com)
 
     @classmethod
     def getByUser(cls,user):
         bids= cls.query.filter_by(user=user).all()
-        return  Message(content=bids)
+        com=B(lista=bids)
+        return  Message(content=com)
 
     @classmethod
     def delete(cls,uuid):

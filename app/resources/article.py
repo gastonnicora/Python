@@ -18,7 +18,6 @@ def index():
 
 def get(uuid):
     sms=Article.get(uuid)
-    emit_start(uuid, sms.dump()["content"]["timeAfterBid"]) #sacar
     return jsonify(sms.dump()),sms.cod
 
 @token_required
@@ -53,6 +52,9 @@ def start(uuid):
 def finish(uuid):
     sms= Article.setFinished(uuid)
     emit_finish(uuid)
+    if  sms.dump()["content"]["tipe"] ==1 and sms.dump()["content"]["next"]:
+        sms= Article.setStarted(sms.dump()["content"]["next"])
+        emit_start(uuid, sms.dump()["content"]["next"])
     return jsonify(sms.dump()),sms.cod
 
 

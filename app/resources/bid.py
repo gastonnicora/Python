@@ -10,8 +10,8 @@ from app.models.article import Article
 def create(current_user): 
     sms=Bid.create(request.get_json(),current_user["uuid"])
     a= Article.get(request.get_json().get("article"))
-    # if a.content.tipe and a.content.tipe== 1:
-    #     finishedArticle(a.content.uuid, a.content.timeAfterBid)
+    if  not sms.error and a.content.type and a.content.type== 1:
+        finishedArticle(a.content.uuid, a.content.timeAfterBid)
     return jsonify(sms.dump()),sms.cod
 
 @token_required
@@ -26,6 +26,11 @@ def get(current_user,uuid):
 
 @token_required
 def getByArticle(current_user,uuid):
+    a= Article.get(uuid)
+    from app.models.auction import Auction
+    auc = Auction.get(a.content.auction)
+    if auc.content.dataCompany.owner != current_user["uuid"]:
+        return jsonify("No se puede ver por que no sos el dueño del remate en el que esta el articulo"),400
     sms=Bid.getByArticle(uuid)
     return jsonify(sms.dump()),sms.cod
 

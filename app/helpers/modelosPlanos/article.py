@@ -18,11 +18,12 @@ class Article():
             cls.dateOfStart= data.dateOfStart
             cls.dateOfFinish= data.dateOfFinish
             cls.timeAfterBid= data.timeAfterBid
-            cls.tipe= data.tipe
+            cls.type= data.type
             cls.minValue= data.minValue
             cls.minStepValue= data.minStepValue
             cls.maxBid= data.maxBid
             cls.dataBid= Bid(data.dataBid)
+            cls.urlPhoto= data.urlPhoto
 
         if lista:
             listado=[]

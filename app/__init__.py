@@ -59,7 +59,7 @@ def create_app(environment="development"):
     app.add_url_rule("/userUpdate", "userUpdate", user.update, methods=["PUT"])
     app.add_url_rule("/userUpdatePassword", "userUpdatePassword",
                      user.updatePassword, methods=["PUT"])
-    app.add_url_rule("/userDelete/<string:uuid>", "userDelete", user.delete, methods=["DELETE"])
+    app.add_url_rule("/userDelete", "userDelete", user.delete, methods=["DELETE"])
     app.add_url_rule("/login", "login", user.login, methods=["POST"])
     app.add_url_rule("/logout", "logout", user.logout, methods=["GET"])
 
@@ -132,7 +132,7 @@ def create_app(environment="development"):
                      auction.get)
     
     app.add_url_rule("/auctionsByCompany/<string:uuid>", "auctionsByCompany",
-                     auction.get)
+                     auction.getByCompany)
     app.add_url_rule("/auctionCreate", "auctionCreate",
                      auction.create, methods=["POST"])
     app.add_url_rule("/auctionUpdate", "auctionUpdate", auction.update, methods=["PUT"])

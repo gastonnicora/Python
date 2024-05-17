@@ -101,6 +101,16 @@
         "example": "12345678",
         "model": true
       },
+      "companies": {
+        "description": "Datos da las empresa que posee el usuario",
+        "property": {
+          "type": {
+            "value": "dict",
+            "error": ""
+          }
+        },
+        "model": true
+      },
       "oldPassword": {
         "description": "la contraseña debe contener letras y números, ademas debe contener 8 caracteres como mínimo. No se aceptan caracteres especiales",
         "property": {
@@ -351,15 +361,15 @@
         "method": "PUT",
         "description": "Modificar un usuario por su uuid",
         "explanation": "",
-        "fields": ["name", "lastName", "email", "birthdate"],
+        "fields": ["name", "lastName", "birthdate"],
         "requiredSession": true
       },
       "userUpdatePassword": {
         "url": "/userUpdatePassword",
         "method": "PUT",
-        "description": "Modificar contraseña de un  por su uuid",
+        "description": "Modificar contraseña del usuario",
         "explanation": "",
-        "fields": ["uuid", "oldPassword", "password", "repetitionPass"],
+        "fields": ["oldPassword", "password", "repetitionPass"],
         "requiredSession": true
       },
       "userDelete": {
@@ -367,7 +377,7 @@
         "method": "DELETE",
         "description": "Eliminar un usuario por su uuid",
         "explanation": "",
-        "fields": ["uuid"],
+        "fields": [],
         "requiredSession": true
       }
     }
@@ -1499,6 +1509,81 @@
         },
         "example": "23/01/2024T12:29:31-0300",
         "model": true
+      },
+      "dateFinish": {
+        "description": "Fecha de finalización del remate, si type es 0 Formato dia/mes/añoThora:minutos:segundosUTC (23/01/2024T12:29:31-0300)",
+        "format": "%d/%m/%YT%H:%M:%S%z",
+        "property": {
+          "type": {
+            "value": "date",
+            "error": "Debe introducir una fecha valida con el formato: %d/%m/%YT%H:%M:%S%z (23/01/2024T12:29:31-0300)"
+          },
+          "min date": {
+            "value": "now",
+            "error": "La fecha introducida debe ser posterior a ahora"
+          }
+        },
+        "example": "23/01/2024T12:29:31-0300",
+        "model": true
+      },
+      "dataCompany": {
+        "description": "Datos de la compañía creadora del remate.",
+        "property": {
+          "type": {
+            "value": "dict",
+            "error": ""
+          }
+        },
+        "model": true
+      },
+      "articles": {
+        "description": "Artículos en el remate. Es un diccionario. para acceder a la lista de artículos es: auction.articles.articles",
+        "property": {
+          "type": {
+            "value": "dict",
+            "error": ""
+          }
+        },
+        "example": "articles:[...]",
+        "model": true
+      },
+      "type": {
+        "description": "Tipo de inicio de subasta. 0 si inicia y finaliza a una fecha y hora especifica, 1 si la subasta finaliza luego de X segundos pasados luego de la ultima puja valida y luego inicia la subasta del siguiente articulo",
+        "property": {
+          "type": {
+            "value": "integer",
+            "error": "Debe introducir un numero entero valido"
+          },
+          "max": {
+            "value": 2,
+            "error": "El valor máximo es 1"
+          },
+          "min": {
+            "value": -1,
+            "error": "el valor mínimo es 0"
+          },
+          "default": {
+            "value": 0,
+            "error": ""
+          }
+        },
+        "example": 1,
+        "model": true
+      },
+      "timeAfterBid": {
+        "description": "Tiempo desde la ultima puja para que finalice la subasta de un articulo",
+        "property": {
+          "type": {
+            "value": "integer",
+            "error": "Debe introducir un numero entero valido"
+          },
+          "min": {
+            "value": 2,
+            "error": "el valor mínimo es 2"
+          }
+        },
+        "example": 10,
+        "model": true
       }
     },
     "endpoint": {
@@ -1507,7 +1592,7 @@
         "method": "POST",
         "description": "Creación de un remate ",
         "explanation": "Crea y devuelve un remate.",
-        "fields": ["company", "description", "dateStart"],
+        "fields": ["company", "description", "dateStart","type","dateFinish","timeAfterBid"],
         "requiredSession": true
       },
       "auctions": {
@@ -1565,7 +1650,7 @@
         "method": "PUT",
         "description": "Modificar un remate por su uuid",
         "explanation": "",
-        "fields": ["company", "description", "dateStart", "uuid"],
+        "fields": ["company", "description", "dateStart", "uuid","type","dateFinish","timeAfterBid"],
         "requiredSession": true
       },
       "auctionDelete": {
@@ -1634,6 +1719,16 @@
         "example": "f8773c44-bd9a-4ffe-922f-4b661ebca35e",
         "model": true
       },
+      "dataBid": {
+        "description": "Datos de puja ganadora",
+        "property": {
+          "type": {
+            "value": "dict",
+            "error": ""
+          }
+        },
+        "model": true
+      },
       "before": {
         "description": "Identificador del articulo anterior",
         "property": {
@@ -1670,11 +1765,11 @@
         "property": {
           "type": {
             "value": "string",
-            "error": "El nombre debe ser una cadena de caracteres"
+            "error": "La descripción debe ser una cadena de caracteres"
           },
           "max length": {
             "value": 255,
-            "error": "El nombre debe tener un largo menor a 255"
+            "error": "La descripción debe tener un largo menor a 255"
           },
           "required": {
             "value": true,
@@ -1784,7 +1879,7 @@
         "example": 500,
         "model": true
       },
-      "tipe": {
+      "type": {
         "description": "Tipo de inicio de subasta. 0 si inicia y finaliza a una hora especifica, 1 si la subasta finaliza luego de X segundos pasados luego de la ultima puja valida y luego inicia la subasta del siguiente articulo",
         "property": {
           "type": {
@@ -1830,8 +1925,8 @@
             "error": "Debe introducir un numero entero valido"
           },
           "min": {
-            "value": -1,
-            "error": "el valor mínimo es 0"
+            "value": 2,
+            "error": "el valor mínimo es 2"
           }
         },
         "example": 10,
@@ -1900,6 +1995,26 @@
         },
         "example": "23/01/2024T12:29:31-0300",
         "model": true
+      },
+      "urlPhoto": {
+        "description": "url de la foto del articulo",
+        "format": "",
+        "property": {
+          "type": {
+            "value": "url",
+            "error": "Debe introducir una url valida"
+          },
+          "max length": {
+            "value": 255,
+            "error": "La url debe tener un largo menor a 255"
+          },
+          "required": {
+            "value": true,
+            "error": "Debe introducir una url"
+          }
+        },
+        "example": "https://thumbs.dreamstime.com/b/martillo-o-de-remate-subasta-s%C3%ADmbolo-foto-autoridad-y-toma-decisiones-214833893.jpg",
+        "model": true
       }
     },
     "endpoint": {
@@ -1908,7 +2023,7 @@
         "method": "POST",
         "description": "Creación de un articulo que se va a rematar ",
         "explanation": "Crea y devuelve un articulo.",
-        "fields": ["auction","before","description","dateOfStart","dateOfFinish","timeAfterBid","tipe","minValue","minStepValue"],
+        "fields": ["auction","before","description","dateOfStart","dateOfFinish","timeAfterBid","type","minValue","minStepValue","urlPhoto"],
         "requiredSession": true
       },
       "articles": {
@@ -1930,7 +2045,7 @@
         "method": "PUT",
         "description": "Modificar un articulo por su uuid",
         "explanation": "",
-        "fields": ["description","dateOfStart","dateOfFinish","timeAfterBid","tipe","minValue","minStepValue"],
+        "fields": ["description","dateOfStart","dateOfFinish","timeAfterBid","type","minValue","minStepValue","urlPhoto"],
         "requiredSession": true
       },
       "articleDelete": {
@@ -1983,6 +2098,16 @@
           }
         },
         "example": "f8773c44-bd9a-4ffe-922f-4b661ebca35e",
+        "model": true
+      },
+      "dataUser": {
+        "description": "Datos del usuario dueño de la puja",
+        "property": {
+          "type": {
+            "value": "dict",
+            "error": ""
+          }
+        },
         "model": true
       },
       "article": {

@@ -96,12 +96,33 @@ class Company(db.Model):
         company.removed=1
         company.dateOfUpdate=strDate
         db.session.merge(company)
+        from app.models.auction import Auction
+        Auction().deleteByCompany(company.uuid)
         db.session.commit()
         db.session.close()
         user= User.get(owner).dump()["content"]
         Sessions().updateSessionByUser(user["uuid"],user)
         emit_updateSesion(user)
         return Message(content="Empresa eliminada correctamente")
+    
+    @classmethod
+    def deleteByOwner(cls,owner):
+        date= datetime.datetime.now()
+        date=date.astimezone(zona_horaria)
+        strDate= date.strftime(date_format)
+        companies=cls.query.filter_by(owner=owner, removed=0).all()
+        from app.models.auction import Auction
+        for company in companies:
+            company.removed=1
+            company.dateOfUpdate=strDate
+            Auction().deleteByCompany(company.uuid)
+        db.session.commit()
+        db.session.close()
+        user= User.get(owner).dump()["content"]
+        Sessions().updateSessionByUser(user["uuid"],user)
+        emit_updateSesion(user)
+        return Message(content="Empresas eliminadas correctamente")
+
 
     @classmethod
     def update(cls, data,owner):

@@ -19,12 +19,12 @@ def create():
         if smsConfirm.error:
             return jsonify(smsConfirm.dump()),smsConfirm.cod
         try:
-            link = request.host
-            sendEmail(sms.content.email, smsConfirm.content.uuid)
+            link = request.origin
+            sendEmail(sms.content.email, smsConfirm.content.uuid,link)
         except:
           print('An exception occurred')
         from app.helpers.celery import deleteConfirm
-        deleteConfirm(smsConfirm.content.uuid)
+        # deleteConfirm(smsConfirm.content.uuid) sacar #
        
         return jsonify(sms.dump()),sms.cod
 
@@ -72,26 +72,15 @@ def get(session,uuid):
 @validate_request("Usuarios","userUpdate")
 def update(session): 
     sms=User.update(session["uuid"],request.get_json())
-    aux=User.get(request.get_json().get("uuid")).content
-    if sms.error:
-        return jsonify(sms.dump()),sms.cod
-    else:
-        if sms.content.confirmEmail == 0:
-            smsConfirm=ConfirmEMail.create(sms.content.uuid)
-            if smsConfirm.error:
-                User.update(aux)
-                return jsonify(smsConfirm.dump()),smsConfirm.cod
-            link = request.host
-            sendEmail(sms.content.email, smsConfirm.content.uuid, link)
-        return jsonify(sms.dump()),sms.cod
+    return jsonify(sms.dump()),sms.cod
 
 @token_required 
-def delete(session,uuid):
-    sms= User.delete(uuid)
+def delete(session):
+    sms= User.delete(session["uuid"])
     return jsonify(sms.dump()),sms.cod
 
 @token_required
 @validate_request("Usuarios","userUpdatePassword")
 def updatePassword(session):
-    sms=User.updatePassword(request.get_json())
+    sms=User.updatePassword(session["uuid"],request.get_json())
     return jsonify(sms.dump()),sms.cod

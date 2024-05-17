@@ -6,7 +6,7 @@ class Company():
             cls.name= data.name
             cls.dateOfCreate=data.dateOfCreate
             cls.dateOfUpdate=data.dateOfUpdate
-            cls.addres= data.address
+            cls.address= data.address
             cls.owner= data.owner
             cls.removed= data.removed
         if lista:

@@ -44,7 +44,8 @@ class Validador(object):
                 "integer": self._integer,
                 "date": self._date,
                 "pass": self._pass,
-                "email": self._email
+                "email": self._email,
+                "url":self._url
             },
             "repeat": self._repeat,
             "max length": self._maxLength,
@@ -104,6 +105,11 @@ class Validador(object):
             # email no contiene "@"
             isEmail=False
         if not (isinstance(data, str) and isEmail ):
+            self._logError(field,"type")
+    
+    def _url(self,field):
+        data= self.data.get(field)
+        if not (isinstance(data, str) and ("http://" in data or "https://" in data) ):
             self._logError(field,"type")
         
     def _integer(self, field):
