@@ -24,7 +24,7 @@ def create():
         except:
           print('An exception occurred')
         from app.helpers.celery import deleteConfirm
-        # deleteConfirm(smsConfirm.content.uuid) sacar #
+        deleteConfirm(smsConfirm.content.uuid)
        
         return jsonify(sms.dump()),sms.cod
 

@@ -21,7 +21,7 @@ def create(current_user):
     now=now.astimezone(datetime.timezone.utc)
     delta= (d-now).total_seconds()
     print(delta)
-    # startedAuction(auc.uuid,delta) sacar #
+    startedAuction(auc.uuid,delta) 
     return jsonify(sms.dump()),sms.cod
 
 def index():
