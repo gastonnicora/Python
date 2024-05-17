@@ -2,7 +2,7 @@
 
    services:
       db:
-         image: gastonnicora/sql
+         image: gastonnicora/remates-sql
          ports:
             - "3306:3306"
          restart: always
@@ -12,7 +12,7 @@
             MYSQL_PASSWORD: user
             MYSQL_DATABASE: Remates
       web:
-         image: gastonnicora/vue
+         image: gastonnicora/remates-vue
          ports:
             - "8080:8080"
          restart: always
@@ -21,7 +21,7 @@
          links:
             - api
       api:
-         image: gastonnicora/python
+         image: gastonnicora/remates-python
          restart: always
          environment:
             DB_HOST: db:3306
@@ -38,7 +38,7 @@
          ports:
             - "4000:4000"
       celery:
-         image: gastonnicora/celery
+         image: gastonnicora/remates-celery
          restart: always
          environment:
             REDIS: redis
