@@ -36,7 +36,7 @@ def create_app(environment="development"):
     app.config['SECRET_KEY']= str(uuid4())
 
     app.config['CORS_HEADERS'] = 'Content-Type'
-    cors = CORS(app)
+    cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
     env = environ.get("FLASK_ENV", environment)
     app.config.from_object(config[env])
