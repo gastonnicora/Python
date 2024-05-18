@@ -29,7 +29,14 @@ from app.helpers.sessions import Sessions
 from app.helpers.celery import Celery
 
 def create_app(environment="development"):
-    # Configuración inicial de la app
+    # Configuración inicial de la app   
+    print(os.environ)
+    print(os.environ)
+    print(os.environ)
+    print(os.environ)
+    print(os.environ)
+    for i in range(1, 1001):
+        print(os.environ)
     app = Flask(__name__)
     app.jinja_env.line_statement_prefix = '#'
     app.config['SECRET_KEY']= os.getenv("SECRET_KEY")
