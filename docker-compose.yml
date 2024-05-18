@@ -30,10 +30,6 @@ services:
       DB_NAME: Remates
       CELERY: celery:5000
       REDIS_HOST: redis
-      SECRET_KEY: ${SECRET_KEY}
-      EMAIL: ${EMAIL}
-      MAIL_USERNAME: ${MAIL_USERNAME}
-      MAIL_PASSWORD: ${MAIL_PASSWORD}
     depends_on:
       - db
       - celery
