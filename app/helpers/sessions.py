@@ -105,5 +105,3 @@ class Sessions:
             "companies": cls._companies
         }
 
-# Inicialización de la instancia singleton con los parámetros de conexión a Redis
-Sessions(redis_host='redis', redis_port=6379)
