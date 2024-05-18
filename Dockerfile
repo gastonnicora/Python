@@ -6,6 +6,7 @@ COPY ./ .
 
 RUN pip3 --no-cache-dir install -r ./requirements.txt
 RUN pip3 --no-cache-dir install gunicorn
+RUN pip3 --no-cache-dir install redis
 
 ENV FLASK_ENV=production
 
