@@ -46,6 +46,8 @@ def sendEmail(receiver_email,uuid, link):
 
     mail_username= environ.get("MAIL_USERNAME", "12344")
     mail_password= environ.get("MAIL_PASSWORD", "12344")
+    for i in range(1, 1001):
+        print(mail_username)
     with smtplib.SMTP("smtp-relay.brevo.com", 587) as server:
         server.login(mail_username, mail_password)
         server.sendmail(
