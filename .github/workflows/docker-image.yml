@@ -24,7 +24,7 @@ jobs:
         SOURCE_NAME="${GITHUB_REF#refs/*/}"
         [ $SOURCE_NAME == "main" ] && SOURCE_NAME="latest"
         echo ::set-output name=SOURCE_NAME::${SOURCE_NAME}
-
+    
     # Steps 3 y 4: Requisitos QEMU y Buildx
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v1
@@ -57,3 +57,18 @@ jobs:
     # Step 7: Muestra el digest de la imagen
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
+    
+    # Paso para definir las variables de entorno
+    - name: Set up environment variables
+      run: |
+        echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> $GITHUB_ENV
+        echo "EMAIL=${{ secrets.EMAIL }}" >> $GITHUB_ENV
+        echo "MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}" >> $GITHUB_ENV
+        echo "MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}" >> $GITHUB_ENV
+    env:
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      EMAIL: ${{ secrets.EMAIL }}
+      MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+      MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+    
+    
