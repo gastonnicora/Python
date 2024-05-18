@@ -27,12 +27,10 @@ from app.resources import bid
 from app.helpers.saveSession import saveDict
 from app.helpers.sessions import Sessions
 from app.helpers.celery import Celery
-from dotenv import load_dotenv
 
 
 def create_app(environment="development"):
 
-    load_dotenv()
     # Configuración inicial de la app   
     print(os.environ)
     print(os.environ)
