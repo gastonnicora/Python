@@ -4,6 +4,8 @@ WORKDIR /app
 
 COPY ./ .
 
+COPY ./.env ./.env
+
 RUN pip3 --no-cache-dir install -r ./requirements.txt
 RUN pip3 --no-cache-dir install gunicorn
 
