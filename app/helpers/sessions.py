@@ -18,7 +18,7 @@ class Sessions:
             env = os.getenv("FLASK_ENV", "development")
             if env == "production":
                 cls._redis = redis.StrictRedis(host='redis', port=6379, db=0)
-                data = cls._load_from_redis()
+                data = cls._load_from_redis(cls)
             else:
                 data = loadDict("Sessions.pkl")
             if data:
