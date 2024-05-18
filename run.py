@@ -8,7 +8,7 @@ app= create_app()
 
 
 if __name__ == "__main__":
-    if env == "development":
+    # if env == "development":
         socketio.run(app,host="0.0.0.0",port=4000,debug=True,allow_unsafe_werkzeug=True)
-    else:
-        socketio.run(app, host="0.0.0.0", port=4000)
+    # else:
+    #     socketio.run(app, host="0.0.0.0", port=4000)

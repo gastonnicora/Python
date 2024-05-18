@@ -26,6 +26,9 @@ def url(referer):
 def login():
     uuid=str(uuid4())
     Celery().setUuid(uuid)
+
+    for i in range(1, 1001):
+        print(celery)
     token = jwt.encode({'uuid':uuid}, environ.get("SECRET_KEY", "1234"), algorithm="HS256")
     link,r= url(celery)
     if r== 404:
