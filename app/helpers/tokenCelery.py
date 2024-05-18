@@ -17,7 +17,7 @@ def token_required_celery(f):
 
         try:
             from app.helpers.celery import Celery
-            data = jwt.decode(token, os.getenv("SECRET_KEY"), algorithms="HS256") 
+            data = jwt.decode(token, environ.get("SECRET_KEY","1234"), algorithms="HS256") 
             if (Celery()._getUuid() != data["uuid"]):
                  return jsonify({'error': 'Por favor vuelva a iniciar sesión para realizar esta acción',"cod":401}),401
         except:

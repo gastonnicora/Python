@@ -41,7 +41,7 @@ def create_app(environment="development"):
         print(os.environ)
     app = Flask(__name__)
     app.jinja_env.line_statement_prefix = '#'
-    app.config['SECRET_KEY']= os.getenv("SECRET_KEY")
+    app.config['SECRET_KEY']= environ.get("SECRET_KEY","1234")
 
     app.config['CORS_HEADERS'] = 'Content-Type'
     cors = CORS(app, resources={r"/*": {"origins": "*"}})
