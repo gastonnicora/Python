@@ -32,7 +32,7 @@ def login():
     if r== 404:
         return jsonify({"error":"La url esta mal o el servidor desconectado"}),404  
     Celery().setLink(link)
-    headers = {'Referer': request.headers.get("Host"),"X-Access-Tokens":token}
+    headers = {'Referer': request.host,"X-Access-Tokens":token}
     r=R.get(link+"/login",headers=headers)
 
      
@@ -40,14 +40,14 @@ def deleteConfirm(uuid):
     if Celery()._uuid== None:
         login()
     link= Celery().getLink()
-    headers = {'Referer': request.headers.get("Host")}
+    headers = {'Referer': request.host}
     r=R.get(link+"/deleteConfirm/"+uuid,headers=headers)
 
 def finishedArticle(uuid,time):
     if Celery()._uuid== None:
         login()
     link= Celery().getLink()
-    headers = {'Referer': request.headers.get("Host")}
+    headers = {'Referer': request.host}
     data= {"article":uuid,"time":time}
     r=R.post(link+"/finishedArticle",headers=headers,json=data)
 
@@ -56,7 +56,7 @@ def startedArticle(uuid,time):
     if Celery()._uuid== None:
         login()
     link= Celery().getLink()
-    headers = {'Referer': request.headers.get("Host")}
+    headers = {'Referer': request.host}
     data= {"article":uuid,"time":time}
     r=R.post(link+"/startedArticle",headers=headers,json=data)
 
@@ -65,7 +65,7 @@ def startedAuction(uuid,time):
     if Celery()._uuid== None:
         login()
     link= Celery().getLink()
-    headers = {'Referer': request.headers.get("Host")}
+    headers = {'Referer': request.host}
     data= {"article":uuid,"time":time}
     r=R.post(link+"/startedAuction",headers=headers,json=data)
 
