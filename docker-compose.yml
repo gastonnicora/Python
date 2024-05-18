@@ -3,8 +3,8 @@ version: '3.3'
 services:
   db:
     image: gastonnicora/remates-sql
-    ports:
-      - "3306:3306"
+    expose:
+      - "3306"
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -15,7 +15,7 @@ services:
   web:
     image: gastonnicora/remates-vue
     ports:
-      - "8080:8080"
+      - "80:8080"
     restart: always
     depends_on:
       - api
@@ -28,7 +28,7 @@ services:
       DB_USER: user
       DB_PASS: user
       DB_NAME: Remates
-      CELERY: celery:5000
+      CELERY: celery
       REDIS_HOST: redis
     depends_on:
       - db
@@ -44,8 +44,9 @@ services:
     depends_on:
       - redis
     ports:
-      - "5000:5000"
-      - "5555:5555"
+      - "5555:5555" # Solo expone el puerto 5555 al host
+    expose:
+      - "5000" # Hace que el puerto 5000 sea accesible internamente
 
   phpmyadmin:
     image: phpmyadmin
@@ -55,6 +56,8 @@ services:
       PMA_PORT: 3306
     ports:
       - "90:80"
+    depends_on:
+      - db
 
   redis:
     image: redis:7-alpine

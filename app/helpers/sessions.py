@@ -15,7 +15,7 @@ class Sessions:
     def __new__(cls):
         if cls._instance is None:
             cls._instance = super().__new__(cls)
-            env = environ.get("FLASK_ENV", "development")
+            env = os.environ.get("FLASK_ENV", "development")
             if env == "production":
                 cls._redis = redis.StrictRedis(host='redis', port=6379, db=0)
                 data = cls._load_from_redis(cls)
