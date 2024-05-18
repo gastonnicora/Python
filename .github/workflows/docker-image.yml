@@ -57,18 +57,6 @@ jobs:
     # Step 7: Muestra el digest de la imagen
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
-    
-    # Paso para definir las variables de entorno
-    - name: Set up environment variables
-      run: |
-        echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> $GITHUB_ENV
-        echo "EMAIL=${{ secrets.EMAIL }}" >> $GITHUB_ENV
-        echo "MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}" >> $GITHUB_ENV
-        echo "MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}" >> $GITHUB_ENV
-    env:
-      SECRET_KEY: ${{ secrets.SECRET_KEY }}
-      EMAIL: ${{ secrets.EMAIL }}
-      MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
-      MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+   
     
     
