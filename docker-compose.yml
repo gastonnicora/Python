@@ -29,31 +29,12 @@ services:
       DB_PASS: user
       DB_NAME: Remates
       CELERY: celery:5000
+      FLASK_ENV: production
     depends_on:
       - db
-      - celery
-    ports:
-      - "4000:4000"
-
-  celery:
-    image: gastonnicora/remates-celery
-    restart: always
-    environment:
-      REDIS: redis
-    depends_on:
       - redis
     ports:
-      - "5000:5000"
-      - "5555:5555"
-
-  phpmyadmin:
-    image: phpmyadmin
-    restart: always
-    environment:
-      PMA_HOST: db
-      PMA_PORT: 3306
-    ports:
-      - "90:80"
+      - "4000:4000"
 
   redis:
     image: redis:7-alpine
