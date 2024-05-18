@@ -45,7 +45,7 @@ def deleteConfirm(uuid):
     print("uuid")
     print(uuid)
     headers = {'Referer': request.headers.get("Host")}
-    r=R.get(link+"/deleteConfirm/"+uuid,headers=headers)
+    # r=R.get(link+"/deleteConfirm/"+uuid,headers=headers)
 
 def finishedArticle(uuid,time):
     if Celery()._uuid== None:
