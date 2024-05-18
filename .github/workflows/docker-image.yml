@@ -48,13 +48,12 @@ jobs:
         file: ./Dockerfile
         tags: |
           gastonnicora/remates-python:${{ env.SOURCE_NAME }}
-        secrets: |
-          EMAIL: ${{ secrets.EMAIL }}
-          MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
-          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
-      env: 
+      env:
         SOURCE_NAME: ${{ steps.prepare_source.outputs.SOURCE_NAME }}
+        EMAIL: ${{ secrets.EMAIL }}
+        MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+        MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
     # Step 7: Muestra el digest de la imagen
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
