@@ -29,12 +29,6 @@ from app.helpers.sessions import Sessions
 from app.helpers.celery import Celery
 
 def create_app(environment="development"):
-    print(os.environ)
-    print(os.environ)
-    print(os.environ)
-    print(os.environ)
-    print(os.environ)
-    
     # Configuración inicial de la app
     app = Flask(__name__)
     app.jinja_env.line_statement_prefix = '#'

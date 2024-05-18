@@ -1,3 +1,4 @@
+import os
 from app import create_app,  socketio
 from os import environ
 
@@ -8,6 +9,13 @@ app= create_app()
 
 
 if __name__ == "__main__":
+        
+    print(os.environ)
+    print(os.environ)
+    print(os.environ)
+    print(os.environ)
+    print(os.environ)
+    
     # if env == "development":
         socketio.run(app,host="0.0.0.0",port=4000,debug=True,allow_unsafe_werkzeug=True)
     # else:
