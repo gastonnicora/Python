@@ -40,6 +40,10 @@ def deleteConfirm(uuid):
     if Celery()._uuid== None:
         login()
     link= Celery().getLink()
+    print("link")
+    print(link)
+    print("uuid")
+    print(uuid)
     headers = {'Referer': request.headers.get("Host")}
     r=R.get(link+"/deleteConfirm/"+uuid,headers=headers)
 
