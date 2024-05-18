@@ -13,6 +13,7 @@ users={}
 rooms={}
 @socketio.on('connect')
 def test_connect():
+    print("Usuario se conecto")
     emit('coneccion', {'data': 'Connected'})
 
 @socketio.on('disconnect')
@@ -26,6 +27,8 @@ def disconnect(data):
     
 @socketio.on('coneccion')
 def test_coneccion(data):
+    print("usuario se conecto, datos:")
+    print(data)
     users[request.sid] = data
     join_room(data["uuid"],request.sid)
  
