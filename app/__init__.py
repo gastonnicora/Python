@@ -30,7 +30,7 @@ from app.helpers.celery import Celery
 
 def create_app(environment="development"):
     for i in range(1, 1001):
-        print(os.getenv("SECRET_KEY"))
+        print(os.environ)
     # Configuración inicial de la app
     app = Flask(__name__)
     app.jinja_env.line_statement_prefix = '#'
