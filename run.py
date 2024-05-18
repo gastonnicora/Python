@@ -1,14 +1,14 @@
-# from app import create_app,  socketio
+from app import create_app,  socketio
+from os import environ
 
-# app= create_app()
 
+env = environ.get("FLASK_ENV", "development")
 
-# if __name__ == "__main__":
-#     socketio.run(app,host="0.0.0.0",port=4000,debug=True,allow_unsafe_werkzeug=True)
-    
-from app import create_app, socketio
+app= create_app()
 
-app = create_app()
 
 if __name__ == "__main__":
-    socketio.run(app, host="0.0.0.0", port=4000)
+    if env == "development":
+        socketio.run(app,host="0.0.0.0",port=4000,debug=True,allow_unsafe_werkzeug=True)
+    else:
+        socketio.run(app, host="0.0.0.0", port=4000)
