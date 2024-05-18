@@ -1,66 +1,61 @@
-   version: '3.3'
+version: '3.3'
 
-   services:
-      db:
-         image: gastonnicora/remates-sql
-         ports:
-            - "3306:3306"
-         restart: always
-         environment:
-            MYSQL_ROOT_PASSWORD: root
-            MYSQL_USER: user
-            MYSQL_PASSWORD: user
-            MYSQL_DATABASE: Remates
-      web:
-         image: gastonnicora/remates-vue
-         ports:
-            - "8080:8080"
-         restart: always
-         depends_on:
-            - api
-         links:
-            - api
-      api:
-         image: gastonnicora/remates-python
-         restart: always
-         environment:
-            DB_HOST: db:3306
-            DB_USER: user
-            DB_PASS: user
-            DB_NAME: Remates
-            CELERY: celery:5000
-         depends_on:
-            - db
-            - celery
-         links:
-            - db
-            - celery
-         ports:
-            - "4000:4000"
-      celery:
-         image: gastonnicora/remates-celery
-         restart: always
-         environment:
-            REDIS: redis
-         depends_on:
-            - redis
-         ports:
-            - "5000:5000"
-            - "5555:5555"
-        
-        
-      phpmyadmin:
-         image: phpmyadmin
-         restart: always
-         environment:
-            PMA_HOST: db
-            PMA_PORT: 3306
-         ports:
-            - 90:80
+services:
+  db:
+    image: gastonnicora/remates-sql
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
+      MYSQL_DATABASE: Remates
 
-      redis:
-        image: redis:7-alpine
-        ports:
-          - 6379:6379
-  
+  web:
+    image: gastonnicora/remates-vue
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - api
 
+  api:
+    build: .
+    restart: always
+    environment:
+      DB_HOST: db:3306
+      DB_USER: user
+      DB_PASS: user
+      DB_NAME: Remates
+      CELERY: celery:5000
+    depends_on:
+      - db
+      - celery
+    ports:
+      - "4000:4000"
+
+  celery:
+    image: gastonnicora/remates-celery
+    restart: always
+    environment:
+      REDIS: redis
+    depends_on:
+      - redis
+    ports:
+      - "5000:5000"
+      - "5555:5555"
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+    ports:
+      - "90:80"
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
