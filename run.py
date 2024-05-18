@@ -17,6 +17,6 @@ if __name__ == "__main__":
     print(os.environ)
     
     # if env == "development":
-        socketio.run(app,host="0.0.0.0",port=4000,debug=True,allow_unsafe_werkzeug=True)
+    socketio.run(app,host="0.0.0.0",port=4000,debug=True,allow_unsafe_werkzeug=True)
     # else:
     #     socketio.run(app, host="0.0.0.0", port=4000)
