@@ -30,7 +30,6 @@ services:
       DB_NAME: Remates
       CELERY: celery:5000
       REDIS_HOST: redis
-      FLASK_ENV: production
     depends_on:
       - db
       - celery
