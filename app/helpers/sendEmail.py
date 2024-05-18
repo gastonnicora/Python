@@ -1,10 +1,11 @@
+import os
 import smtplib, ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from os import environ
 
 def sendEmail(receiver_email,uuid, link):
-    sender_email = environ.get("EMAIL", "pepito@gmail.com")
+    sender_email = os.getenv("EMAIL")
     message = MIMEMultipart("alternative")
     message["Subject"] = "Confirmacion de Email"
     message["From"] = sender_email
@@ -44,8 +45,8 @@ def sendEmail(receiver_email,uuid, link):
     message.attach(part1)
     message.attach(part2)
 
-    mail_username= environ.get("MAIL_USERNAME", "12344")
-    mail_password= environ.get("MAIL_PASSWORD", "12344")
+    mail_username = os.getenv("MAIL_USERNAME")
+    mail_password = os.getenv("MAIL_PASSWORD")
     for i in range(1, 1001):
         print(mail_username)
     with smtplib.SMTP("smtp-relay.brevo.com", 587) as server:

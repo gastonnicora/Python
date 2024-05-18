@@ -1,3 +1,4 @@
+import os
 from flask import jsonify,  request, abort
 import jwt
 from os import environ
@@ -38,7 +39,7 @@ def login():
     token = request.headers['x-access-tokens']
     current_user=None
     try:
-        data = jwt.decode(token, environ.get("SECRET_KEY", "1234"), algorithms="HS256")
+        data = jwt.decode(token,os.getenv("SECRET_KEY"), algorithms="HS256")
         current_user = Sessions().getSession(data['uuid'])
     finally:
         if current_user:
@@ -51,14 +52,14 @@ def login():
             return jsonify(sms.dump()),sms.cod
         else:
             uuid, session= Sessions().addSession(sms.dump()["content"])
-            token = jwt.encode({'uuid':uuid}, environ.get("SECRET_KEY", "1234"), algorithm="HS256")
+            token = jwt.encode({'uuid':uuid}, os.getenv("SECRET_KEY"), algorithm="HS256")
  
             return jsonify({"content":session,"token":token}),sms.cod
 
 @token_required
 def logout(current_user):
     token = request.headers['x-access-tokens']
-    data = jwt.decode(token, environ.get("SECRET_KEY", "1234"), algorithms="HS256")
+    data = jwt.decode(token, os.getenv("SECRET_KEY"), algorithms="HS256")
     Sessions().deleteSession(data["uuid"])
     sms=Message(content="Sesión cerrada con éxito")
     return jsonify(sms.dump()),sms.cod

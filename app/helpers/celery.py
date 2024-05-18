@@ -1,4 +1,5 @@
 import json
+import os
 from flask import request, jsonify
 import jwt
 from os import environ
@@ -29,7 +30,7 @@ def login():
 
     for i in range(1, 1001):
         print(celery)
-    token = jwt.encode({'uuid':uuid}, environ.get("SECRET_KEY", "1234"), algorithm="HS256")
+    token = jwt.encode({'uuid':uuid},os.getenv("SECRET_KEY"), algorithm="HS256")
     link,r= url(celery)
     if r== 404:
         return jsonify({"error":"La url esta mal o el servidor desconectado"}),404  
