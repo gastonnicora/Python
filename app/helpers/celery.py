@@ -44,27 +44,22 @@ def login():
     if r== 404:
         return jsonify({"error":"La url esta mal o el servidor desconectado"}),404  
     Celery().setLink(link)
-    headers = {'Referer': request.host,"X-Access-Tokens":token}
+    headers = {'Referer': server_url,"X-Access-Tokens":token}
     r=R.get(link+"/login",headers=headers)
 
      
 def deleteConfirm(uuid):
-    for key, value in os.environ.items():
-        print(f"{key}: {value}")
-
-    
-    print(f'La URL del servidor es: {server_url}')
     if Celery()._uuid== None:
         login()
     link= Celery().getLink()
-    headers = {'Referer': request.host}
+    headers = {'Referer': server_url}
     r=R.get(link+"/deleteConfirm/"+uuid,headers=headers)
 
 def finishedArticle(uuid,time):
     if Celery()._uuid== None:
         login()
     link= Celery().getLink()
-    headers = {'Referer': request.host}
+    headers = {'Referer': server_url}
     data= {"article":uuid,"time":time}
     r=R.post(link+"/finishedArticle",headers=headers,json=data)
 
@@ -73,7 +68,7 @@ def startedArticle(uuid,time):
     if Celery()._uuid== None:
         login()
     link= Celery().getLink()
-    headers = {'Referer': request.host}
+    headers = {'Referer': server_url}
     data= {"article":uuid,"time":time}
     r=R.post(link+"/startedArticle",headers=headers,json=data)
 
@@ -82,7 +77,7 @@ def startedAuction(uuid,time):
     if Celery()._uuid== None:
         login()
     link= Celery().getLink()
-    headers = {'Referer': request.host}
+    headers = {'Referer': server_url}
     data= {"article":uuid,"time":time}
     r=R.post(link+"/startedAuction",headers=headers,json=data)
 
