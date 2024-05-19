@@ -2,6 +2,7 @@ import os
 from app import create_app,  socketio
 from os import environ
 from dotenv import load_dotenv
+import logging
 
 
 env = environ.get("FLASK_ENV", "development")
@@ -9,7 +10,9 @@ env = environ.get("FLASK_ENV", "development")
 load_dotenv()
 app= create_app()
 
-
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.INFO)
+app.logger.addHandler(console_handler)
 
 if __name__ == "__main__":
      
