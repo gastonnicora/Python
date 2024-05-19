@@ -45,7 +45,6 @@ jobs:
           echo "MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}" >> .env
           echo "MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}" >> .env
           echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
-          echo "MY_SECRET=${{ secrets.MY_SECRET }}" >> .env
 
       # Step 7: Construcción y publicación de la imagen
       - name: Build and push

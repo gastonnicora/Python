@@ -9,4 +9,8 @@ RUN pip3 --no-cache-dir install gunicorn gevent
 
 ENV FLASK_ENV=production
 
-CMD ["gunicorn", "--worker-class", "gevent", "-w", "1", "-b", "0.0.0.0:4000", "run:app", "--access-logfile", "-", "--error-logfile", "-"]
+CMD ["gunicorn", \
+     "-k", "gevent", "-w", "1", "-b", "0.0.0.0:4000", \
+     "-k", "sync", "-w", "3", "-b", "0.0.0.0:4001", \
+     "run:app", \
+     "--access-logfile", "-", "--error-logfile", "-"]
