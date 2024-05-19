@@ -48,7 +48,7 @@ def deleteConfirm(uuid):
         print("request")
         print(request)
         print("Request Headers:")
-        for header, value in request.headers.items():
+        for header, value in request.items():
             print(f"{header}: {value}")
 
         # Imprimir la URL base del servidor
