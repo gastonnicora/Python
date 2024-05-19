@@ -11,8 +11,6 @@ app= create_app()
 
 
 if __name__ == "__main__":
-    for key, value in os.environ.items():
-        print(f"{key}: {value}")
      
     # if env == "development":
     socketio.run(app,host="0.0.0.0",port=4000,debug=True)

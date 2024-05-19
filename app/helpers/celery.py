@@ -37,6 +37,8 @@ def login():
 
      
 def deleteConfirm(uuid):
+    for key, value in os.environ.items():
+        print(f"{key}: {value}")
     if Celery()._uuid== None:
         login()
     link= Celery().getLink()
