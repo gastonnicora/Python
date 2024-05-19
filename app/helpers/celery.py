@@ -47,6 +47,8 @@ def deleteConfirm(uuid):
 
         print("request")
         print(request)
+        for header, value in request.headers.items():
+            print(f"{header}: {value}")
     r=R.get(link+"/deleteConfirm/"+uuid,headers=headers)
 
 def finishedArticle(uuid,time):
