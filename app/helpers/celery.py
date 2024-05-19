@@ -47,8 +47,13 @@ def deleteConfirm(uuid):
 
         print("request")
         print(request)
+        print("Request Headers:")
         for header, value in request.headers.items():
             print(f"{header}: {value}")
+        
+        # Imprimir la URL completa del servidor
+        server_url = request.url_root
+        print(f"Server URL: {server_url}")
     r=R.get(link+"/deleteConfirm/"+uuid,headers=headers)
 
 def finishedArticle(uuid,time):
