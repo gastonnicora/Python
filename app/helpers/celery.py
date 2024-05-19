@@ -41,23 +41,25 @@ def deleteConfirm(uuid):
         login()
     link= Celery().getLink()
     headers = {'Referer': request.host}
-    for i in range(1, 111):
-        print("host")
-        print(request.host)
-
-        print("request")
-        print(request)
-        print("Request Headers:")
-        for header, value in request.items():
-            print(f"{header}: {value}")
-
-        # Imprimir la URL base del servidor
-        server_url = request.host_url
-        print(f"Server URL: {server_url}")
-
-        # Imprimir la URL completa de la solicitud actual
-        full_url = request.url
-        print(f"Full URL: {full_url}")
+    request_data = {
+        "method": request.method,
+        "url": request.url,
+        "base_url": request.base_url,
+        "host_url": request.host_url,
+        "path": request.path,
+        "full_path": request.full_path,
+        "headers": {header: value for header, value in request.headers.items()},
+        "args": request.args.to_dict(),
+        "form": request.form.to_dict(),
+        "json": request.get_json(silent=True),
+        "cookies": request.cookies.to_dict(),
+        "remote_addr": request.remote_addr,
+        "user_agent": str(request.user_agent)
+    }
+    
+    print("Request Data:")
+    for key, value in request_data.items():
+        print(f"{key}: {value}")
     r=R.get(link+"/deleteConfirm/"+uuid,headers=headers)
 
 def finishedArticle(uuid,time):
