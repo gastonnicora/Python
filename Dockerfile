@@ -9,4 +9,4 @@ RUN pip3 --no-cache-dir install -r ./requirements.txt
 RUN pip3 --no-cache-dir install gunicorn
 
 ENV FLASK_ENV=production
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:4000", "run:app", "--reload", "--log-level", "debug"]
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:4000", "run:app", "--access-logfile", "-", "--error-logfile", "-"]
