@@ -25,7 +25,7 @@ app.logger.addHandler(console_handler)
 @app.route('/logs')
 def serve_logs():
     log_file_path = os.getcwd() + '/app.log'  # Ruta al archivo de registro
-    return send_file(log_file_path)
+    return send_file(log_file_path, mimetype='text/plain')
 
 if __name__ == "__main__":
      
