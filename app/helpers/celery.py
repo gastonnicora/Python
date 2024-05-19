@@ -3,11 +3,11 @@ from os import environ
 import requests as R   
 
 
-celery="http://"+environ.get("CELERY", "127.0.0.1:5000")
+celery=environ.get("CELERY", "127.0.0.1:5000")
 
      
 def deleteConfirm(uuid):
-    r=R.get(celery+"/deleteConfirm/"+uuid)
+    r=R.get(f"http://{celery}/deleteConfirm/{uuid}")
     if r.status_code == 202:
         print("La solicitud se realizó correctamente.")
         print("Respuesta:", r.json())
