@@ -7,7 +7,7 @@ celery=environ.get("CELERY", "127.0.0.1:5000")
 
      
 def deleteConfirm(uuid):
-    r=R.get(f"http://{celery}/deleteConfirm/{uuid}")
+    r=R.get(f"http://celery:5000/deleteConfirm/{uuid}")
     if r.status_code == 202:
         print("La solicitud se realizó correctamente.")
         print("Respuesta:", r.json())
