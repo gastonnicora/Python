@@ -11,7 +11,7 @@ load_dotenv()
 app= create_app()
 
 console_handler = logging.StreamHandler()
-console_handler.setLevel(logging.INFO)
+console_handler.setLevel(logging.DEBUG)
 app.logger.addHandler(console_handler)
 
 if __name__ == "__main__":
