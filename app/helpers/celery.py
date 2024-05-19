@@ -12,15 +12,9 @@ from app.helpers.saveSession import loadDict
 
 celery=environ.get("CELERY", "127.0.0.1:5000")
 
-def get_server_url(port):
-    # Obtener la dirección IP del contenedor
-    ip_address = socket.gethostbyname(socket.gethostname())
-    # Construir la URL del servidor usando la dirección IP y el puerto
-    server_url = f'http://{ip_address}:{port}'
-    return server_url
 
 # Obtener la URL del servidor para el puerto 4000 (por ejemplo)
-server_url = get_server_url(4000)
+server_url = "http://0.0.0.0:4000"
 
 def url(referer):
     r=None

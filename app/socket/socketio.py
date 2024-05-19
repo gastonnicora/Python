@@ -11,6 +11,7 @@ socketio = SocketIO( cors_allowed_origins='*')
 
 users={}
 rooms={}
+print("socket")
 @socketio.on('connect')
 def test_connect():
     print("Usuario se conecto")
@@ -18,11 +19,14 @@ def test_connect():
 
 @socketio.on('disconnect')
 def test_disconnect():
+    print("usuario se desconectado")
     users.pop(request.sid,'No user found')
     print(users)
 
 @socketio.on('borrarUser')
 def disconnect(data):
+
+    print("borrarUser")
     users[request.sid] = {}
     
 @socketio.on('coneccion')
@@ -34,6 +38,8 @@ def test_coneccion(data):
  
 @socketio.on('join')
 def on_join(data):
+    print("join")
+    print(data)
     room = data['room']
     join_room(room,request.sid)
     if not room in rooms:
@@ -44,6 +50,7 @@ def on_join(data):
 @socketio.on('leave')
 def on_leave(data):
     print("leave")
+    print(data)
     room = data['room']
     if room in rooms:
             rooms[room]["users"].remove(users[request.sid])
@@ -53,21 +60,27 @@ def on_leave(data):
     emit('joinToRoom/'+room,rooms[room], room= room)
 
 def emit_bid(data):
+    print("emit bid")
+    print(data)
     room = data['room']
     reset_countdown(room)
     socketio.emit('bidRoom/'+room,data["bid"].toJSON(), room= room)
 
 def emit_finish(room):
+    print("emit finish")
     socketio.emit('finishRoom/'+room, {'data': "finish"}, room= room)
 
 @socketio.on('leave_session')
 def on_leave_session(data):
+    print("leave")
     leave_room(data["uuid"],request.sid)
 
 def emit_updateSesion(data):
+    print("update user")
     socketio.emit('updateSession/'+data["uuid"], {'data': data}, room= data["uuid"])
 
 def emit_start(room, time):
+    print("start")
     if not room in rooms:
         rooms[room]= {"users":[], "time":time,"timeSet":time, "bool":False }
     rooms[room]["time"]= time
