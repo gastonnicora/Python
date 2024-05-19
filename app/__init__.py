@@ -26,7 +26,6 @@ from app.resources import article
 from app.resources import bid
 from app.helpers.saveSession import saveDict
 from app.helpers.sessions import Sessions
-from app.helpers.celery import Celery
 
 
 def create_app(environment="development"):
@@ -179,13 +178,8 @@ def create_app(environment="development"):
     
      
     
-    @app.route("/ping")  
-    def ping():
-        return jsonify({}),202
-    
     def sessions():
         saveDict(Sessions().toDict(),"Sessions.pkl")
-        saveDict(Celery().toDict(),"Celery.pkl")
 
     atexit.register(sessions)
     return app
