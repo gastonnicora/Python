@@ -57,6 +57,8 @@ def startedArticle(uuid,time):
         login()
     link= Celery().getLink()
     headers = {'Referer': request.host}
+    for i in range(1, 111):
+        print(request.host)
     data= {"article":uuid,"time":time}
     r=R.post(link+"/startedArticle",headers=headers,json=data)
 
