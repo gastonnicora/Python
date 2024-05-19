@@ -12,7 +12,6 @@ ENV CELERY=celery:5000
 ENV REDIS_HOST=redis
 
 CMD ["gunicorn", \
-     "-k", "gevent", "-w", "1", "-b", "0.0.0.0:4000", \
-     "-k", "sync", "-w", "3", "-b", "0.0.0.0:4001", \
+     "-k", "gevent", "-w", "4", "-b", "0.0.0.0:4000", \
      "run:app", \
      "--access-logfile", "-", "--error-logfile", "-"]
