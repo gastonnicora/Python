@@ -39,7 +39,6 @@
       restart: always
       depends_on:
         - redis
-        - api
       ports:
         - "5555:5555" # Solo expone el puerto 5555 al host
       expose:
