@@ -2,7 +2,6 @@ from flask import request, jsonify
 from app.helpers.validador import validate_request
 from app.models.article import Article
 from app.helpers.token import token_required
-from app.helpers.tokenCelery import token_required_celery
 from app.socket.socketio import emit_finish, emit_start
 
 
@@ -42,13 +41,11 @@ def delete(session,uuid):
             Article.setBefore(None,next)
     return jsonify(sms.dump()),sms.cod
 
-@token_required_celery
 def start(uuid):
     sms= Article.setStarted(uuid)
     emit_start(uuid, sms.dump()["content"]["timeAfterBid"])
     return jsonify(sms.dump()),sms.cod
 
-@token_required_celery
 def finish(uuid):
     sms= Article.setFinished(uuid)
     emit_finish(uuid)

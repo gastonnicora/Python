@@ -2,7 +2,6 @@ import datetime
 from flask import request, jsonify
 from app.models.auction import Auction
 from app.helpers.token import token_required
-from app.helpers.tokenCelery import token_required_celery
 from app.helpers.celery import startedAuction
 from app.helpers.validador import validate_request
 from app.socket.socketio import emit_finish, emit_start
@@ -54,11 +53,9 @@ def getByCompany(uuid):
     return jsonify(sms.dump()),sms.cod
 
 
-@token_required_celery
 def start(uuid):
     emit_start(uuid,0)
 
-@token_required_celery
 def finished(uuid):
     sms=Auction.setFinished(uuid)
     emit_finish(uuid)

@@ -23,8 +23,6 @@ def get(uuid):
     return jsonify(sms.dump()),sms.cod
 
 
-from app.helpers.tokenCelery import token_required_celery
-@token_required_celery
 def delete(uuid):
     sms= ConfirmEMail.get(uuid)
     if sms.cod== 202 :

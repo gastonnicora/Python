@@ -27,7 +27,7 @@ def url(referer):
         except:
             return None,404
 
-celery,r=url(environ.get("CELERY", "127.0.0.1:5000"))
+celery,r=environ.get("CELERY", "http://127.0.0.1:5000")
 
      
 def deleteConfirm(uuid):
