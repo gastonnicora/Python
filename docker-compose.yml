@@ -1,63 +1,85 @@
-  version: '3.3'
+version: '3.3'
 
-  services:
-    db:
-      image: gastonnicora/remates-sql
-      expose:
-        - "3306"
-      restart: always
-      environment:
-        MYSQL_ROOT_PASSWORD: root
-        MYSQL_USER: user
-        MYSQL_PASSWORD: user
-        MYSQL_DATABASE: Remates
+services:
+  db:
+    image: gastonnicora/remates-sql
+    expose:
+      - "3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
+      MYSQL_DATABASE: Remates
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - mynetwork
 
-    web:
-      image: gastonnicora/remates-vue
-      ports:
-        - "80:8080"
-      restart: always
-      depends_on:
-        - api
+  web:
+    image: gastonnicora/remates-vue
+    ports:
+      - "80:8080"
+    restart: always
+    depends_on:
+      - api
+    networks:
+      - mynetwork
 
-    api:
-      image: gastonnicora/remates-python
-      restart: always
-      environment:
-        DB_HOST: db:3306
-        DB_USER: user
-        DB_PASS: user
-        DB_NAME: Remates
-      depends_on:
-        - db
-      ports:
-        - "4000:4000"
+  api:
+    image: gastonnicora/remates-python
+    restart: always
+    environment:
+      DB_HOST: db:3306
+      DB_USER: user
+      DB_PASS: user
+      DB_NAME: Remates
+    depends_on:
+      - db
+      - redis
+    ports:
+      - "4000:4000"
+    networks:
+      - mynetwork
 
-    celery:
-      image: gastonnicora/remates-celery
-      restart: always
-      depends_on:
-        - redis
-        - api
-      ports:
-        - "5555:5555" # Solo expone el puerto 5555 al host
-      expose:
-        - "5000" # Hace que el puerto 5000 sea accesible internamente
+  celery:
+    image: gastonnicora/remates-celery
+    restart: always
+    depends_on:
+      - redis
+      - api
+    ports:
+      - "5555:5555"
+    expose:
+      - "5000" # Hace que el puerto 5000 sea accesible internamente
+    networks:
+      - mynetwork
 
-    phpmyadmin:
-      image: phpmyadmin
-      restart: always
-      environment:
-        PMA_HOST: db
-        PMA_PORT: 3306
-      ports:
-        - "90:80"
-      depends_on:
-        - db
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+    ports:
+      - "90:80"
+    depends_on:
+      - db
+    networks:
+      - mynetwork
 
-    redis:
-      image: redis:7-alpine
-      expose:
-        - "6379"
-  networks:
-    mynetwork:
+  redis:
+    image: redis:7-alpine
+    expose:
+      - "6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+
+volumes:
+  db_data:
+  redis_data:
