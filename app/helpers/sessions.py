@@ -19,7 +19,7 @@ class Sessions:
             redis_host = os.environ.get("REDIS_HOST", "localhost")
             if env == "production":
                 cls._redis = redis.StrictRedis(host=redis_host, port=6379, db=0)
-                data = cls._load_from_redis()
+                data = cls._load_from_redis(cls)
             else:
                 data = loadDict("Sessions.pkl")
             if data:
