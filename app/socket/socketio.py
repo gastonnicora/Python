@@ -25,13 +25,11 @@ def test_disconnect():
 
 @socketio.on_error()        # handle all errors
 def error_handler(e):
-    for i in range(1,1000):
-        print('Error:'+str(e))
+    print('Error:'+str(e))
 
 @socketio.on_error_default  # handle all errors
 def default_error_handler(e):
-    for i in range(1,1000):
-        print(f'Default error: {e}')
+    print(f'Default error: {e}')
 
 @socketio.on('borrarUser')
 def disconnect(data):
