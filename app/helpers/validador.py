@@ -5,7 +5,7 @@ from app.helpers.message import Message
 from functools import wraps
 from flask import jsonify, request
 
-def validate_request(current_user,nameDB, nameUrl):
+def validate_request(nameDB, nameUrl):
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
@@ -13,7 +13,7 @@ def validate_request(current_user,nameDB, nameUrl):
             validator = Validador(nameDB, nameUrl, data)
             if validator.haveError:
                 return jsonify(validator.errors().dump()),validator.errors().cod
-            return func(current_user,*args, **kwargs)
+            return func(*args, **kwargs)
 
         return wrapper
 
