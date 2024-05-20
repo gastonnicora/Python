@@ -7,7 +7,7 @@ import time
 from threading import Thread
 
 
-socketio = SocketIO( cors_allowed_origins='*')
+socketio = SocketIO( cors_allowed_origins='*',port=4000)
 
 users={}
 rooms={}
