@@ -1,38 +1,37 @@
+import json
+import os
+import redis
 
-from os import environ
-import requests as R   
+redis_host = os.environ.get("REDIS", "localhost")
+redis_client = redis.Redis(host=redis_host, port=6379)
 
-
-celery_url= "http://"+environ.get("CELERY", "127.0.0.1:5000")
-     
 def deleteConfirm(uuid):
-    try:
-        # Hacer una solicitud GET al servicio de Celery
-        response = R.get(f"{celery_url}/deleteConfirm/{uuid}")
-        
-        # Verificar si la solicitud fue exitosa (código de estado 200)
-        if response.status_code == 200:
-            print("Solicitud exitosa a Celery")
-            print("Contenido de la respuesta:", response.text)
-        else:
-            print("La solicitud a Celery falló. Código de estado:", response.status_code)
-    
-    except Exception as e:
-        print("Error al hacer la solicitud a Celery:", str(e))
+    message = json.dumps({
+        'task_name': "deleteConfirm",
+        'uuid': uuid
+    })
+    redis_client.publish('task_channel', message)
 
-def finishedArticle(uuid,time):
-    data= {"article":uuid,"time":time}
-    r=R.post(celery_url+"/finishedArticle",json=data)
+def finishedArticle(uuid, time):
+    message = json.dumps({
+        'task_name': "finishedArticle",
+        'article': uuid,
+        "time": time
+    })
+    redis_client.publish('task_channel', message)
 
+def startedArticle(uuid, time):
+    message = json.dumps({
+        'task_name': "startedArticle",
+        'article': uuid,
+        "time": time
+    })
+    redis_client.publish('task_channel', message)
 
-def startedArticle(uuid,time):
-    data= {"article":uuid,"time":time}
-    r=R.post(celery_url+"/startedArticle",json=data)
-
-
-def startedAuction(uuid,time):
-    data= {"article":uuid,"time":time}
-    r=R.post(celery_url+"/startedAuction",json=data)
-
-
-
+def startedAuction(uuid, time):
+    message = json.dumps({
+        'task_name': "startedAuction",
+        'article': uuid,
+        "time": time
+    })
+    redis_client.publish('task_channel', message)
