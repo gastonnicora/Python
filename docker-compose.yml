@@ -81,6 +81,7 @@ services:
 networks:
   mynetwork:
   socket:
+    driver: bridge
 
 volumes:
   db_data:
