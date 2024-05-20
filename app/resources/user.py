@@ -38,8 +38,9 @@ def login():
     token = request.headers['x-access-tokens']
     current_user=None
     try:
-        data = jwt.decode(token, environ.get("SECRET_KEY","1234"), algorithms="HS256")
-        current_user = Sessions().getSession(data['uuid'])
+        if token:
+            data = jwt.decode(token, environ.get("SECRET_KEY","1234"), algorithms="HS256")
+            current_user = Sessions().getSession(data['uuid'])
     finally:
         if current_user:
             return jsonify({"error":"Usted ya inicio sesión. Cierre sesión si quiere iniciar una nueva ","cod":400}),400
