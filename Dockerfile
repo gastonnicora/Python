@@ -4,11 +4,10 @@ WORKDIR /app
 
 COPY ./ . 
 
-RUN pip3 --no-cache-dir install -r ./requirements.txt
+RUN pip3 --no-cache-dir install -r requirements.txt
 RUN pip3 --no-cache-dir install gunicorn gevent
 
 ENV FLASK_ENV=production
-ENV CELERY=celery:5000
 ENV REDIS_HOST=redis
 
 CMD ["gunicorn", \

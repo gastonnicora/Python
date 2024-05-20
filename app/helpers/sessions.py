@@ -16,9 +16,10 @@ class Sessions:
         if cls._instance is None:
             cls._instance = super().__new__(cls)
             env = os.environ.get("FLASK_ENV", "development")
+            redis_host = os.environ.get("REDIS_HOST", "localhost")
             if env == "production":
-                cls._redis = redis.StrictRedis(host='redis', port=6379, db=0)
-                data = cls._load_from_redis(cls)
+                cls._redis = redis.StrictRedis(host=redis_host, port=6379, db=0)
+                data = cls._load_from_redis()
             else:
                 data = loadDict("Sessions.pkl")
             if data:
@@ -26,9 +27,6 @@ class Sessions:
                 cls._users = data["users"]
                 cls._companies = data["companies"]
         return cls._instance
-
-    def __init__(cls):
-        cls.variable = "Soy un Singleton"
 
     def addSession(cls, data):
         id = str(uuid.uuid4())
@@ -47,16 +45,19 @@ class Sessions:
         return session
 
     def _addUser(cls, id, data):
-        if cls._users.get(data["uuid"]) and len(cls._users[data["uuid"]]) != 0:
-            cls._users[data["uuid"]].append(id)
+        user_uuid = data["uuid"]
+        if cls._users.get(user_uuid):
+            cls._users[user_uuid].append(id)
         else:
-            cls._users[data["uuid"]] = [id]
+            cls._users[user_uuid] = [id]
 
     def _addCompany(cls, id, data):
-        if cls._companies.get(data.get("company")) and cls._companies.get(data["company"].get("uuid")) and len(data["company"].get("uuid")) != 0:
-            cls._companies[data["company"]["uuid"]].append(id)
-        else:
-            cls._companies[data["company"]["uuid"]] = [id]
+        company_uuid = data.get("company", {}).get("uuid")
+        if company_uuid:
+            if cls._companies.get(company_uuid):
+                cls._companies[company_uuid].append(id)
+            else:
+                cls._companies[company_uuid] = [id]
 
     def updateSession(cls, uuid, data):
         session = cls.getSession(uuid)
@@ -66,7 +67,7 @@ class Sessions:
         cls._save()
 
     def updateSessionByUser(cls, uuid, data):
-        uuidS = cls._users[uuid]
+        uuidS = cls._users.get(uuid, [])
         newSession = data
         for i in uuidS:
             newSession["login"] = cls._sessions[i]["login"]
@@ -74,33 +75,32 @@ class Sessions:
         cls._save()
 
     def getSession(cls, uuid):
-        return cls._sessions[uuid]
+        return cls._sessions.get(uuid)
 
     def getSessionsByUser(cls, uuid):
-        uuidS = cls._users[uuid]
-        sessions = []
-        for i in uuidS:
-            sessions.append(cls._sessions[i])
+        uuidS = cls._users.get(uuid, [])
+        sessions = [cls._sessions[i] for i in uuidS]
         return sessions
 
     def deleteSession(cls, uuid):
-        session = cls._sessions.pop(uuid)
-        cls._users[session["uuid"]].remove(uuid)
-        cls._save()
+        session = cls._sessions.pop(uuid, None)
+        if session:
+            cls._users[session["uuid"]].remove(uuid)
+            cls._save()
 
     def deleteSessionsByUser(cls, uuid):
-        uuidS = cls._users[uuid]
+        uuidS = cls._users.get(uuid, [])
         for i in uuidS:
-            cls._sessions.pop(i)
+            cls._sessions.pop(i, None)
         cls._users[uuid] = []
         cls._save()
 
     def toDict(cls):
-        dict = {}
-        dict["sessions"] = cls._sessions
-        dict["users"] = cls._users
-        dict["companies"] = cls._companies
-        return dict
+        return {
+            "sessions": cls._sessions,
+            "users": cls._users,
+            "companies": cls._companies
+        }
 
     def _load_from_redis(cls):
         data = cls._redis.get('sessions_data')

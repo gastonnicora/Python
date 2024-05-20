@@ -11,25 +11,6 @@ from app.helpers.sessions import Sessions
 
 @validate_request("Usuarios","userCreate")
 def create(): 
-    request_data = {
-        "method": request.method,
-        "url": request.url,
-        "base_url": request.base_url,
-        "host_url": request.host_url,
-        "path": request.path,
-        "full_path": request.full_path,
-        "headers": {header: value for header, value in request.headers.items()},
-        "args": request.args.to_dict(),
-        "form": request.form.to_dict(),
-        "json": request.get_json(silent=True),
-        "cookies": request.cookies.to_dict(),
-        "remote_addr": request.remote_addr,
-        "user_agent": str(request.user_agent)
-    }
-    
-    print("Request Data:")
-    for key, value in request_data.items():
-        print(f"{key}: {value}")
     sms=User.create(request.get_json())
     if sms.error:
         return jsonify(sms.dump()),sms.cod
