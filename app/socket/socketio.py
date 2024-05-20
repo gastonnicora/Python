@@ -7,7 +7,7 @@ import time
 from threading import Thread
 
 
-socketio = SocketIO( cors_allowed_origins='*',port=4000, ping_timeout=60, ping_interval=25)
+socketio = SocketIO( cors_allowed_origins='*', ping_timeout=60, ping_interval=25)
 
 users={}
 rooms={}
@@ -23,10 +23,13 @@ def test_disconnect():
     users.pop(request.sid,'No user found')
     print(users)
 
-@socketio.on('error')
-def test_error(error):
-    print("error")
-    print(error)
+@socketio.on_error()        # handle all errors
+def error_handler(e):
+    print(f'Error: {e}')
+
+@socketio.on_error_default  # handle all errors
+def default_error_handler(e):
+    print(f'Default error: {e}')
 
 @socketio.on('borrarUser')
 def disconnect(data):
