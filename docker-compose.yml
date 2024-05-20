@@ -24,7 +24,7 @@ services:
     depends_on:
       - api
     networks:
-      - mynetwork
+      - socket
 
   api:
     image: gastonnicora/remates-python
@@ -41,6 +41,7 @@ services:
       - "4000:4000"
     networks:
       - mynetwork
+      - socket
 
   celery:
     image: gastonnicora/remates-celery
@@ -79,6 +80,7 @@ services:
 
 networks:
   mynetwork:
+  socket:
 
 volumes:
   db_data:

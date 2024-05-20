@@ -11,6 +11,6 @@ ENV FLASK_ENV=production
 ENV REDIS_HOST=redis
 
 CMD ["gunicorn", \
-     "-k", "gevent", "-w", "4", "-b", "0.0.0.0:4000", \
+     "-k", "gevent", "-w", "1", "-b", "0.0.0.0:4000", \
      "run:app", \
      "--access-logfile", "-", "--error-logfile", "-"]
