@@ -22,17 +22,17 @@ def deleteConfirm(uuid):
 
 def finishedArticle(uuid,time):
     data= {"article":uuid,"time":time}
-    r=R.post(celery+"/finishedArticle",json=data)
+    r=R.post(celery_url+"/finishedArticle",json=data)
 
 
 def startedArticle(uuid,time):
     data= {"article":uuid,"time":time}
-    r=R.post(celery+"/startedArticle",json=data)
+    r=R.post(celery_url+"/startedArticle",json=data)
 
 
 def startedAuction(uuid,time):
     data= {"article":uuid,"time":time}
-    r=R.post(celery+"/startedAuction",json=data)
+    r=R.post(celery_url+"/startedAuction",json=data)
 
 
 
