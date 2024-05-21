@@ -245,9 +245,10 @@ class Auction(db.Model):
         db.session.merge(auction)
         db.session.commit()
         auc=A(auction)
-        from app.models.article import Article
-        for i in auc.articles.articles:
-            Article.setFinished(i.uuid)
+        if auc.type == 0:
+            from app.models.article import Article
+            for i in auc.articles.articles:
+                Article.setFinished(i.uuid)
         db.session.close()
         return Message(content=auc)
     

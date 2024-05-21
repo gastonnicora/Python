@@ -301,6 +301,8 @@ class Article(db.Model):
         db.session.merge(article)
         db.session.commit()
         art=A(article)
+        if not  art.next:
+            Auction.setFinished(art.auction)
         db.session.close()
         return Message(content=art)
 
