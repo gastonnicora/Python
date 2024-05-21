@@ -4,7 +4,7 @@ from app.models.bid import Bid
 from app.models.company import Company
 from app.models.user import User
 import datetime
-from datetime import timezone
+from pytz import timezone
 
 
 from random import randint
