@@ -9,6 +9,8 @@ from app.helpers.modelosPlanos.auction import Auction as A
 from pytz import timezone
 from sqlalchemy.orm import relationship
 
+from app.helpers.celery import startedAuction, finisheddAuction
+
 date_format = '%d/%m/%YT%H:%M:%S%z'
 zona_horaria= timezone("America/Argentina/Buenos_Aires") 
 class Auction(db.Model):
@@ -89,6 +91,9 @@ class Auction(db.Model):
         db.session.commit()
         auc= A(auction)
         db.session.close()
+        startedAuction(auc.uuid,auc.dateStart)
+        if auc.tipe==0:
+            finisheddAuction(auc.uuid,auc.dateFinish)
         return Message(content=auc)
     
     @classmethod
@@ -222,6 +227,9 @@ class Auction(db.Model):
         from app.models.article import Article
         Article.updateForAuction(auc)
         db.session.close()
+        startedAuction(auc.uuid,auc.dateStart)
+        if auc.tipe==0:
+            finisheddAuction(auc.uuid,auc.dateFinish)
         return Message(content=auc)
 
     @classmethod
@@ -236,6 +244,24 @@ class Auction(db.Model):
         auction.dateOfUpdate=strDate
         db.session.merge(auction)
         db.session.commit()
+        auc=A(auction)
+        from app.models.article import Article
+        for i in auc.articles.articles:
+            Article.setFinished(i.uuid)
+        db.session.close()
+        return Message(content=auc)
+    
+    @classmethod
+    def start(cls, uuid):
+        auction=cls.query.filter_by(uuid=uuid, removed=0).first()
+        if(not auction):
+            return Message(error="No se pudo actualizar el remate por que no existe")
+        
+        from app.models.article import Article
+        if auction.type==0:
+            Article.startAll(auction.uuid)
+        else:
+            Article.startBefore(auction.uuid)
         auc=A(auction)
         db.session.close()
         return Message(content=auc)

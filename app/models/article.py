@@ -8,6 +8,9 @@ from app.models.auction import Auction
 import datetime
 from app.helpers.modelosPlanos.article import Article as A
 from pytz import timezone
+from app.socket.socketio import start, emit_start,emit_finish
+from app.helpers.celery import startedArticle, finishedArticle
+
 
 date_format = '%d/%m/%YT%H:%M:%S%z'
 zona_horaria= timezone("America/Argentina/Buenos_Aires")
@@ -277,6 +280,10 @@ class Article(db.Model):
         db.session.merge(article)
         db.session.commit()
         art=A(article)
+        emit_start(art.uuid,art.timeAfterBid)
+        finishedArticle(art.uuid,art.timeAfterBid)
+        if art.next:
+            startedArticle(art.next,art.timeAfterBid)
         db.session.close()
         return Message(content=art)
     
@@ -290,6 +297,7 @@ class Article(db.Model):
         date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
         article.dateOfUpdate=strDate
+        emit_finish(article.uuid)
         db.session.merge(article)
         db.session.commit()
         art=A(article)
@@ -312,8 +320,47 @@ class Article(db.Model):
         article.dateOfUpdate=strDate
         db.session.commit()
         art=A(article)
+        if art.next:
+            startedArticle(art.next,art.timeAfterBid)
+        finishedArticle(art.uuid,art.timeAfterBid)
         db.session.close()
         return Message(content=art)
+    
+    @classmethod
+    def startAll(cls, uuid):
+        articles= cls.query.filter_by(auction=uuid,removed=0).all()
+        if(not articles):
+            return Message(error="")
+        date= datetime.datetime.now()
+        date=date.astimezone(zona_horaria)
+        strDate= date.strftime(date_format)
+        for article in articles: 
+            article.started= 1
+            article.dateOfUpdate=strDate
+            start(article.uuid)
+            db.session.merge(article)
+            db.session.commit()
+        db.session.close()
+        return Message(content="")
+    
+    @classmethod
+    def startBefore(cls, uuid):
+        before= cls.query.filter(and_(cls.auction == uuid,cls.removed == 0,cls.before.is_(None) )).first()
+        if(not before):
+            return Message(error="")
+        date= datetime.datetime.now()
+        date=date.astimezone(zona_horaria)
+        strDate= date.strftime(date_format) 
+        before.started= 1
+        before.dateOfUpdate=strDate
+        emit_start(before.uuid,before.timeAfterBid)
+        if before.next:
+            startedArticle(before.next,before.timeAfterBid)
+        finishedArticle(before.uuid,before.timeAfterBid)
+        db.session.merge(before)
+        db.session.commit()
+        db.session.close()
+        return Message(content="")
     
     
     

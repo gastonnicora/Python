@@ -99,6 +99,11 @@ def emit_start(room, time):
         rooms[room]["bool"]=True
     socketio.emit('startRoom/'+room, room= room)
 
+def start(room):
+    if not room in rooms:
+        rooms[room]= {"users":[]}
+    socketio.emit('startRoom/'+room, room= room)
+
 def countdown_thread( room):
     while rooms[room]["time"] > -1:
         print(rooms[room]["time"])

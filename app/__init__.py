@@ -17,10 +17,10 @@ from app.models.db import db
 from app.resources import user
 from app.resources import confirmEmail
 from app.resources import company
-from app.resources import employee
-from app.resources import role
-from app.resources import permission
-from app.resources import employeePermissions
+# from app.resources import employee
+# from app.resources import role
+# from app.resources import permission
+# from app.resources import employeePermissions
 from app.resources import auction
 from app.resources import article
 from app.resources import bid
@@ -65,7 +65,7 @@ def create_app(environment="development"):
     app.add_url_rule("/logout", "logout", user.logout, methods=["GET"])
 
 
-    # ConfirmUSer
+    # ConfirmUser
     app.add_url_rule("/get_confirmEmail/<string:uuid>",
                      "get_confirmEmail", confirmEmail.get)
     app.add_url_rule("/confirmEmail", "confirmEmails", confirmEmail.index)
@@ -83,45 +83,45 @@ def create_app(environment="development"):
     app.add_url_rule("/companyUpdate", "companyUpdate", company.update, methods=["PUT"])
     app.add_url_rule("/companyDelete/<string:uuid>", "companyDelete", company.delete, methods=["DELETE"])
 
-    #CRUD Employee
-    app.add_url_rule("/employees", "employees", employee.index)
-    app.add_url_rule("/employee/<string:uuid>", "employee",
-                     employee.get)
-    app.add_url_rule("/employeeByUser/<string:uuid>", "employeeByUser",
-                     employee.getByUser)
-    app.add_url_rule("/employeeByCompany/<string:uuid>", "employeeByCompany",
-                     employee.getByCompany)
-    app.add_url_rule("/employeeCreate", "employeeCreate",
-                     employee.create, methods=["POST"])
-    app.add_url_rule("/employeeDelete/<string:uuid>", "employeeDelete", employee.delete, methods=["DELETE"])
-    app.add_url_rule("/employeeDeleteByUser/<string:uuid>", "employeeDeleteByUser", employee.delete, methods=["DELETE"])
-    app.add_url_rule("/employeeDeleteByCompany/<string:uuid>", "employeeDeleteByCompany", employee.delete, methods=["DELETE"])
+    # #CRUD Employee
+    # app.add_url_rule("/employees", "employees", employee.index)
+    # app.add_url_rule("/employee/<string:uuid>", "employee",
+    #                  employee.get)
+    # app.add_url_rule("/employeeByUser/<string:uuid>", "employeeByUser",
+    #                  employee.getByUser)
+    # app.add_url_rule("/employeeByCompany/<string:uuid>", "employeeByCompany",
+    #                  employee.getByCompany)
+    # app.add_url_rule("/employeeCreate", "employeeCreate",
+    #                  employee.create, methods=["POST"])
+    # app.add_url_rule("/employeeDelete/<string:uuid>", "employeeDelete", employee.delete, methods=["DELETE"])
+    # app.add_url_rule("/employeeDeleteByUser/<string:uuid>", "employeeDeleteByUser", employee.delete, methods=["DELETE"])
+    # app.add_url_rule("/employeeDeleteByCompany/<string:uuid>", "employeeDeleteByCompany", employee.delete, methods=["DELETE"])
 
-    #CRUD Role
-    app.add_url_rule("/roles", "roles", role.index)
-    app.add_url_rule("/role/<string:uuid>", "role",
-                     role.get)
-    app.add_url_rule("/roleCreate", "roleCreate",
-                     role.create, methods=["POST"])
-    app.add_url_rule("/roleUpdate", "roleUpdate", role.update, methods=["PUT"])
-    app.add_url_rule("/roleDelete/<string:uuid>", "roleDelete", role.delete, methods=["DELETE"])
+    # #CRUD Role
+    # app.add_url_rule("/roles", "roles", role.index)
+    # app.add_url_rule("/role/<string:uuid>", "role",
+    #                  role.get)
+    # app.add_url_rule("/roleCreate", "roleCreate",
+    #                  role.create, methods=["POST"])
+    # app.add_url_rule("/roleUpdate", "roleUpdate", role.update, methods=["PUT"])
+    # app.add_url_rule("/roleDelete/<string:uuid>", "roleDelete", role.delete, methods=["DELETE"])
 
-    #CRUD Permissions
-    app.add_url_rule("/permissions", "permissions", permission.index)
-    app.add_url_rule("/permission/<string:uuid>", "permission",
-                     permission.get)
-    app.add_url_rule("/permissionCreate", "permissionCreate",
-                     permission.create, methods=["POST"])
-    app.add_url_rule("/permissionUpdate", "permissionUpdate",permission.update, methods=["PUT"])
-    app.add_url_rule("/permissionDelete/<string:uuid>", "permissionDelete", permission.delete, methods=["DELETE"])
+    # #CRUD Permissions
+    # app.add_url_rule("/permissions", "permissions", permission.index)
+    # app.add_url_rule("/permission/<string:uuid>", "permission",
+    #                  permission.get)
+    # app.add_url_rule("/permissionCreate", "permissionCreate",
+    #                  permission.create, methods=["POST"])
+    # app.add_url_rule("/permissionUpdate", "permissionUpdate",permission.update, methods=["PUT"])
+    # app.add_url_rule("/permissionDelete/<string:uuid>", "permissionDelete", permission.delete, methods=["DELETE"])
 
-    #CRUD EmployeePermissions
-    app.add_url_rule("/employeePermissions", "employeePermissions", employeePermissions.index)
-    app.add_url_rule("/employeePermission/<string:uuid>", "employeePermission",
-                     employeePermissions.get)
-    app.add_url_rule("/employeePermissionsCreate", "employeePermissionsCreate",
-                     employeePermissions.create, methods=["POST"])
-    app.add_url_rule("/employeePermissionsDelete/<string:uuid>", "employeePermissionsDelete", employeePermissions.delete, methods=["DELETE"])
+    # #CRUD EmployeePermissions
+    # app.add_url_rule("/employeePermissions", "employeePermissions", employeePermissions.index)
+    # app.add_url_rule("/employeePermission/<string:uuid>", "employeePermission",
+    #                  employeePermissions.get)
+    # app.add_url_rule("/employeePermissionsCreate", "employeePermissionsCreate",
+    #                  employeePermissions.create, methods=["POST"])
+    # app.add_url_rule("/employeePermissionsDelete/<string:uuid>", "employeePermissionsDelete", employeePermissions.delete, methods=["DELETE"])
 
     #CRUD Auctions
     app.add_url_rule("/auctions", "auctions", auction.index)
@@ -139,6 +139,8 @@ def create_app(environment="development"):
     app.add_url_rule("/auctionUpdate", "auctionUpdate", auction.update, methods=["PUT"])
     app.add_url_rule("/auctionFinished/<string:uuid>", "auctionFinished", auction.finished, methods=["PUT"])
     app.add_url_rule("/auctionDelete/<string:uuid>", "auctionDelete", auction.delete, methods=["DELETE"])
+    app.add_url_rule("/auctionsStart/<string:uuid>", "auctionsStart",
+                     auction.start)
 
     #CRUD Article
     app.add_url_rule("/articles", "articles",article.index)

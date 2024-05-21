@@ -63,6 +63,10 @@ def finished(uuid):
     emit_finish(uuid)
     return jsonify(sms.dump()),sms.cod
 
+@token_required 
+def start(uuid):
+    sms=Auction.start(uuid)
+    return jsonify(sms.dump()),sms.cod
 
 @token_required
 @validate_request("Remates","auctionUpdate")
