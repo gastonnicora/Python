@@ -397,6 +397,7 @@ def initialize():
             now=now.astimezone(zona_horaria)
             if now >= datetime.datetime.strptime(data["dateOfFinish"], date_format):
                 listArticle.append(article)
+                Article.setStarted(art.content.uuid)
     print("bid create")
     if len(listArticle) >0:
         for i in range(0,randrange(10, (5*(len(listArticle)-1)) )) :
@@ -410,7 +411,6 @@ def initialize():
                 
             listArticle[art]["value"]=data["value"]
             bid= Bid.create(data,users[user].get("uuid"))
-            print(bid.content)
-            print(bid.error)
+            
         for art in listArticle:
             Article.setFinished(art.get("uuid"))
