@@ -302,11 +302,11 @@ users=[
 
 
 def initialize():
-    u= len(User.all().content["users"])
-    au=len(Auction.all().content["auctions"])
-    ar= len(Article.all().content["articles"])
-    co=len(Company.all().content["companies"])
-    bi= len(Bid.all().content["bids"])
+    u= len(User.all().content.users)
+    au=len(Auction.all().content.auctions)
+    ar= len(Article.all().content.articles)
+    co=len(Company.all().content.companies)
+    bi= len(Bid.all().content.bids)
     if not (u and au and ar and co and bi):
         return
     for i, user in enumerate(users):
@@ -340,21 +340,21 @@ def initialize():
         auct=Auction.create(auc,companies[num]["owner"])
         if(auct.content):
             auction= {
-            "company": auct.content["company"],
+            "company": auct.content.company,
             "owner":companies[num]["owner"],
-            "dateFinish": auct.content["dateFinish"],
-            "dateStart": auct.content["dateStart"],
-            "description": auct.content["description"],
-            "finished": auct.content["finished"],
+            "dateFinish": auct.content.dateFinish,
+            "dateStart": auct.content.dateStart,
+            "description": auct.content.description,
+            "finished": auct.content.finished,
             "removed": 0,
-            "timeAfterBid": auct.content["timeAfterBid"],
-            "type": auct.content["type"],
-            "uuid": auct.content["uuid"]
+            "timeAfterBid": auct.content.timeAfterBid,
+            "type": auct.content.type,
+            "uuid": auct.content.uuid
             }
             listAuction.push(auction)
             now= datetime.datetime.now()
             if now >= data["dateFinish"]:
-                Auction.setFinished(auct.content["uuid"])
+                Auction.setFinished(auct.content.uuid)
 
     listArticle=[]   
     for i, art in range(0,randint(len(listAuction), 100*len(listAuction) )):
@@ -371,25 +371,25 @@ def initialize():
         art=Article.create(auc,listAuction[au].get("owner"))
         if(art.content):
             article= {
-                "auction": art.content["auction"],
-                "before": art.content["before"],
-                "dateOfStart": art.content["dateOfStart"],
-                "description": art.content["uuid"],
-                "finished": art.content["finished"],
-                "minStepValue": art.content["minStepValue"],
-                "minValue": art.content["minValue"],
-                "started": art.content["started"],
-                "timeAfterBid": art.content["timeAfterBid"],
-                "type": art.content["type"],
-                "urlPhoto": art.content["urlPhoto"],
-                "uuid": art.content["uuid"]
+                "auction": art.content.auction,
+                "before": art.content.before,
+                "dateOfStart": art.content.dateOfStart,
+                "description": art.content.uuid,
+                "finished": art.content.finished,
+                "minStepValue": art.content.minStepValue,
+                "minValue": art.content.minValue,
+                "started": art.content.started,
+                "timeAfterBid": art.content.timeAfterBid,
+                "type": art.content.type,
+                "urlPhoto": art.content.urlPhoto,
+                "uuid": art.content.uuid
             }
-            listAuction[au]["before"]=art.content["uuid"]
+            listAuction[au]["before"]=art.content.uuid
             now= datetime.datetime.now()
             if now >= data["dateOfStart"]:
-                Article.setStarted(art.content["uuid"])
+                Article.setStarted(art.content.uuid)
             if now >= data["dateOfFinish"]:
-                Article.setFinished(art.content["uuid"])
+                Article.setFinished(art.content.uuid)
                 listArticle.push(auction)
     
     for i in range(0,randint(0, 100*len(listArticle) )) :
