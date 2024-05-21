@@ -330,7 +330,7 @@ def initialize():
     listAuction=[]
     print("auction create")
     logging.info('Creando  remates')
-    for i in range(0,randrange(10, 100)):
+    for i in range(0,randrange(10, 50)):
         a=randint(0, len(auctions)-1)
         num=randint(0, len(companies)-1)
         data= auctions[a]
@@ -368,7 +368,7 @@ def initialize():
     listArticle=[]   
     num=len(listAuction)-1
     logging.info('Creando  articulos')
-    for i in range(0,randrange(num, 15*num)):
+    for i in range(0,randrange(num, 5*num)):
         au=randint(0, (num-1))
         a=randint(0, len(articles)-1)
         auction= listAuction[au]
@@ -408,7 +408,7 @@ def initialize():
     if len(listArticle) >0:
         print("bid create")
         logging.info('Creando pujas')
-        for i in range(0,randrange(10, (5*(len(listArticle)-1)) )) :
+        for i in range(0,randrange(0, (5*(len(listArticle)-1)) )) :
             art= randint(0,len(listArticle)-1) 
             user= randint(0,len(users)-1) 
             data={"article":listArticle[art]["uuid"]}
