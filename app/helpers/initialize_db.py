@@ -5,6 +5,7 @@ from app.models.company import Company
 from app.models.user import User
 import datetime
 from pytz import timezone
+import logging
 
 
 from random import randint, randrange
@@ -310,11 +311,14 @@ def initialize():
     if not (u==0 and au==0 and ar==0 and co==0 and bi==0):
         return
     print("create user")
+
+    logging.info(f'Creando {len(users)} usuarios')
     for i, user in enumerate(users):
         u=User.create(user)
         if(u.content):
             users[i]["uuid"]=u.content.uuid
     print("create company")
+    logging.info(f'Creando {len(companies)} empresas')
     for i, com in enumerate(companies):
         num=randint(0, len(users)-1)
         comp=Company.create(com,users[num].get("uuid"))
@@ -324,7 +328,9 @@ def initialize():
 
     listAuction=[]
     print("auction create")
-    for i in range(0,randrange(10, 100)):
+    x=randrange(10, 100)
+    logging.info(f'Creando {x} remates')
+    for i in range(0,):
         a=randint(0, len(auctions)-1)
         num=randint(0, len(companies)-1)
         data= auctions[a]
@@ -360,9 +366,10 @@ def initialize():
                 Auction.setFinished(auct.content.uuid)
 
     listArticle=[]   
-    print("article create")
     num=len(listAuction)-1
-    for i in range(0,randrange(num, 15*num)):
+    x=randrange(num, 15*num)
+    logging.info(f'Creando {x} articulos')
+    for i in range(0,x):
         au=randint(0, (num-1))
         a=randint(0, len(articles)-1)
         auction= listAuction[au]
@@ -398,9 +405,12 @@ def initialize():
             if now >= datetime.datetime.strptime(data["dateOfFinish"], date_format):
                 listArticle.append(article)
                 Article.setStarted(art.content.uuid)
-    print("bid create")
+
     if len(listArticle) >0:
-        for i in range(0,randrange(10, (5*(len(listArticle)-1)) )) :
+        print("bid create")
+        x=randrange(10, (5*(len(listArticle)-1)) )
+        logging.info(f'Creando {x} pujas')
+        for i in range(0,x) :
             art= randint(0,len(listArticle)-1) 
             user= randint(0,len(users)-1) 
             data={"article":listArticle[art]["uuid"]}
@@ -411,6 +421,7 @@ def initialize():
                 
             listArticle[art]["value"]=data["value"]
             bid= Bid.create(data,users[user].get("uuid"))
-            
+
         for art in listArticle:
             Article.setFinished(art.get("uuid"))
+    logging.info('Ya puede usar la aplicacion')

@@ -13,6 +13,5 @@ ENV REDIS_HOST=redis
 CMD ["gunicorn", \
      "-k", "gevent", "-w", "1", "-b", "0.0.0.0:4000", \
      "--log-level", "debug", \
-     "run:app", \
-     "--access-logfile", "-", "--error-logfile", "-"]
+     "run:app"]
 
