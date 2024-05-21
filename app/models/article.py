@@ -280,8 +280,8 @@ class Article(db.Model):
         db.session.merge(article)
         db.session.commit()
         art=A(article)
-        emit_start(art.uuid,art.timeAfterBid)
         finishedArticle(art.uuid,art.timeAfterBid)
+        emit_start(art.uuid,art.timeAfterBid)
         if art.next:
             startedArticle(art.next,art.timeAfterBid)
         db.session.close()
@@ -322,9 +322,9 @@ class Article(db.Model):
         article.dateOfUpdate=strDate
         db.session.commit()
         art=A(article)
+        finishedArticle(art.uuid,art.timeAfterBid)
         if art.next:
             startedArticle(art.next,art.timeAfterBid)
-        finishedArticle(art.uuid,art.timeAfterBid)
         db.session.close()
         return Message(content=art)
     

@@ -92,7 +92,7 @@ class Auction(db.Model):
         auc= A(auction)
         db.session.close()
         startedAuction(auc.uuid,auc.dateStart)
-        if auc.tipe==0:
+        if auc.type==0:
             finisheddAuction(auc.uuid,auc.dateFinish)
         return Message(content=auc)
     
@@ -228,7 +228,7 @@ class Auction(db.Model):
         Article.updateForAuction(auc)
         db.session.close()
         startedAuction(auc.uuid,auc.dateStart)
-        if auc.tipe==0:
+        if auc.type==0:
             finisheddAuction(auc.uuid,auc.dateFinish)
         return Message(content=auc)
 
