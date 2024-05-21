@@ -70,10 +70,9 @@ def on_leave(data):
 def emit_bid(data):
     print("emit bid")
     room = data['room']
-    if not room in rooms:
-        rooms[room]= {"users":[], "time":0,"timeSet":0 ,"bool":True}
-    reset_countdown(room)
-    socketio.emit('bidRoom/'+room,data["bid"].toJSON(), room= room)
+    if  room in rooms:
+        reset_countdown(room)
+        socketio.emit('bidRoom/'+room,data["bid"].toJSON(), room= room)
 
 def emit_finish(room):
     print("emit finish")
