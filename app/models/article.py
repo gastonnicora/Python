@@ -293,6 +293,7 @@ class Article(db.Model):
         if(not article):
             return Message(error="No se pudo actualizar el articulo por que no existe")
         article.finished=1
+        article.started=1
         date= datetime.datetime.now()
         date=date.astimezone(zona_horaria)
         strDate= date.strftime(date_format)
