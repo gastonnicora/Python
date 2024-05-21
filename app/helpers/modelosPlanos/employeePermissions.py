@@ -10,6 +10,7 @@ class EmployeePermissions():
             cls.permission=data.permission
             cls.dateOfCreate=data.dateOfCreate
             cls.dataPermission= Permission(data.dataPermission)
+        cls.employeePermissions=[]
         if lista:
             listado=[]
             for i in lista:

@@ -13,6 +13,7 @@ class Employee():
             cls.dataUser= User(data.dataUser)
             cls.dataCompany= Company(data.dataCompany)
             cls.permissions= EmployeePermissions(lista=data.permissions)
+        cls.employees=[]
         if lista:
             listado=[]
             for i in lista:

@@ -24,7 +24,7 @@ class Article():
             cls.maxBid= data.maxBid
             cls.dataBid= Bid(data.dataBid)
             cls.urlPhoto= data.urlPhoto
-
+        cls.articles=[]
         if lista:
             listado=[]
             for i in lista:

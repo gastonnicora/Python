@@ -17,6 +17,7 @@ class Auction():
             cls.type= data.type
             cls.dateFinish= data.dateFinish
             cls.timeAfterBid= data.timeAfterBid
+        cls.auctions=[]
         if lista:
             listado=[]
             for i in lista:

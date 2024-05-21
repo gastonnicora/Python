@@ -11,6 +11,7 @@ class Bid():
             cls.value= data.value
             cls.article= data.article
             cls.dataUser= User(data.dataUser)
+        cls.bids=[]
         if lista:
             listado=[]
             for i in lista:

@@ -14,6 +14,7 @@ class User():
             cls.terms=data.terms
             cls.confirmEmail= data.confirmEmail
             cls.companies = Company(lista=data.companies)
+        cls.users=[]
         if lista:
             listado=[]
             for i in lista:
@@ -22,3 +23,4 @@ class User():
     def toJSON(self):
         return json.loads(json.dumps(self, default=lambda o: o.__dict__, 
             sort_keys=True, indent=4))
+    

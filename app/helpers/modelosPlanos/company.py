@@ -9,6 +9,7 @@ class Company():
             cls.address= data.address
             cls.owner= data.owner
             cls.removed= data.removed
+        cls.companies=[]
         if lista:
             listado=[]
             for i in lista:

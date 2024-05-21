@@ -5,6 +5,7 @@ class ConfirmEmail():
             cls.uuid=data.uuid
             cls.user = data.user
             cls.dateOfCreate=data.dateOfCreate
+        cls.confirmEmail=[]
         if lista:
             listado=[]
             for i in lista:

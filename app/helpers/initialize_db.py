@@ -7,7 +7,7 @@ import datetime
 from pytz import timezone
 
 
-from random import randint
+from random import randint, randrange
 
 date_format = '%d/%m/%YT%H:%M:%S%z'
 zona_horaria= timezone("America/Argentina/Buenos_Aires")
@@ -307,37 +307,39 @@ def initialize():
     ar= len(Article.all().content.articles)
     co=len(Company.all().content.companies)
     bi= len(Bid.all().content.bids)
-    if not (u and au and ar and co and bi):
+    if not (u==0 and au==0 and ar==0 and co==0 and bi==0):
         return
+    print("create user")
     for i, user in enumerate(users):
         u=User.create(user)
         if(u.content):
-            users[i]["uuid"]=u["uuid"]
-
+            users[i]["uuid"]=u.content.uuid
+    print("create company")
     for i, com in enumerate(companies):
-        num=randint(0, len(users))
-        comp=Company.create(com,users[num]["uuid"])
+        num=randint(0, len(users)-1)
+        comp=Company.create(com,users[num].get("uuid"))
         if(comp.content):
-            companies[i]["uuid"]=comp["uuid"]
-            companies[i]["owner"]=comp["owner"]
+            companies[i]["uuid"]=comp.content.uuid
+            companies[i]["owner"]=comp.content.owner
 
     listAuction=[]
-    for i, auc in range(0,randint(0, 1000)):
-        a=randint(0, len(auctions))
-        num=randint(0, len(companies))
+    print("auction create")
+    for i in range(0,randrange(10, 100)):
+        a=randint(0, len(auctions)-1)
+        num=randint(0, len(companies)-1)
         data= auctions[a]
-        data["company"]= companies[num]["uuid"]
+        data["company"]= companies[num].get("uuid")
         data["type"]= randint(0, 1)
         data["timeAfterBid"]= randint(10, 60)
-        minutesS= range(0,randint(-1000, 1000))
-        minutesF = minutesS + range(0,randint(-1000, 1000))
+        minutesS= randint(-1000, 1000)
+        minutesF = randint(100, 1000) + minutesS 
         dateS=date + datetime.timedelta(minutes = minutesS)
         dateF=date + datetime.timedelta(minutes = minutesF)
         dateF= dateF.astimezone(zona_horaria)
         data["dateFinish"]= dateF.strftime(date_format)
         dateS= dateS.astimezone(zona_horaria)
         data["dateStart"]= dateS.strftime(date_format)
-        auct=Auction.create(auc,companies[num]["owner"])
+        auct=Auction.create(data,companies[num].get("owner"))
         if(auct.content):
             auction= {
             "company": auct.content.company,
@@ -351,24 +353,30 @@ def initialize():
             "type": auct.content.type,
             "uuid": auct.content.uuid
             }
-            listAuction.push(auction)
+            listAuction.append(auction)
             now= datetime.datetime.now()
-            if now >= data["dateFinish"]:
+            now=now.astimezone(zona_horaria)
+            if now >= dateF:
                 Auction.setFinished(auct.content.uuid)
 
     listArticle=[]   
-    for i, art in range(0,randint(len(listAuction), 100*len(listAuction) )):
-        au=randint(0, len(listAuction))
-        a=randint(0, len(articles))
+    print("article create")
+    num=len(listAuction)-1
+    for i in range(0,randrange(num, 15*num)):
+        au=randint(0, (num-1))
+        a=randint(0, len(articles)-1)
         auction= listAuction[au]
         data= articles[a]
+        data["auction"]= auction["uuid"]
         data["dateOfStart"]= auction["dateStart"]
         data["dateOfFinish"]= auction["dateFinish"]
+        dateS=datetime.datetime.strptime(auction["dateStart"], date_format)
+        dateF=datetime.datetime.strptime(auction["dateFinish"], date_format)
         data["minValue"]=randint(1000, 100000)
         data["minStepValue"]=randint(1000, 100000)
         data["type"]= auction["type"]
         data["timeAfterBid"]= auction["timeAfterBid"]
-        art=Article.create(auc,listAuction[au].get("owner"))
+        art=Article.create(data,listAuction[au].get("owner"))
         if(art.content):
             article= {
                 "auction": art.content.auction,
@@ -386,19 +394,25 @@ def initialize():
             }
             listAuction[au]["before"]=art.content.uuid
             now= datetime.datetime.now()
-            if now >= data["dateOfStart"]:
+            now=now.astimezone(zona_horaria)
+            if now >= datetime.datetime.strptime(data["dateOfStart"], date_format):
                 Article.setStarted(art.content.uuid)
-            if now >= data["dateOfFinish"]:
-                Article.setFinished(art.content.uuid)
-                listArticle.push(auction)
-    
-    for i in range(0,randint(0, 100*len(listArticle) )) :
-        art= range(0,len(listArticle)) 
-        user= range(0,len(users)) 
-        data={"article":listArticle[art]["uuid"]}
-        if listArticle[art].get("value"):
-            data["value"]=listArticle[art].get("value")+ listArticle[art].get("minStepValue")
-        else:
-            data["value"]=listArticle[art].get("minValue")
-            listArticle[art]["value"]
-        bid= Bid.create()
+            if now >= datetime.datetime.strptime(data["dateOfFinish"], date_format):
+                listArticle.append(article)
+    print("bid create")
+    if len(listArticle) >0:
+        for i in range(0,randrange(10, (5*(len(listArticle)-1)) )) :
+            art= randint(0,len(listArticle)-1) 
+            user= randint(0,len(users)-1) 
+            data={"article":listArticle[art]["uuid"]}
+            if listArticle[art].get("value"):
+                data["value"]=listArticle[art].get("value")+ listArticle[art].get("minStepValue")
+            else:
+                data["value"]=listArticle[art].get("minValue")
+                
+            listArticle[art]["value"]=data["value"]
+            bid= Bid.create(data,users[user].get("uuid"))
+            print(bid.content)
+            print(bid.error)
+        for art in listArticle:
+            Article.setFinished(art.get("uuid"))
