@@ -1,8 +1,10 @@
 from flask import jsonify,  request, abort
+from app.helpers.token import token_required
 from app.models.user import User
 from app.helpers.message import Message
 from app.models.confirmEmail import ConfirmEMail
 from app.helpers.validador import validate_request
+
 
 def confirm(uuid): 
     sms=ConfirmEMail.get(uuid)
@@ -23,6 +25,7 @@ def get(uuid):
     return jsonify(sms.dump()),sms.cod
 
 
+@token_required 
 def delete(uuid):
     sms= ConfirmEMail.get(uuid)
     if sms.cod== 202 :

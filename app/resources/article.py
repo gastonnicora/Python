@@ -41,11 +41,15 @@ def delete(session,uuid):
             Article.setBefore(None,next)
     return jsonify(sms.dump()),sms.cod
 
+
+@token_required 
 def start(uuid):
     sms= Article.setStarted(uuid)
     emit_start(uuid, sms.dump()["content"]["timeAfterBid"])
     return jsonify(sms.dump()),sms.cod
 
+
+@token_required 
 def finish(uuid):
     sms= Article.setFinished(uuid)
     emit_finish(uuid)

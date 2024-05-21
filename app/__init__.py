@@ -26,6 +26,7 @@ from app.resources import article
 from app.resources import bid
 from app.helpers.saveSession import saveDict
 from app.helpers.sessions import Sessions
+from app.helpers.initialize_db import initialize
 
 
 def create_app(environment="development"):
@@ -48,7 +49,7 @@ def create_app(environment="development"):
     db.init_app(app)
     with app.app_context():
         db.create_all()
-
+    initialize()
     # Rutas API-REST
 
     # CRUD User

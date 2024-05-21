@@ -53,9 +53,11 @@ def getByCompany(uuid):
     return jsonify(sms.dump()),sms.cod
 
 
+@token_required 
 def start(uuid):
     emit_start(uuid,0)
 
+@token_required 
 def finished(uuid):
     sms=Auction.setFinished(uuid)
     emit_finish(uuid)
