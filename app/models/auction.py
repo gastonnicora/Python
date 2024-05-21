@@ -249,8 +249,6 @@ class Auction(db.Model):
             from app.models.article import Article
             for i in auc.articles.articles:
                 Article.setFinished(i.uuid)
-        if auc.started==0:
-            cls.start(auc.uuid)
         db.session.close()
         return Message(content=auc)
     
