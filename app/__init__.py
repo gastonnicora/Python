@@ -49,7 +49,7 @@ def create_app(environment="development"):
     db.init_app(app)
     with app.app_context():
         db.create_all()
-        # initialize()
+        initialize()
     # Rutas API-REST
 
     # CRUD User
