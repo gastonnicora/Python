@@ -347,6 +347,24 @@ class Article(db.Model):
         return Message(content="")
     
     @classmethod
+    def finishAll(cls, uuid):
+        articles= cls.query.filter_by(auction=uuid,removed=0).all()
+        if(not articles):
+            return Message(error="")
+        date= datetime.datetime.now()
+        date=date.astimezone(zona_horaria)
+        strDate= date.strftime(date_format)
+        for article in articles: 
+            article.finished= 1
+            article.started= 1
+            article.dateOfUpdate=strDate   
+            emit_finish(article.uuid)
+            db.session.merge(article)
+            db.session.commit()
+        db.session.close()
+        return Message(content="")
+    
+    @classmethod
     def startBefore(cls, uuid):
         before= cls.query.filter(and_(cls.auction == uuid,cls.removed == 0,cls.before.is_(None) )).first()
         if(not before):

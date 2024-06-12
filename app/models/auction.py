@@ -247,8 +247,7 @@ class Auction(db.Model):
         auc=A(auction)
         if auc.type == 0:
             from app.models.article import Article
-            for i in auc.articles.articles:
-                Article.setFinished(i.uuid)
+            Article.finishAll(auc.uuid)
         db.session.close()
         return Message(content=auc)
     
