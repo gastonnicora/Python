@@ -253,6 +253,8 @@ class Auction(db.Model):
     
     @classmethod
     def start(cls, uuid):
+        print("start auction")
+        print(uuid)
         auction=cls.query.filter_by(uuid=uuid, removed=0).first()
         if(not auction):
             return Message(error="No se pudo actualizar el remate por que no existe")

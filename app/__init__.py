@@ -139,7 +139,7 @@ def create_app(environment="development"):
     app.add_url_rule("/auctionUpdate", "auctionUpdate", auction.update, methods=["PUT"])
     app.add_url_rule("/auctionFinished/<string:uuid>", "auctionFinished", auction.finished, methods=["PUT"])
     app.add_url_rule("/auctionDelete/<string:uuid>", "auctionDelete", auction.delete, methods=["DELETE"])
-    app.add_url_rule("/auctionsStart/<string:uuid>", "auctionsStart",
+    app.add_url_rule("/auctionStart/<string:uuid>", "auctionsStart",
                      auction.start)
 
     #CRUD Article

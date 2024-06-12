@@ -4,10 +4,14 @@ import redis
 import jwt
 import uuid
 
+from app.helpers.sessions import Sessions
+
 redis_host = os.environ.get("REDIS_HOST", "localhost")
 redis_client = redis.Redis(host=redis_host, port=6379)
-token = jwt.encode({'uuid':str(uuid.uuid4)}, os.environ.get("SECRET_KEY","1234"), algorithm="HS256")
 
+celery={"uuid":str(uuid.uuid4)}
+token = jwt.encode({'uuid':str(uuid.uuid4)}, os.environ.get("SECRET_KEY","1234"), algorithm="HS256")
+Sessions().addUser(celery)
 
 def deleteConfirm(uuid):
     message = json.dumps({
