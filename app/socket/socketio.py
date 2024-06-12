@@ -85,7 +85,7 @@ def on_leave_session(data):
 
 def emit_updateSesion(data):
     print("update user")
-    socketio.emit('updateSession/'+data["uuid"], {'data': data}, room= data["uuid"])
+    socketio.emit('updateSession', {'data': data}, room= data["uuid"])
 
 def emit_start(room, time):
     print("start")
