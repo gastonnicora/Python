@@ -345,7 +345,7 @@ def initialize():
         data["dateFinish"]= dateF.strftime(date_format)
         dateS= dateS.astimezone(zona_horaria)
         data["dateStart"]= dateS.strftime(date_format)
-        auct=Auction.create(data,companies[num].get("owner"))
+        auct=Auction.create_initialize(data,companies[num].get("owner"))
         if(auct.content):
             auction= {
             "company": auct.content.company,
@@ -360,10 +360,6 @@ def initialize():
             "uuid": auct.content.uuid
             }
             listAuction.append(auction)
-            now= datetime.datetime.now()
-            now=now.astimezone(zona_horaria)
-            if now >= dateF :
-                Auction.setFinished(auct.content.uuid)
 
     listArticle=[]   
     num=len(listAuction)-1
@@ -400,7 +396,6 @@ def initialize():
                 "uuid": art.content.uuid
             }
             listAuction[au]["before"]=art.content.uuid
-            now= datetime.datetime.now()
             now=now.astimezone(zona_horaria)
             if now >= datetime.datetime.strptime(data["dateOfFinish"], date_format):
                 listArticle.append(article)
@@ -421,6 +416,14 @@ def initialize():
             listArticle[art]["value"]=data["value"]
             bid= Bid.create(data,users[user].get("uuid"))
 
+        for auc in listAuction:
+            now= datetime.datetime.now()
+            now=now.astimezone(zona_horaria)
+            if now >= dateS :
+                Auction.start(auc["uuid"])
+            if now >= dateF :
+                Auction.setFinished(auc["uuid"])
+            now= datetime.datetime.now()
         for art in listArticle:
             Article.setFinished(art.get("uuid"))
     logging.info('Ya puede usar la aplicacion')

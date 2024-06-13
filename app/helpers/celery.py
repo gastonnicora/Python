@@ -60,7 +60,7 @@ def startedAuction(uuid, time):
     })
     redis_client.publish('task_channel', message)
 
-def finisheddAuction(uuid, time):
+def finishedAuction(uuid, time):
     message = json.dumps({
         'task_name': "finishedAuction",
         'article': uuid,

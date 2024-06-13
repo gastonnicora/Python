@@ -9,7 +9,7 @@ from app.helpers.modelosPlanos.auction import Auction as A
 from pytz import timezone
 from sqlalchemy.orm import relationship
 
-from app.helpers.celery import startedAuction, finisheddAuction
+from app.helpers.celery import startedAuction, finishedAuction
 
 date_format = '%d/%m/%YT%H:%M:%S%z'
 zona_horaria= timezone("America/Argentina/Buenos_Aires") 
@@ -93,7 +93,7 @@ class Auction(db.Model):
         db.session.close()
         startedAuction(auc.uuid,auc.dateStart)
         if auc.type==0:
-            finisheddAuction(auc.uuid,auc.dateFinish)
+            finishedAuction(auc.uuid,auc.dateFinish)
         return Message(content=auc)
     
     @classmethod
@@ -229,7 +229,7 @@ class Auction(db.Model):
         db.session.close()
         startedAuction(auc.uuid,auc.dateStart)
         if auc.type==0:
-            finisheddAuction(auc.uuid,auc.dateFinish)
+            finishedAuction(auc.uuid,auc.dateFinish)
         return Message(content=auc)
 
     @classmethod
@@ -253,8 +253,6 @@ class Auction(db.Model):
     
     @classmethod
     def start(cls, uuid):
-        print("start auction")
-        print(uuid)
         auction=cls.query.filter_by(uuid=uuid, removed=0).first()
         if(not auction):
             return Message(error="No se pudo actualizar el remate por que no existe")
@@ -266,5 +264,38 @@ class Auction(db.Model):
             Article.startBefore(auction.uuid)
         auc=A(auction)
         db.session.close()
+        return Message(content=auc)
+    
+    @classmethod
+    def create_initialize(cls,data,owner):
+        date= datetime.datetime.now()
+        date=date.astimezone(zona_horaria)
+        strDate= date.strftime(date_format)
+        sms=  Company.get(data.get("company"))
+        if data.get("type")==0 and not data.get("dateFinish"):
+            return Message(error="No se puede guardar el remate por que debe ingresar una fecha de finalización  valida")
+        if data.get("type")==1 and not data.get("timeAfterBid"):
+            return Message(error="No se puede guardar el remate por que debe ingresar un tiempo para finalizar el remate después de la ultima puja")
+        if sms.dump()["error"]:
+            return Message(error="No se puede guardar el remate por que no existe la compañía")
+        if sms.dump()["content"]["owner"]!= owner:
+            return Message(error="No se puede guardar el remate por que no sos el dueño de la compañía")
+        auction= cls(
+                company=data.get("company"),
+                description= data.get("description"),
+                dateStart= data.get("dateStart"),
+                dateOfCreate= strDate,
+                type= data.get("type"),
+                dateFinish= data.get("dateFinish"),
+                timeAfterBid= data.get("timeAfterBid")
+            )
+        db.session.add(auction)
+        db.session.commit()
+        auc= A(auction)
+        db.session.close()
+        if date > auc.dateStart and (auc.type==1 or date < auc.dateFinish):
+            startedAuction(auc.uuid,auc.dateStart)
+            if auc.type==0:
+                finishedAuction(auc.uuid,auc.dateFinish)
         return Message(content=auc)
         
