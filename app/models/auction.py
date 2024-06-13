@@ -293,7 +293,7 @@ class Auction(db.Model):
         db.session.commit()
         auc= A(auction)
         db.session.close()
-        if date > auc.dateStart and (auc.type==1 or date < auc.dateFinish):
+        if strDate > auc.dateStart and (auc.type==1 or strDate < auc.dateFinish):
             startedAuction(auc.uuid,auc.dateStart)
             if auc.type==0:
                 finishedAuction(auc.uuid,auc.dateFinish)
