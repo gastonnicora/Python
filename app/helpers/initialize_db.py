@@ -396,6 +396,7 @@ def initialize():
                 "uuid": art.content.uuid
             }
             listAuction[au]["before"]=art.content.uuid
+            now= datetime.datetime.now()
             now=now.astimezone(zona_horaria)
             if now >= datetime.datetime.strptime(data["dateOfFinish"], date_format):
                 listArticle.append(article)
@@ -420,7 +421,7 @@ def initialize():
             now= datetime.datetime.now()
             now=now.astimezone(zona_horaria)
             if now >= dateS :
-                Auction.start(auc["uuid"])
+                Auction.start(auc.get("uuid"))
             if now >= dateF :
                 Auction.setFinished(auc["uuid"])
             now= datetime.datetime.now()
