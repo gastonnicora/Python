@@ -48,7 +48,7 @@ def getByCompany(uuid):
 
 @token_required 
 def finished(session,uuid):
-    if not session["name"]:
+    if not session.get("name"):
         sms=Auction.setFinished(uuid)
         emit_finish(uuid)
         return jsonify(sms.dump()),sms.cod
@@ -57,7 +57,7 @@ def finished(session,uuid):
 
 @token_required 
 def start(session,uuid):
-    if not session["name"]:
+    if not session.get("name"):
         sms=Auction.start(uuid)
         return jsonify(sms.dump()),sms.cod
     else: 
