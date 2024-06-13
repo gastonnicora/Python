@@ -11,7 +11,7 @@ redis_client = redis.Redis(host=redis_host, port=6379)
 
 celery={"uuid":str(uuid.uuid4)}
 token = jwt.encode({'uuid':str(uuid.uuid4)}, os.environ.get("SECRET_KEY","1234"), algorithm="HS256")
-Sessions().addUser(celery)
+Sessions().addSession(celery)
 
 def deleteConfirm(uuid):
     message = json.dumps({
