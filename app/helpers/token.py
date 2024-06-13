@@ -26,7 +26,7 @@ def token_required(f):
             if not current_user:
                 return jsonify({'error': 'Por favor vuelva a iniciar sesión para realizar esta acción',"cod":401}),401
         except:
-            return jsonify({'error': 'Por favor vuelva a iniciar sesión para realizar esta acción',"cod":401}),401
+            return jsonify({'error': 'Error al decodificar el token ',"cod":401}),401
 
         return f(current_user, *args, **kwargs)
     return decorator
