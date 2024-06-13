@@ -12,6 +12,8 @@ def token_required(f):
 
         if 'x-access-tokens' in request.headers:
             token = request.headers['x-access-tokens']
+            print("uuid")
+            print(token)
 
         if not token or token=="null" or token == "undefined":
             return jsonify({'error': 'Por favor inicie sesión para realizar esta acción',"cod":401}),401

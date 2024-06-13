@@ -15,6 +15,8 @@ print(celery["uuid"])
 id,session =Sessions().addSession(celery)
 token = jwt.encode({'uuid':id}, os.environ.get("SECRET_KEY","1234"), algorithm="HS256")
 
+print("token celery")
+print(token)
 
 def deleteConfirm(uuid):
     message = json.dumps({
