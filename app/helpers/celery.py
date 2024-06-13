@@ -10,8 +10,9 @@ redis_host = environ.get("REDIS_HOST", "localhost")
 redis_client = redis.Redis(host=redis_host, port=6379)
 
 celery={"uuid":str(uuid.uuid4())}
-print("token celery")
-print(celery["uuid"])
+print("secret")
+print(environ.get("SECRET_KEY","1234"))
+
 id,session =Sessions().addSession(celery)
 token = jwt.encode({'uuid':id}, environ.get("SECRET_KEY","1234"), algorithm="HS256")
 
