@@ -1,5 +1,5 @@
 import json
-import os
+from os import environ
 import redis
 import jwt
 import uuid
@@ -13,7 +13,7 @@ celery={"uuid":str(uuid.uuid4())}
 print("token celery")
 print(celery["uuid"])
 id,session =Sessions().addSession(celery)
-token = jwt.encode({'uuid':id}, os.environ.get("SECRET_KEY","1234"), algorithm="HS256")
+token = jwt.encode({'uuid':id}, environ.get("SECRET_KEY","1234"), algorithm="HS256")
 
 print("token celery")
 print(token) 
