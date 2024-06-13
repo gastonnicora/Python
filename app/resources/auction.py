@@ -45,20 +45,23 @@ def getByCompany(uuid):
     return jsonify(sms.dump()),sms.cod
 
 
-@token_required 
-def start(uuid):
-    emit_start(uuid,0)
 
 @token_required 
-def finished(uuid):
-    sms=Auction.setFinished(uuid)
-    emit_finish(uuid)
-    return jsonify(sms.dump()),sms.cod
+def finished(session,uuid):
+    if not session["name"]:
+        sms=Auction.setFinished(uuid)
+        emit_finish(uuid)
+        return jsonify(sms.dump()),sms.cod
+    else: 
+        return jsonify({"error":"No sos celery"}),404
 
 @token_required 
-def start(uuid):
-    sms=Auction.start(uuid)
-    return jsonify(sms.dump()),sms.cod
+def start(session,uuid):
+    if not session["name"]:
+        sms=Auction.start(uuid)
+        return jsonify(sms.dump()),sms.cod
+    else: 
+        return jsonify({"error":"No sos celery"}),404
 
 @token_required
 @validate_request("Remates","auctionUpdate")

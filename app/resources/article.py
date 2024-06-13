@@ -43,19 +43,27 @@ def delete(session,uuid):
 
 
 @token_required 
-def start(uuid):
-    sms= Article.setStarted(uuid)
-    emit_start(uuid, sms.dump()["content"]["timeAfterBid"])
-    return jsonify(sms.dump()),sms.cod
+def start(session,uuid):
+    if not session["name"]:
+        sms= Article.setStarted(uuid)
+        emit_start(uuid, sms.dump()["content"]["timeAfterBid"])
+        return jsonify(sms.dump()),sms.cod
+    else: 
+        return jsonify({"error":"No sos celery"}),404
+
 
 
 @token_required 
-def finish(uuid):
-    sms= Article.setFinished(uuid)
-    emit_finish(uuid)
-    if  sms.dump()["content"]["type"] ==1 and sms.dump()["content"]["next"]:
-        sms= Article.setStarted(sms.dump()["content"]["next"])
-        emit_start(uuid, sms.dump()["content"]["next"])
-    return jsonify(sms.dump()),sms.cod
+def finish(session,uuid):
+
+    if not session["name"]:
+        sms= Article.setFinished(uuid)
+        emit_finish(uuid)
+        if  sms.dump()["content"]["type"] ==1 and sms.dump()["content"]["next"]:
+            sms= Article.setStarted(sms.dump()["content"]["next"])
+            emit_start(uuid, sms.dump()["content"]["next"])
+        return jsonify(sms.dump()),sms.cod
+    else: 
+        return jsonify({"error":"No sos celery"}),404
 
 
