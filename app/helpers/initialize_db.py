@@ -104,7 +104,7 @@ articles=[
         "urlPhoto": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQi3oaP3cINlD6PJzhrwPFoDlRdB80KsupPK1O3dH7l&s"
     },
     {
-        "description": "Taladro electrico usado",
+        "description": "Taladro eléctrico usado",
         "urlPhoto": "https://http2.mlstatic.com/D_NQ_NP_602169-MLA75318768115_032024-O.webp"
     },
     {
@@ -369,7 +369,7 @@ def initialize():
     num=len(listAuction)-1
     logging.info('Creando  articulos')
 
-    for i in range(0,randrange(num*2, 10*num)):
+    for i in range(0,randrange(num*5, 20*num)):
         au=randint(0, (num-1))
         a=randint(0, len(articles)-1)
         auction= listAuction[au]
