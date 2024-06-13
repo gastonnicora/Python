@@ -263,6 +263,7 @@ class Auction(db.Model):
         else:
             Article.startBefore(auction.uuid)
         auc=A(auction)
+        
         db.session.close()
         return Message(content=auc)
     

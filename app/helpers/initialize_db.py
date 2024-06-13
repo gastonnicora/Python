@@ -424,7 +424,6 @@ def initialize():
                 Auction.start(auc.get("uuid"))
             if now >= dateF :
                 Auction.setFinished(auc["uuid"])
-            now= datetime.datetime.now()
         for art in listArticle:
             Article.setFinished(art.get("uuid"))
     logging.info('Ya puede usar la aplicacion')

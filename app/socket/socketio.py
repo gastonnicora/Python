@@ -90,9 +90,9 @@ def emit_updateSesion(data):
 def emit_start(room, time):
     print("start")
     if not room in rooms:
-        rooms[room]= {"users":[], "time":time,"timeSet":time, "bool":False }
-    rooms[room]["time"]= time
-    rooms[room]["timeSet"]= time
+        rooms[room]= {"users":[], "time":int(time),"timeSet":int(time), "bool":False }
+    rooms[room]["time"]= int(time)
+    rooms[room]["timeSet"]= int(time)
     if not rooms[room]["bool"]:
         thread = Thread(target=countdown_thread, args=(room,))
         thread.start()
