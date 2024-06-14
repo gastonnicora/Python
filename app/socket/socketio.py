@@ -127,16 +127,16 @@ def emit_start(room, time):
     print("start")
     with lock:
         rooms = get_rooms()
-        if room not in rooms:
-            rooms[room] = {"users": [], "time": int(time), "timeSet": int(time), "bool": False}
-        if not rooms[room].get("bool"):
-            rooms[room]["time"] = int(time)
-            rooms[room]["timeSet"] = int(time)
+    if room not in rooms:
+        rooms[room] = {"users": [], "time": int(time), "timeSet": int(time), "bool": False}
+    if not rooms[room].get("bool"):
+        rooms[room]["time"] = int(time)
+        rooms[room]["timeSet"] = int(time)
+        rooms[room]["bool"] = True
+        with lock:
             set_room(room, rooms[room])
-            thread = Thread(target=countdown_thread, args=(room,))
-            thread.start()
-            rooms[room]["bool"] = True
-            set_room(room, rooms[room])
+        thread = Thread(target=countdown_thread, args=(room,))
+        thread.start()
     socketio.emit('startRoom/' + room, room=room)
 
 def start(room):
@@ -151,10 +151,10 @@ def countdown_thread(room):
     print("count: " + str(rooms[room]["time"]))
     while rooms[room]["time"] > -1:
         socketio.emit('countdown/' + room, rooms[room], room=room)
-        time.sleep(1)
         with lock:
             rooms[room]["time"] -= 1
             set_room(room, rooms[room])
+        time.sleep(1)
 
 def reset_countdown(room):
     with lock:
