@@ -257,12 +257,12 @@ class Auction(db.Model):
         if(not auction):
             return Message(error="No se pudo actualizar el remate por que no existe")
         
+        auc=A(auction)
         from app.models.article import Article
         if auction.type==0:
             Article.startAll(auction.uuid)
         else:
             Article.startBefore(auction.uuid)
-        auc=A(auction)
         
         db.session.close()
         return Message(content=auc)
