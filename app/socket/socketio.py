@@ -72,6 +72,8 @@ def emit_bid(data):
     room = data['room']
     if  room in rooms:
         if rooms[room].get("time"):
+            print("room")
+            print(room)
             reset_countdown(room)
         socketio.emit('bidRoom/'+room,data["bid"].toJSON(), room= room)
 
@@ -114,4 +116,6 @@ def countdown_thread( room):
 
 def reset_countdown(room):
     rooms[room]["time"]=rooms[room]["timeSet"]
+    print("rooms")
+    print(rooms)
 
