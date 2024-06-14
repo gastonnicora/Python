@@ -46,8 +46,6 @@ def delete(session,uuid):
 def start(session,uuid):
     if not session.get("name"):
         sms= Article.setStarted(uuid)
-        if sms.dump()["content"]:
-            emit_start(uuid, sms.dump()["content"]["timeAfterBid"])
         return jsonify(sms.dump()),sms.cod
     else: 
         return jsonify({"error":"No sos celery"}),404
@@ -59,10 +57,6 @@ def finish(session,uuid):
 
     if not session.get("name"):
         sms= Article.setFinished(uuid)
-        emit_finish(uuid)
-        if sms.dump()["content"] and sms.dump()["content"]["type"] ==1 and sms.dump()["content"]["next"]:
-            sms= Article.setStarted(sms.dump()["content"]["next"])
-            emit_start(uuid, sms.dump()["content"]["timeAfterBid"])
         return jsonify(sms.dump()),sms.cod
     else: 
         return jsonify({"error":"No sos celery"}),404
