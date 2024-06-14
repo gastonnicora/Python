@@ -280,10 +280,11 @@ class Article(db.Model):
         db.session.merge(article)
         db.session.commit()
         art=A(article)
-        finishedArticle(art.uuid,art.timeAfterBid)
         emit_start(art.uuid,art.timeAfterBid)
-        if art.next:
-            startedArticle(art.next,art.timeAfterBid)
+        if art.type ==1:
+            finishedArticle(art.uuid,art.timeAfterBid)
+            if art.next:
+                startedArticle(art.next,art.timeAfterBid)
         db.session.close()
         return Message(content=art)
     
@@ -302,7 +303,7 @@ class Article(db.Model):
         db.session.merge(article)
         db.session.commit()
         art=A(article)
-        if not  art.next:
+        if not  art.next and article.type == 1 :
             Auction.setFinished(art.auction)
         db.session.close()
         return Message(content=art)
@@ -323,9 +324,10 @@ class Article(db.Model):
         article.dateOfUpdate=strDate
         db.session.commit()
         art=A(article)
-        finishedArticle(art.uuid,art.timeAfterBid)
-        if art.next:
-            startedArticle(art.next,art.timeAfterBid)
+        if article.type == 1:
+            finishedArticle(art.uuid,art.timeAfterBid)
+            if art.next:
+                startedArticle(art.next,art.timeAfterBid)
         db.session.close()
         return Message(content=art)
     
