@@ -77,9 +77,9 @@ def on_join(data):
     join_room(room, request.sid)
     with lock:
         rooms = get_rooms()
+        users = get_users()
         if room not in rooms:
             rooms[room] = {"users": [], "time": 0, "timeSet": 0, "bool": True}
-        users = get_users()
         if request.sid in users:
             rooms[room]["users"].append(users[request.sid])
             set_room(room, rooms[room])
@@ -111,7 +111,7 @@ def emit_bid(data):
                 print("room")
                 print(room)
                 reset_countdown(room)
-            socketio.emit('bidRoom/' + room, data["bid"], room=room)  # Aquí asumo que data["bid"] es serializable
+            socketio.emit('bidRoom/' + room, data["bid"], room=room)  # Asumo que data["bid"] es serializable
 
 def emit_finish(room):
     print("emit finish")
