@@ -93,7 +93,7 @@ def emit_start(room, time):
         rooms[room]= {"users":[], "time":int(time),"timeSet":int(time), "bool":False }
     rooms[room]["time"]= int(time)
     rooms[room]["timeSet"]= int(time)
-    if not rooms[room]["bool"]:
+    if not rooms[room].get("bool"):
         thread = Thread(target=countdown_thread, args=(room,))
         thread.start()
         rooms[room]["bool"]=True
