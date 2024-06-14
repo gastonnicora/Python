@@ -9,12 +9,9 @@ RUN pip3 --no-cache-dir install gunicorn eventlet
 
 ENV FLASK_ENV=production
 ENV REDIS_HOST=redis
-CMD ["gunicorn", "-b", \
-     "0.0.0.0:4000", "-w", "4",\
-      "-k", "eventlet", "--worker-class", "eventlet",\
-       "--worker-connections", "1000", \
-       "--log-level", "debug", \
-       "run:app", \
-       "--access-logfile", "-", "--error-logfile", "-"]
-
+CMD ["gunicorn", \
+     "-k", "eventlet", "-w", "1", "-b", "0.0.0.0:4000", \
+     "--log-level", "debug", \
+     "run:app", \
+     "--access-logfile", "-", "--error-logfile", "-"]
 
