@@ -12,16 +12,12 @@ def token_required(f):
 
         if 'x-access-tokens' in request.headers:
             token = request.headers['x-access-tokens']
-            print("uuid")
-            print(token)
 
         if not token or token=="null" or token == "undefined":
             return jsonify({'error': 'Por favor inicie sesión para realizar esta acción',"cod":401}),401
 
         try:
             data = jwt.decode(token, environ.get("SECRET_KEY","1234"), algorithms="HS256") 
-            print("uuid")
-            print(data['uuid'])
             current_user = Sessions().getSession(data['uuid'])
             if not current_user:
                 return jsonify({'error': 'Por favor vuelva a iniciar sesión para realizar esta acción',"cod":401}),401

@@ -106,7 +106,6 @@ def start(room):
 
 def countdown_thread( room):
     while rooms[room]["time"] > -1:
-        print(rooms[room]["time"])
         socketio.emit('countdown/'+room,rooms[room], room=room)
         time.sleep(1)
         rooms[room]["time"] -= 1

@@ -21,8 +21,6 @@ class Token:
         return cls._instance
     @classmethod
     def getToken(cls):
-        print("secret")
-        print(environ.get("SECRET_KEY","1234"))
         return cls._token
 
 def deleteConfirm(uuid):
