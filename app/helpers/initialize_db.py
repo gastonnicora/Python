@@ -420,8 +420,8 @@ def initialize():
         for auc in listAuction:
             now= datetime.datetime.now()
             now=now.astimezone(zona_horaria)
-            dateS=datetime.datetime.strptime(auc.get["dateStart"], date_format)
-            dateF=datetime.datetime.strptime(auc.get["dateFinish"], date_format)
+            dateS=datetime.datetime.strptime(auc.get("dateStart"), date_format)
+            dateF=datetime.datetime.strptime(auc.get("dateFinish"), date_format)
             if now >= dateS :
                 Auction.start(auc.get("uuid"))
             if now >= dateF :
