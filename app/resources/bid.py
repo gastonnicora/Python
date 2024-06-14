@@ -9,9 +9,6 @@ from app.models.article import Article
 @validate_request("Pujas","bidCreate")
 def create(current_user): 
     sms=Bid.create(request.get_json(),current_user["uuid"])
-    a= Article.get(request.get_json().get("article"))
-    if  not sms.error and a.content.type and a.content.type== 1:
-        finishedArticle(a.content.uuid, a.content.timeAfterBid)
     return jsonify(sms.dump()),sms.cod
 
 @token_required
