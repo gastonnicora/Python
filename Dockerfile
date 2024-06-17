@@ -8,7 +8,6 @@ RUN pip3 --no-cache-dir install -r requirements.txt
 RUN pip3 --no-cache-dir install gunicorn gevent redis
 
 ENV FLASK_ENV=production
-ENV REDIS_HOST=redis
 
 CMD ["gunicorn", \
      "-k", "gevent", "-w", "1", "-b", "0.0.0.0:4000", \
