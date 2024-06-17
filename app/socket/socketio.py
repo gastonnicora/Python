@@ -57,7 +57,7 @@ def on_join(data):
     room = data['room']
     join_room(room, request.sid)
     if room not in rooms:
-        rooms[room] = {"users": [], "time": 0, "timeSet": 0, "bool": True}
+        rooms[room] = {"users": [], "time": 0, "timeSet": 0, "bool": False}
     if request.sid in users:
         users[request.sid]["room"]=room
         rooms[room]["users"].append(users[request.sid])
@@ -100,8 +100,12 @@ def emit_start(room, time):
 
     print("emit start:" + room)
     if room not in rooms:
+
+        print("emit start not room:" + room)
         rooms[room] = {"users": [], "time": int(time), "timeSet": int(time), "bool": False}
     if not rooms[room].get("bool"):
+
+        print("emit start not bool :" + room)
         rooms[room]["time"] = int(time)
         rooms[room]["timeSet"] = int(time)
         rooms[room]["bool"] = True
