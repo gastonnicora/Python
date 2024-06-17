@@ -25,8 +25,7 @@ def test_disconnect():
     print("Usuario se desconectó")
     if users[request.sid]["room"]:
         room = users[request.sid]["room"]
-        users[request.sid]["room"]=room
-        rooms[room]["users"].append(users[request.sid])
+        rooms[room]["users"].remove(users[request.sid])
         leave_room(room, request.sid)
         emit('joinToRoom/' + room, rooms[room], room=room)
     users.pop(request.sid,None)

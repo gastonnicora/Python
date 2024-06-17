@@ -34,6 +34,7 @@ services:
       DB_USER: user
       DB_PASS: user
       DB_NAME: Remates
+      REDIS_HOST: redis
     depends_on:
       - db
       - redis
