@@ -107,7 +107,7 @@ def emit_start(room, time):
         rooms[room]["bool"] = True
         thread = Thread(target=countdown_thread, args=(room,))
         thread.start()
-        print("threads: "+  threading.active_count())
+        print("threads: "+  str(threading.active_count()))
     socketio.emit('startRoom/' + room, room=room)
 
 def start(room):
