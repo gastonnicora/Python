@@ -5,7 +5,7 @@ WORKDIR /app
 COPY ./ . 
 
 RUN pip3 --no-cache-dir install -r requirements.txt
-RUN pip3 --no-cache-dir install gunicorn gevent redis
+RUN pip3 --no-cache-dir install gunicorn gevent 
 
 ENV FLASK_ENV=production
 
