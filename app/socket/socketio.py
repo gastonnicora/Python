@@ -81,7 +81,7 @@ def emit_bid(data):
     room = data['room']
     if room in rooms and rooms[room].get("time") and rooms[room].get("time") >= 0:
         reset_countdown(room)
-        socketio.emit('bidRoom/' + room, data["bid"], room=room)  
+    socketio.emit('bidRoom/' + room, data["bid"], room=room)  
 
 def emit_finish(room):
     print("emit finish")
