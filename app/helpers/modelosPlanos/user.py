@@ -24,3 +24,10 @@ class User():
         return json.loads(json.dumps(self, default=lambda o: o.__dict__, 
             sort_keys=True, indent=4))
     
+    def to_dict(self):
+        return {
+            'uuid': self.uuid,
+            'name': self.name,
+            'lastName': self.lastName,
+            'email': self.email
+        }

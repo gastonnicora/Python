@@ -78,7 +78,7 @@ class Bid(db.Model):
             cls.delete(bid.uuid)
             return sms
         else: 
-            emit_bid({"bid":c, "room":data.get("article")})
+            emit_bid({"bid":c.to_dict(), "room":data.get("article")})
             return Message(content=c)
     
     @classmethod

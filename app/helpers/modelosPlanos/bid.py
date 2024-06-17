@@ -20,3 +20,16 @@ class Bid():
     def toJSON(self):
         return json.loads(json.dumps(self, default=lambda o: o.__dict__, 
             sort_keys=True, indent=4))
+
+    def to_dict(self):
+        return {
+            'uuid': self.uuid,
+            'dateOfCreate': self.dateOfCreate,
+            'dateOfUpdate': self.dateOfUpdate,
+            'removed': self.removed,
+            'user': self.user,
+            'value': self.value,
+            'article': self.article,
+            'dataUser': self.dataUser.to_dict() if self.dataUser else None,
+            'bids': [bid.to_dict() for bid in self.bids]
+        }
