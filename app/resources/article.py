@@ -2,7 +2,6 @@ from flask import request, jsonify
 from app.helpers.validador import validate_request
 from app.models.article import Article
 from app.helpers.token import token_required
-from app.socket.socketio import emit_finish, emit_start
 
 
 @token_required

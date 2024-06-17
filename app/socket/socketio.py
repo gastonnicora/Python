@@ -1,10 +1,9 @@
 from flask_socketio import SocketIO
 from flask import request
 from flask_socketio import emit, join_room, leave_room
-import json
 import time
-from threading import Thread, Lock
-import redis
+from threading import Thread
+import threading
 
 
 socketio = SocketIO(cors_allowed_origins='*', ping_timeout=60, ping_interval=25)
@@ -98,18 +97,21 @@ def emit_updateSesion(data):
     socketio.emit('updateSession', {'data': data}, room=data["uuid"])
 
 def emit_start(room, time):
-    print("start")
+
+    print("emit start:" + room)
     if room not in rooms:
         rooms[room] = {"users": [], "time": int(time), "timeSet": int(time), "bool": False}
     if not rooms[room].get("bool"):
         rooms[room]["time"] = int(time)
         rooms[room]["timeSet"] = int(time)
         rooms[room]["bool"] = True
-    thread = Thread(target=countdown_thread, args=(room,))
-    thread.start()
+        thread = Thread(target=countdown_thread, args=(room,))
+        thread.start()
+        print("threads: "+  threading.active_count())
     socketio.emit('startRoom/' + room, room=room)
 
 def start(room):
+    print("start: "+room)
     if room not in rooms:
         rooms[room] = {"users": []}
     socketio.emit('startRoom/' + room, room=room)

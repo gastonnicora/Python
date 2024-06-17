@@ -3,7 +3,7 @@ from flask import request, jsonify
 from app.models.auction import Auction
 from app.helpers.token import token_required
 from app.helpers.validador import validate_request
-from app.socket.socketio import emit_finish, emit_start
+from app.socket.socketio import emit_finish
 
 @token_required
 @validate_request("Remates","auctionCreate")
