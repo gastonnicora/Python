@@ -9,8 +9,6 @@ import redis
 
 socketio = SocketIO(cors_allowed_origins='*', ping_timeout=60, ping_interval=25)
 
-# Lock para manejar la sincronización
-lock = Lock()
 
 users={}
 rooms={}
@@ -25,14 +23,13 @@ def test_connect():
 @socketio.on('disconnect')
 def test_disconnect():
     print("Usuario se desconectó")
-    with lock:
-        if users[request.sid]["room"]:
-            room = users[request.sid]["room"]
-            users[request.sid]["room"]=room
-            rooms[room]["users"].append(users[request.sid])
-            leave_room(room, request.sid)
-            emit('joinToRoom/' + room, rooms[room], room=room)
-        users.pop(request.sid,None)
+    if users[request.sid]["room"]:
+        room = users[request.sid]["room"]
+        users[request.sid]["room"]=room
+        rooms[room]["users"].append(users[request.sid])
+        leave_room(room, request.sid)
+        emit('joinToRoom/' + room, rooms[room], room=room)
+    users.pop(request.sid,None)
 
 @socketio.on_error()
 def error_handler(e):
@@ -45,16 +42,14 @@ def default_error_handler(e):
 @socketio.on('borrarUser')
 def disconnect(data):
     print("borrarUser")
-    with lock:
-        users.pop(request.sid, None)
+    users.pop(request.sid, None)
 
 @socketio.on('coneccion')
 def test_coneccion(data):
     print("Usuario se conectó, datos:")
     print(data)
-    with lock:
-        if data:
-            users[request.sid]= data
+    if data:
+        users[request.sid]= data
     join_room(data["uuid"], request.sid)
 
 @socketio.on('join')
@@ -63,36 +58,32 @@ def on_join(data):
     print(data)
     room = data['room']
     join_room(room, request.sid)
-    with lock:
-        if room not in rooms:
-            rooms[room] = {"users": [], "time": 0, "timeSet": 0, "bool": True}
-        if request.sid in users:
-            users[request.sid]["room"]=room
-            rooms[room]["users"].append(users[request.sid])
-            emit('joinToRoom/' + room, rooms[room], room=room)
+    if room not in rooms:
+        rooms[room] = {"users": [], "time": 0, "timeSet": 0, "bool": True}
+    if request.sid in users:
+        users[request.sid]["room"]=room
+        rooms[room]["users"].append(users[request.sid])
+        emit('joinToRoom/' + room, rooms[room], room=room)
 
 @socketio.on('leave')
 def on_leave(data):
     print("leave")
     print(data)
     room = data['room']
-    with lock:
-        if room in rooms and request.sid in users:
-            users[request.sid]["room"]=None
-            rooms[room]["users"].remove(users[request.sid])
-        else:
-            print("La sala especificada no existe.")
+    if room in rooms and request.sid in users:
+        users[request.sid]["room"]=None
+        rooms[room]["users"].remove(users[request.sid])
+    else:
+        print("La sala especificada no existe.")
     leave_room(room, request.sid)
     emit('joinToRoom/' + room, rooms[room], room=room)
 
 def emit_bid(data):
     print("emit bid")
     room = data['room']
-    with lock:
-        if room in rooms:
-            if rooms[room].get("time"):
-                reset_countdown(room)
-            socketio.emit('bidRoom/' + room, data["bid"], room=room)  
+    if room in rooms and rooms[room].get("time") and rooms[room].get("time") >= 0:
+        reset_countdown(room)
+        socketio.emit('bidRoom/' + room, data["bid"], room=room)  
 
 def emit_finish(room):
     print("emit finish")
@@ -109,36 +100,32 @@ def emit_updateSesion(data):
 
 def emit_start(room, time):
     print("start")
-    with lock:
-        if room not in rooms:
-            rooms[room] = {"users": [], "time": int(time), "timeSet": int(time), "bool": False}
-        if not rooms[room].get("bool"):
-            rooms[room]["time"] = int(time)
-            rooms[room]["timeSet"] = int(time)
-            rooms[room]["bool"] = True
+    if room not in rooms:
+        rooms[room] = {"users": [], "time": int(time), "timeSet": int(time), "bool": False}
+    if not rooms[room].get("bool"):
+        rooms[room]["time"] = int(time)
+        rooms[room]["timeSet"] = int(time)
+        rooms[room]["bool"] = True
     thread = Thread(target=countdown_thread, args=(room,))
     thread.start()
     socketio.emit('startRoom/' + room, room=room)
 
 def start(room):
-    with lock:
-        if room not in rooms:
-            rooms[room] = {"users": []}
+    if room not in rooms:
+        rooms[room] = {"users": []}
     socketio.emit('startRoom/' + room, room=room)
 
 def countdown_thread(room):
     while True:
-        with lock:
-            if room not in rooms or rooms[room]["time"] <= 0:
-                break
-            socketio.emit('countdown/' + room, rooms[room], room=room)
-            rooms[room]["time"] -= 1
+        if room not in rooms or rooms[room]["time"] <= 0:
+            break
+        socketio.emit('countdown/' + room, rooms[room], room=room)
+        rooms[room]["time"] -= 1
         print("count: " + str(rooms[room]["time"]) +" room: "+ room)
         time.sleep(1)
 
 def reset_countdown(room):
-    with lock:
-        if room in rooms:
-            rooms[room]["time"] = rooms[room]["timeSet"]
+    if room in rooms:
+        rooms[room]["time"] = rooms[room]["timeSet"]
     print("room reset: "+room)
     print(rooms[room]["time"])
