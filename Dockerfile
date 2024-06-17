@@ -11,6 +11,7 @@ ENV FLASK_ENV=production
 
 CMD ["gunicorn", \
      "-k", "gevent", "-w", "1", "-b", "0.0.0.0:4000", \
+     "--threads" "4" \
      "--log-level", "debug", \
      "run:app", \
      "--access-logfile", "-", "--error-logfile", "-"]
