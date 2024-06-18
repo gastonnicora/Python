@@ -3,10 +3,9 @@ from flask import request
 from flask_socketio import emit, join_room, leave_room
 import time
 from threading import Thread
-import threading
 
 
-socketio = SocketIO(cors_allowed_origins='*')
+socketio = SocketIO(cors_allowed_origins='*', ping_timeout=120, ping_interval=30, async_mode='gevent')
 
 
 users={}

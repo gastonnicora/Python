@@ -2,10 +2,10 @@ FROM python:3.9.19-alpine3.19
 
 WORKDIR /app
 
-COPY ./ . 
+COPY ./ .
 
 RUN pip3 --no-cache-dir install -r requirements.txt
-RUN pip3 --no-cache-dir install gunicorn gevent 
+RUN pip3 --no-cache-dir install gunicorn gevent
 
 ENV FLASK_ENV=production
 
