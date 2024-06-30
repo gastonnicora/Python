@@ -22,9 +22,9 @@ def test_disconnect():
     print("desconeccion")
     if users[request.sid]["room"]:
         room = users[request.sid]["room"]
-        rooms[room]["users"].remove(users[request.sid])
-        leave_room(room, request.sid)
-        emit('joinToRoom/' + room, rooms[room], room=room)
+        # rooms[room]["users"].remove(users[request.sid])
+        # leave_room(room, request.sid)
+        # emit('joinToRoom/' + room, rooms[room], room=room)
     users.pop(request.sid,None)
 
 @socketio.on_error()
@@ -48,31 +48,34 @@ def test_coneccion(data):
 
 @socketio.on('join')
 def on_join(data):
-    room = data['room']
-    join_room(room, request.sid)
-    if room not in rooms:
-        rooms[room] = {"users": [], "time": 0, "timeSet": 0, "bool": False}
-    if request.sid in users:
-        users[request.sid]["room"]=room
-        rooms[room]["users"].append(users[request.sid])
-        emit('joinToRoom/' + room, rooms[room], room=room)
+    print("join")
+    # room = data['room']
+    # join_room(room, request.sid)
+    # if room not in rooms:
+    #     rooms[room] = {"users": [], "time": 0, "timeSet": 0, "bool": False}
+    # if request.sid in users:
+    #     users[request.sid]["room"]=room
+    #     rooms[room]["users"].append(users[request.sid])
+    #     emit('joinToRoom/' + room, rooms[room], room=room)
 
 @socketio.on('leave')
 def on_leave(data):
-    room = data['room']
-    if room in rooms and request.sid in users:
-        users[request.sid]["room"]=None
-        rooms[room]["users"].remove(users[request.sid])
-    else:
-        print("La sala especificada no existe.")
-    leave_room(room, request.sid)
-    emit('joinToRoom/' + room, rooms[room], room=room)
+    print("leave")
+    # room = data['room']
+    # if room in rooms and request.sid in users:
+    #     users[request.sid]["room"]=None
+    #     rooms[room]["users"].remove(users[request.sid])
+    # else:
+    #     print("La sala especificada no existe.")
+    # leave_room(room, request.sid)
+    # emit('joinToRoom/' + room, rooms[room], room=room)
 
 def emit_bid(data):
-    room = data['room']
-    if room in rooms and rooms[room].get("time") and rooms[room].get("time") >= 0:
-        reset_countdown(room)
-    socketio.emit('bidRoom/' + room, data["bid"], room=room)  
+    print("emit bid")
+    # room = data['room']
+    # if room in rooms and rooms[room].get("time") and rooms[room].get("time") >= 0:
+    #     reset_countdown(room)
+    # socketio.emit('bidRoom/' + room, data["bid"], room=room)  
 
 def emit_finish(room):
     socketio.emit('finishRoom/' + room, {'data': "finish"}, room=room)
@@ -85,21 +88,22 @@ def emit_updateSesion(data):
     socketio.emit('updateSession', {'data': data}, room=data["uuid"])
 
 def emit_start(room, time):
-
-    if room not in rooms:
-        rooms[room] = {"users": [], "time": int(time), "timeSet": int(time), "bool": False}
-    if not rooms[room].get("bool"):
-        rooms[room]["time"] = int(time)
-        rooms[room]["timeSet"] = int(time)
-        rooms[room]["bool"] = True
-        thread = Thread(target=countdown_thread, args=(room,))
-        thread.start()
-    socketio.emit('startRoom/' + room, room=room)
+    print("emit start")
+    # if room not in rooms:
+    #     rooms[room] = {"users": [], "time": int(time), "timeSet": int(time), "bool": False}
+    # if not rooms[room].get("bool"):
+    #     rooms[room]["time"] = int(time)
+    #     rooms[room]["timeSet"] = int(time)
+    #     rooms[room]["bool"] = True
+    #     thread = Thread(target=countdown_thread, args=(room,))
+    #     thread.start()
+    # socketio.emit('startRoom/' + room, room=room)
 
 def start(room):
-    if room not in rooms:
-        rooms[room] = {"users": []}
-    socketio.emit('startRoom/' + room, room=room)
+    print("start")
+    # if room not in rooms:
+    #     rooms[room] = {"users": []}
+    # socketio.emit('startRoom/' + room, room=room)
 
 def countdown_thread(room):
     while True:
