@@ -4,8 +4,8 @@ WORKDIR /app
 
 COPY ./ .
 
-RUN pip3 --no-cache-dir install -r requirements.txt
-RUN pip3 --no-cache-dir install gunicorn gevent
+RUN pip --no-cache-dir install -r requirements.txt
+RUN pip --no-cache-dir install gunicorn gevent
 
 ENV FLASK_ENV=production
 
