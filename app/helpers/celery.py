@@ -29,7 +29,7 @@ def deleteConfirm(uuid):
         'uuid': uuid,
         'token':Token().getToken()
     })
-    redis_client.publish('task_channel', message)
+    # redis_client.publish('task_channel', message)
 
 def finishedArticle(uuid, time):
     message = json.dumps({
@@ -38,7 +38,7 @@ def finishedArticle(uuid, time):
         "time": time,
         'token':Token().getToken()
     })
-    redis_client.publish('task_channel', message)
+    # redis_client.publish('task_channel', message)
 
 def startedArticle(uuid, time):
     message = json.dumps({
@@ -47,7 +47,7 @@ def startedArticle(uuid, time):
         "time": time,
         'token':Token().getToken()
     })
-    redis_client.publish('task_channel', message)
+    # redis_client.publish('task_channel', message)
 
 def startedAuction(uuid, time):
     message = json.dumps({
@@ -56,7 +56,7 @@ def startedAuction(uuid, time):
         "time": time,
         'token':Token().getToken()
     })
-    redis_client.publish('task_channel', message)
+    # redis_client.publish('task_channel', message)
 
 def finishedAuction(uuid, time):
     message = json.dumps({
@@ -65,4 +65,4 @@ def finishedAuction(uuid, time):
         "time": time,
         'token':Token().getToken()
     })
-    redis_client.publish('task_channel', message)
+    # redis_client.publish('task_channel', message)

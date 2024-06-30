@@ -2,7 +2,6 @@ from flask import request, jsonify
 from app.helpers.validador import validate_request
 from app.models.bid import Bid
 from app.helpers.token import token_required
-from app.helpers.celery import finishedArticle
 from app.models.article import Article
 
 @token_required
