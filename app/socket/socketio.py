@@ -25,7 +25,7 @@ def test_disconnect():
         # rooms[room]["users"].remove(users[request.sid])
         # leave_room(room, request.sid)
         # emit('joinToRoom/' + room, rooms[room], room=room)
-    users.pop(request.sid,None)
+    # users.pop(request.sid,None)
 
 @socketio.on_error()
 def error_handler(e):
@@ -38,7 +38,7 @@ def default_error_handler(e):
 @socketio.on('borrarUser')
 def disconnect(data):
     print("disconnect")
-    users.pop(request.sid, None)
+    # users.pop(request.sid, None)
 
 @socketio.on('coneccion')
 def test_coneccion(data):
