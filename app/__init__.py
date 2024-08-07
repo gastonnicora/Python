@@ -52,15 +52,15 @@ def create_app(environment="development"):
         initialize()
     # Rutas API-REST
 
-    # CRUD User
-    app.add_url_rule("/users", "users", user.index)
-    app.add_url_rule("/user/<string:uuid>", "user", user.get)
-    app.add_url_rule("/userCreate", "userCreate",
-                     user.create, methods=["POST"])
-    app.add_url_rule("/userUpdate", "userUpdate", user.update, methods=["PUT"])
-    app.add_url_rule("/userUpdatePassword", "userUpdatePassword",
-                     user.updatePassword, methods=["PUT"])
-    app.add_url_rule("/userDelete", "userDelete", user.delete, methods=["DELETE"])
+    # # CRUD User
+    # app.add_url_rule("/users", "users", user.index)
+    # app.add_url_rule("/user/<string:uuid>", "user", user.get)
+    # app.add_url_rule("/userCreate", "userCreate",
+    #                  user.create, methods=["POST"])
+    # app.add_url_rule("/userUpdate", "userUpdate", user.update, methods=["PUT"])
+    # app.add_url_rule("/userUpdatePassword", "userUpdatePassword",
+    #                  user.updatePassword, methods=["PUT"])
+    # app.add_url_rule("/userDelete", "userDelete", user.delete, methods=["DELETE"])
     app.add_url_rule("/login", "login", user.login, methods=["POST"])
     app.add_url_rule("/logout", "logout", user.logout, methods=["GET"])
 
