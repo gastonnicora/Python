@@ -20,7 +20,7 @@ def test_connect():
 @socketio.on('disconnect')
 def test_disconnect():
     print("desconeccion")
-    if users[request.sid]["room"]:
+    if users[request.sid] and users[request.sid]["room"]:
         room = users[request.sid]["room"]
         rooms[room]["users"].remove(users[request.sid])
         leave_room(room, request.sid)
