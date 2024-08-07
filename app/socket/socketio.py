@@ -15,7 +15,7 @@ rooms={}
 @socketio.on('connect')
 def test_connect():
     print("coneccion")
-    emit('coneccion', {'data': 'Connected'})
+    emit('connect', {'data': 'Connected'})
 
 @socketio.on('disconnect')
 def test_disconnect():
