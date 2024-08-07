@@ -45,7 +45,8 @@ def test_coneccion(data):
     print("user coneccion")
     if data:
         users[request.sid]= data
-    join_room(data["uuid"], request.sid)
+        print(data)
+        join_room(data["uuid"], request.sid)
 
 @socketio.on('join')
 def on_join(data):
