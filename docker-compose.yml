@@ -14,7 +14,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     networks:
-      - mynetwork
+      - mynetwork 
 
   web:
     image: gastonnicora/remates-vue
@@ -24,7 +24,7 @@ services:
     depends_on:
       - api
     networks:
-      - socket
+      - socket 
 
   api:
     image: gastonnicora/remates-python
@@ -42,7 +42,7 @@ services:
       - "4000:4000"
     networks:
       - mynetwork
-      - socket
+      - socket 
 
   celery:
     image: gastonnicora/remates-celery
@@ -55,7 +55,7 @@ services:
     expose:
       - "5000" # Hace que el puerto 5000 sea accesible internamente
     networks:
-      - mynetwork
+      - mynetwork 
 
   phpmyadmin:
     image: phpmyadmin
@@ -68,7 +68,7 @@ services:
     depends_on:
       - db
     networks:
-      - mynetwork
+      - mynetwork 
 
   redis:
     image: redis:7-alpine
@@ -77,13 +77,13 @@ services:
     volumes:
       - redis_data:/data
     networks:
-      - mynetwork
+      - mynetwork 
 
 networks:
   mynetwork:
   socket:
-    driver: bridge
+    driver: bridge 
 
 volumes:
   db_data:
-  redis_data:
+  redis_data: 
