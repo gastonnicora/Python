@@ -19,7 +19,7 @@ services:
   web:
     image: gastonnicora/remates-vue
     ports:
-      - "80:8080"
+      - "80:80"
     restart: always
     depends_on:
       - api
