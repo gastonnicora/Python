@@ -5,7 +5,7 @@ WORKDIR /app
 COPY ./ .
 
 RUN pip --no-cache-dir install -r requirements.txt
-RUN pip --no-cache-dir install gunicorn gevent gevent-websocket
+RUN pip --no-cache-dir install gunicorn gevent 
 
 ENV FLASK_ENV=production
 
