@@ -10,7 +10,7 @@ RUN pip --no-cache-dir install gunicorn gevent gevent-websocket
 ENV FLASK_ENV=production
 
 CMD ["gunicorn", \
-     "-k", "gevent", "-w", "1", "-b", "0.0.0.0:4000", \
+     "-k", "geventwebsocket.gunicorn.workers.GeventWebSocketWorker", "-w", "1", "-b", "0.0.0.0:4000", \
      "--log-level", "debug", \
-     "run:app", \
+     "wsgi:run", \
      "--access-logfile", "-", "--error-logfile", "-"]
