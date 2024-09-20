@@ -5,12 +5,12 @@ WORKDIR /app
 COPY ./ .
 
 RUN pip --no-cache-dir install -r requirements.txt
-RUN pip --no-cache-dir install gunicorn gevent gevent-websocket uwsgi
+RUN pip --no-cache-dir install gunicorn gevent gevent-websocket
 
 ENV FLASK_ENV=production
 
 CMD ["gunicorn", \
      "-k", "geventwebsocket.gunicorn.workers.GeventWebSocketWorker", "-w", "1", "-b", "0.0.0.0:4000", \
      "--log-level", "debug", \
-     "wsgi:run", \
+     "run:app", \
      "--access-logfile", "-", "--error-logfile", "-"]
