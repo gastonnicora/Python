@@ -25,12 +25,18 @@ def test_disconnect():
         rooms[room]["users"].remove(users[request.sid])
         leave_room(room, request.sid)
         emit('joinToRoom/' + room, rooms[room], room=room)
-    users.pop(request.sid,None)
+        users.pop(request.sid,None)
 
 @socketio.on_error()
 def error_handler(e):
-    print(e)
-    print('Error:' + str(e))
+    if hasattr(e, 'message'):
+        error_message = e.message
+    else:
+        error_message = str(e)
+    
+    # Imprime el SID y el mensaje de error
+    print(f"Error en la conexión {request.sid}: {error_message}")
+
 
 @socketio.on_error_default
 def default_error_handler(e):
@@ -38,7 +44,7 @@ def default_error_handler(e):
 
 @socketio.on('borrarUser')
 def disconnect(data):
-    print("disconnect")
+    print("borrar user")
     users.pop(request.sid, None)
 
 @socketio.on('coneccion')
@@ -46,6 +52,7 @@ def test_coneccion(data):
     print("user coneccion")
     if data:
         users[request.sid]= data
+        print("coneccion data:")
         print(data)
         join_room(data["uuid"], request.sid)
 
