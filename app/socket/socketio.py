@@ -27,9 +27,7 @@ def test_connect():
 def test_disconnect():
     try:
         print("desconeccion")
-
-        logging.error(users[request.sid] and users[request.sid]["room"])
-        if users[request.sid] and users[request.sid]["room"]:
+        if users and users[request.sid] and users[request.sid]["room"]:
             room = users[request.sid]["room"]
             rooms[room]["users"].remove(users[request.sid])
             leave_room(room, request.sid)
