@@ -3,6 +3,11 @@ from flask import request
 from flask_socketio import emit, join_room, leave_room
 import time
 from threading import Thread
+import logging
+
+# Configuración del logger
+logging.basicConfig(level=logging.DEBUG,  # Cambia a INFO o ERROR según lo necesites
+                    format='%(asctime)s - %(levelname)s - %(message)s')
 
 
 socketio = SocketIO(cors_allowed_origins='*', async_mode='gevent', ping_timeout=120, ping_interval=25, logger=True, engineio_logger=True)
@@ -29,13 +34,12 @@ def test_disconnect():
 
 @socketio.on_error()
 def error_handler(e):
-    if hasattr(e, 'message'):
-        error_message = e.message
-    else:
-        error_message = str(e)
+    event_name = request.event if hasattr(request, 'event') else 'unknown event'
+    error_message = str(e)
     
-    # Imprime el SID y el mensaje de error
-    print(f"Error en la conexión {request.sid}: {error_message}")
+    logging.error(f"Error en la conexión {request.sid} en el evento '{event_name}': {error_message}")
+    logging.error(f"Headers: {dict(request.headers)}")  # Detalles adicionales sobre la solicitud
+
 
 
 @socketio.on_error_default
@@ -49,12 +53,16 @@ def disconnect(data):
 
 @socketio.on('coneccion')
 def test_coneccion(data):
-    print("user coneccion")
-    if data:
-        users[request.sid]= data
-        print("coneccion data:")
-        print(data)
-        join_room(data["uuid"], request.sid)
+    try:
+        print("user coneccion")
+        if data:
+            users[request.sid]= data
+            print("coneccion data:")
+            print(data)
+            join_room(data["uuid"], request.sid)
+    except Exception as e:
+        error_handler(e) 
+    
 
 
 @socketio.on('join')
