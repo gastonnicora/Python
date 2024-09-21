@@ -29,6 +29,7 @@ def test_disconnect():
 
 @socketio.on_error()
 def error_handler(e):
+    print(e)
     print('Error:' + str(e))
 
 @socketio.on_error_default
