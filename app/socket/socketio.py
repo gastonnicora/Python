@@ -56,17 +56,22 @@ def test_coneccion(data):
         print(data)
         join_room(data["uuid"], request.sid)
 
+
 @socketio.on('join')
 def on_join(data):
-    print("join")
-    room = data['room']
-    join_room(room, request.sid)
-    if room not in rooms:
-        rooms[room] = {"users": [], "time": 0, "timeSet": 0, "bool": False}
-    if request.sid in users:
-        users[request.sid]["room"]=room
-        rooms[room]["users"].append(users[request.sid])
-        emit('joinToRoom/' + room, rooms[room], room=room)
+    try:
+        print("join")
+        room = data['room']
+        join_room(room, request.sid)
+        if room not in rooms:
+            rooms[room] = {"users": [], "time": 0, "timeSet": 0, "bool": False}
+        if request.sid in users:
+            users[request.sid]["room"]=room
+            rooms[room]["users"].append(users[request.sid])
+            emit('joinToRoom/' + room, rooms[room], room=room)
+    except Exception as e:
+        error_handler(e) 
+    
 
 @socketio.on('leave')
 def on_leave(data):
