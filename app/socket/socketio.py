@@ -5,7 +5,7 @@ import time
 from threading import Thread
 
 
-socketio = SocketIO(cors_allowed_origins='*', async_mode='gevent', ping_timeout=120, ping_interval=25)
+socketio = SocketIO(cors_allowed_origins='*', async_mode='gevent', ping_timeout=120, ping_interval=25, logger=True, engineio_logger=True)
 
 
 users={}
