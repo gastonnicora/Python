@@ -61,6 +61,7 @@ def test_coneccion(data):
             print(data)
             join_room(data["uuid"], request.sid)
     except Exception as e:
+        logging.error("coneccion")
         error_handler(e) 
     
 
@@ -78,6 +79,8 @@ def on_join(data):
             rooms[room]["users"].append(users[request.sid])
             emit('joinToRoom/' + room, rooms[room], room=room)
     except Exception as e:
+
+        logging.error("join")
         error_handler(e) 
     
 
