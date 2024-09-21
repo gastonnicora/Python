@@ -24,13 +24,18 @@ def test_connect():
 
 @socketio.on('disconnect')
 def test_disconnect():
-    print("desconeccion")
-    if users[request.sid] and users[request.sid]["room"]:
-        room = users[request.sid]["room"]
-        rooms[room]["users"].remove(users[request.sid])
-        leave_room(room, request.sid)
-        emit('joinToRoom/' + room, rooms[room], room=room)
-        users.pop(request.sid,None)
+    try:
+        print("desconeccion")
+        if users[request.sid] and users[request.sid]["room"]:
+            room = users[request.sid]["room"]
+            rooms[room]["users"].remove(users[request.sid])
+            leave_room(room, request.sid)
+            emit('joinToRoom/' + room, rooms[room], room=room)
+            users.pop(request.sid,None)
+    except Exception as e:
+        logging.error("desconeccion")
+        error_handler(e) 
+
 
 @socketio.on_error()
 def error_handler(e):
