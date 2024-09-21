@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.DEBUG,  # Cambia a INFO o ERROR según lo nece
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
 
-socketio = SocketIO(cors_allowed_origins='*', async_mode='gevent', ping_timeout=180, ping_interval=30, logger=True, engineio_logger=True)
+socketio = SocketIO(cors_allowed_origins='*', async_mode='gevent',  ping_timeout=60, ping_interval=25, logger=True, engineio_logger=True)
 
 
 users={}
