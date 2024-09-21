@@ -21,11 +21,14 @@ rooms={}
 def test_connect():
     print("coneccion")
     emit('connect', {'data': 'Connected'})
+    logging.error("conectado")
 
 @socketio.on('disconnect')
 def test_disconnect():
     try:
         print("desconeccion")
+
+        logging.error(users[request.sid] and users[request.sid]["room"])
         if users[request.sid] and users[request.sid]["room"]:
             room = users[request.sid]["room"]
             rooms[room]["users"].remove(users[request.sid])
