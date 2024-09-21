@@ -26,17 +26,17 @@ def test_connect():
 @socketio.on('disconnect')
 def test_disconnect():
     try:
-        logging.info("desconeccion")
-        if users and users[request.sid] and users[request.sid]["room"]:
-            room = users[request.sid]["room"]
-            rooms[room]["users"].remove(users[request.sid])
-            leave_room(room, request.sid)
-            emit('joinToRoom/' + room, rooms[room], room=room)
-            users.pop(request.sid,None)
+        logging.info("Desconexión de: %s", request.sid)
+        if request.sid in users:
+            room = users[request.sid].get("room")
+            if room and room in rooms:
+                rooms[room]["users"].remove(users[request.sid])
+                leave_room(room, request.sid)
+                emit('joinToRoom/' + room, rooms[room], room=room)
+            users.pop(request.sid, None)
+            logging.info("Usuario %s desconectado y eliminado de la lista.", request.sid)
     except Exception as e:
-        logging.error("desconeccion")
-        error_handler(e) 
-
+        logging.error("Error en desconexión: %s", str(e))
 
 @socketio.on_error()
 def error_handler(e):
