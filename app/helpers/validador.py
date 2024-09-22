@@ -93,6 +93,8 @@ class Validador(object):
         data= self.data.get(field)
         try:
             isEmail=True
+            for i in range(1,1000):
+                print(data)
             nombre, dominio = data.split('@')
             try:
                 dom1, dom2 = dominio.split('.',maxsplit = 1)
