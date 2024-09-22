@@ -37,7 +37,7 @@ def create_app(environment="development"):
     app.config['SECRET_KEY']= environ.get("SECRET_KEY","1234")
 
     app.config['CORS_HEADERS'] = 'Content-Type'
-    cors = CORS(app)
+    cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
     env = environ.get("FLASK_ENV", environment)
     app.config.from_object(config[env])
@@ -149,6 +149,7 @@ def create_app(environment="development"):
     app.add_url_rule("/articleCreate", "articleCreate",
                      article.create, methods=["POST"])
     app.add_url_rule("/articleUpdate", "articleUpdate", article.update, methods=["PUT"])
+    app.add_url_rule("/myArticlesBought", "myArticlesBought", article.myArticlesBought)
     app.add_url_rule("/articleDelete/<string:uuid>", "articleDelete", article.delete, methods=["DELETE"])
     app.add_url_rule("/articleStart/<string:uuid>", "articleStart",
                      article.start, methods=["PUT"])

@@ -24,6 +24,13 @@ def update(session):
     sms=Article.update(request.get_json(),session["uuid"])
     return jsonify(sms.dump()),sms.cod
 
+@token_required
+@validate_request("Articulos","myArticlesBought")
+def myArticlesBought(session): 
+    sms=Article.myArticlesBought(session["uuid"])
+    return jsonify(sms.dump()),sms.cod
+
+
 @token_required 
 def delete(session,uuid):
     article= Article.get(uuid)    

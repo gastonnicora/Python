@@ -1354,6 +1354,14 @@
         "fields": ["description","dateOfStart","dateOfFinish","timeAfterBid","type","minValue","minStepValue","urlPhoto"],
         "requiredSession": true
       },
+      "myArticlesBought": {
+        "url": "/myArticlesBought",
+        "method": "GET",
+        "description": "Obtener todos los artículos comprados del usuario",
+        "explanation": "",
+        "fields": [],
+        "requiredSession": true
+      },
       "articleDelete": {
         "url": "/articleDelete",
         "method": "DELETE",

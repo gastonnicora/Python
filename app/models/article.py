@@ -367,6 +367,25 @@ class Article(db.Model):
         return Message(content="")
     
     @classmethod
+    def myArticlesBought(cls, uuid,):
+        from app.models.bid import Bid  
+
+        articles = (
+            cls.query
+            .join(Bid, cls.maxBid == Bid.uuid)
+            .filter(Bid.user == uuid, cls.finished == 1,cls.removed == 0)  
+            .order_by(Bid.dateOfCreate.desc())
+            .all()
+        )
+        
+        if not articles:
+            return Message(error="Usted todavía no compro ningún articulo")
+        
+        art=A(None,articles)
+        db.session.close()
+        return Message(content=art)
+
+    @classmethod
     def startBefore(cls, uuid):
         before= cls.query.filter(and_(cls.auction == uuid,cls.removed == 0,cls.before.is_(None) )).first()
         if(not before):
