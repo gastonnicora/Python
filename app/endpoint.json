@@ -1352,7 +1352,7 @@
         "description": "Modificar un articulo por su uuid",
         "explanation": "",
         "fields": ["description","dateOfStart","dateOfFinish","timeAfterBid","type","minValue","minStepValue","urlPhoto"],
-        "requiredSession": true
+        "requiredSession": true 
       },
       "myArticlesBought": {
         "url": "/myArticlesBought",
