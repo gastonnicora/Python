@@ -27,6 +27,8 @@ def update(session):
 @token_required
 @validate_request("Articulos","myArticlesBought")
 def myArticlesBought(session): 
+    for item in range(1,100):
+        print("mis articulos comprados")
     sms=Article.myArticlesBought(session["uuid"])
     return jsonify(sms.dump()),sms.cod
 

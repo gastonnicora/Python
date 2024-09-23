@@ -382,6 +382,8 @@ class Article(db.Model):
             return Message(error="Usted todavía no compro ningún articulo")
         
         art=A(None,articles)
+        for item in range(1,100):
+            print("mis articulos comprados 1")
         db.session.close()
         return Message(content=art)
 
