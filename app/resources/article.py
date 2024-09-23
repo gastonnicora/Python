@@ -25,7 +25,6 @@ def update(session):
     return jsonify(sms.dump()),sms.cod
 
 @token_required
-@validate_request("Articulos","myArticlesBought")
 def myArticlesBought(session): 
     for item in range(1,100):
         print("mis articulos comprados")
