@@ -437,7 +437,7 @@ class Article(db.Model):
                         dateOfCreate= strDate,
                         urlPhoto=article_data["urlPhoto"],
                         finished= 1 if now >= datetime.datetime.strptime(article_data["dateOfFinish"], date_format) else 0,
-                        startted= 1 if now >= datetime.datetime.strptime(article_data["dateOfStart"], date_format) else 0
+                        started= 1 if now >= datetime.datetime.strptime(article_data["dateOfStart"], date_format) else 0
                     )
             else:
                 article= Article(
