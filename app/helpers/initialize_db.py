@@ -395,15 +395,18 @@ def initialize():
     if len(listArticle) >0:
         logging.info('Creando pujas')
         bids=[]
+        auxArt={}
         lenArticles = len(listArticle)
         for i in range(0,randrange(0, (5*(lenArticles-1)) )) :
             art= randint(0,lenArticles-1) 
             user= randint(0,lenUser-1) 
             data={"article":listArticle[art].uuid}
             data["user"]=user
-            if listArticle[art].bidValue:
-                data["value"]=listArticle[art].bidValue + listArticle[art].minStepValue
+            if auxArt[listArticle[art].uuid]:
+                auxArt[listArticle[art].uuid] = auxArt[listArticle[art].uuid]+ listArticle[art].minStepValue
+                data["value"]=listArticle[art]=auxArt[listArticle[art].uuid] + listArticle[art].minStepValue
             else:
+                auxArt[listArticle[art].uuid]= listArticle[art].minValue
                 data["value"]=listArticle[art].minValue
             
             listArticle[art].bidValue =data["value"]
