@@ -364,14 +364,14 @@ def initialize():
         a=randint(0, lenArticles -1)
         auction= listAuction[au]
         data= articlesList[a]
-        data["auction"]= auction["uuid"]
-        data["dateOfStart"]= auction["dateStart"]
-        data["dateOfFinish"]= auction["dateFinish"]
+        data["auction"]= auction.uuid
+        data["dateOfStart"]= auction.dateStart
+        data["dateOfFinish"]= auction.dateFinish
         data["minValue"]=randint(1000, 100000)
         data["minStepValue"]=randint(1000, 100000)
-        data["type"]= auction["type"]
-        data["timeAfterBid"]= auction["timeAfterBid"]
-        art=Article.create(data,listAuction[au].get("owner"))
+        data["type"]= auction.type
+        data["timeAfterBid"]= auction.timeAfterBid
+        art=Article.create_ini(data,listAuction[au].owner)
         if(art.content):
             article= {
                 "auction": art.content.auction,
@@ -387,12 +387,10 @@ def initialize():
                 "urlPhoto": art.content.urlPhoto,
                 "uuid": art.content.uuid
             }
-            listAuction[au]["before"]=art.content.uuid
+            listAuction[au].before = art.content.uuid
             now= datetime.datetime.now()
             now=now.astimezone(zona_horaria)
-            if now >= datetime.datetime.strptime(data["dateOfFinish"], date_format):
-                listArticle.append(article)
-                Article.setStarted(art.content.uuid)
+            listArticle = Article.getFinished().content.articles
     
     if len(listArticle) >0:
         logging.info('Creando pujas')

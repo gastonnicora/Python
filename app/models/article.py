@@ -142,6 +142,62 @@ class Article(db.Model):
             cls.setNext(article.uuid,before.uuid)
         db.session.close()
         return Message(content=a)
+    @classmethod
+    def create_ini(cls,data,owner):
+        now= datetime.datetime.now()
+        now=now.astimezone(zona_horaria)
+        date= datetime.datetime.now()
+        date=date.astimezone(zona_horaria)
+        strDate= date.strftime(date_format)
+        sms=  Auction.get(data.get("auction"))
+        if sms.dump()["error"]:
+            return Message(error="No se puede guardar el articulo por que no existe el remate")
+        if sms.dump()["content"]["dataCompany"]["owner"]!= owner:
+            return Message(error="No se puede guardar el articulo por que eres el propietario del remate")
+        
+        before= cls.query.filter(and_(cls.auction == data.get("auction"),cls.removed == 0,cls.next.is_(None) )).first()
+        article= None
+        if not before:
+            article= cls(
+                    auction= data.get("auction"),
+                    description= data.get("description"),
+                    dateOfStart= data.get("dateOfStart"),
+                    dateOfFinish=data.get("dateOfFinish"),
+                    timeAfterBid= data.get("timeAfterBid") ,
+                    type= data.get("type"),
+                    minValue=data.get("minValue"),
+                    minStepValue=data.get("minStepValue"),
+                    dateOfCreate= strDate,
+                    urlPhoto=data.get("urlPhoto"),
+                    finished= 1 if now >= datetime.datetime.strptime(data.get("dateOfFinish"), date_format) else 0,
+                    started= 1 if now >= datetime.datetime.strptime(data.get("dateOfStart"), date_format) else 0
+                    
+                )
+        else:
+            article= cls(
+                auction= data.get("auction"),
+                before= before.uuid or None,
+                description= data.get("description"),
+                dateOfStart= data.get("dateOfStart"),
+                dateOfFinish=data.get("dateOfFinish"),
+                timeAfterBid= data.get("timeAfterBid") ,
+                type= data.get("type"),
+                minValue=data.get("minValue"),
+                minStepValue=data.get("minStepValue"),
+                dateOfCreate= strDate,
+                urlPhoto=data.get("urlPhoto"),
+                finished= 1 if now >= datetime.datetime.strptime(data.get("dateOfFinish"), date_format) else 0,
+                started= 1 if now >= datetime.datetime.strptime(data.get("dateOfStart"), date_format) else 0
+                    
+            )
+        
+        db.session.add(article)
+        db.session.commit()
+        a= A(article)
+        if before:
+            cls.setNext(article.uuid,before.uuid)
+        db.session.close()
+        return Message(content=a)
     
     @classmethod
     def all(cls):
@@ -410,46 +466,6 @@ class Article(db.Model):
         db.session.commit()
         db.session.close()
         return Message(content="")
-    @classmethod
-    def insert_article_in_bulk(cls,articles_data, exAuc):
-        date_format = '%d/%m/%YT%H:%M:%S%z'
-        zona_horaria = timezone("America/Argentina/Buenos_Aires")
-
-        current_date = datetime.datetime.now().astimezone(zona_horaria)
-        strDate = current_date.strftime(date_format)
-
-        now= datetime.datetime.now()
-        now=now.astimezone(zona_horaria)
-
-        articles_to_create = []
-        article= None
-        for article_data in articles_data:
-            article= Article(
-                    uuid=article_data["uuid"],
-                    auction= article_data["auction"],
-                    description= article_data["description"],
-                    dateOfStart= article_data["dateOfStart"],
-                    dateOfFinish=article_data["dateOfFinish"],
-                    timeAfterBid= article_data["timeAfterBid"] ,
-                    type= article_data["type"],
-                    minValue=article_data["minValue"],
-                    minStepValue=article_data["minStepValue"],
-                    dateOfCreate= strDate,
-                    urlPhoto=article_data["urlPhoto"],
-                    finished= 1 if now >= datetime.datetime.strptime(article_data["dateOfFinish"], date_format) else 0,
-                    started= 1 if now >= datetime.datetime.strptime(article_data["dateOfStart"], date_format) else 0,
-                    next= exAuc[article_data["auction"]] if len(exAuc[article_data["auction"]]) >1 else 0,
-                    before= article_data["before"]
-                )
-            print("uuid")
-            print(article.uuid)
-            articles_to_create.append(article)
-
-        db.session.bulk_save_objects(articles_to_create)
-        db.session.commit()
-        db.session.close()
-        print(f"{len(articles_to_create)} articulos insertados correctamente.")
-        
 
     
     
