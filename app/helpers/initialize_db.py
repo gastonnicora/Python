@@ -321,7 +321,7 @@ def initialize():
     lenUser=len(users)
     for i, com in enumerate(companiesList):
         num=randint(0, lenUser-1)
-        com["user"]=users[num]["uuid"]
+        com["user"]=users[num].uuid
         company.append(com)
     Company.insert_company_in_bulk(company)
     companies= Company.all().content.companies
@@ -334,7 +334,7 @@ def initialize():
         a=randint(0,lenAuctions -1)
         num=randint(0, lenCompanies-1)
         data= auctionsList[a]
-        data["company"]= companies[num]["uuid"]
+        data["company"]= companies[num].uuid
         data["type"]= randint(0, 1)
         data["timeAfterBid"]= randint(10, 60)
         minutesS= randint(-1000, 1000)
@@ -362,13 +362,13 @@ def initialize():
         a=randint(0, lenArticles -1)
         auction= listAuction[au]
         data= articlesList[a]
-        data["auction"]= auction["uuid"]
-        data["dateOfStart"]= auction["dateStart"]
-        data["dateOfFinish"]= auction["dateFinish"]
+        data["auction"]= auction.uuid
+        data["dateOfStart"]= auction.dateStart
+        data["dateOfFinish"]= auction.dateFinish
         data["minValue"]=randint(1000, 100000)
         data["minStepValue"]=randint(1000, 100000)
-        data["type"]= auction["type"]
-        data["timeAfterBid"]= auction["timeAfterBid"]
+        data["type"]= auction.type
+        data["timeAfterBid"]= auction.timeAfterBid
         listArticle.append(data)
     Article.insert_article_in_bulk(listArticle)
     listArticle = Article.getFinished().content.articles
@@ -380,26 +380,26 @@ def initialize():
         for i in range(0,randrange(0, (5*(lenArticles-1)) )) :
             art= randint(0,lenArticles-1) 
             user= randint(0,lenUser-1) 
-            data={"article":listArticle[art]["uuid"]}
+            data={"article":listArticle[art].uuid}
             data["user"]=user
-            if listArticle[art]["value"]:
-                data["value"]=listArticle[art]["value"]+ listArticle[art]["minStepValue"]
+            if listArticle[art].value:
+                data["value"]=listArticle[art].value + listArticle[art].minStepValue
             else:
-                data["value"]=listArticle[art]["minValue"]
+                data["value"]=listArticle[art].minValue
             
-            listArticle[art]["value"]=data["value"]
+            listArticle[art].value =data["value"]
             bids.append(data)
         Bid.insert_bid_in_bulk(bids)
 
         for auc in listAuction:
-            dateS=datetime.datetime.strptime(auc["dateStart"], date_format)
-            dateF=datetime.datetime.strptime(auc["dateFinish"], date_format)
+            dateS=datetime.datetime.strptime(auc.dateStart, date_format)
+            dateF=datetime.datetime.strptime(auc.dateFinish, date_format)
             if now >= dateS and now >= dateF:
-                Auction.start(auc["uuid"])
+                Auction.start(auc.uuid)
             if now >= dateF :
-                Auction.setFinished(auc["uuid"])
+                Auction.setFinished(auc.uuid)
         for art in listArticle:
-            Article.setFinished(art["uuid"])
+            Article.setFinished(art.uuid)
     logging.info('Ya puede usar la aplicacion')
 
     print('Ya puede usar la aplicación')
