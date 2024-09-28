@@ -310,14 +310,12 @@ def initialize():
     bi= len(Bid.all().content.bids)
     if not (u==0 and au==0 and ar==0 and co==0 and bi==0):
         return
-    print("create user")
 
     logging.info('Creando  usuarios')
     for i, user in enumerate(users):
         u=User.create(user)
         if(u.content):
             users[i]["uuid"]=u.content.uuid
-    print("create company")
 
     logging.info('Creando  empresas')
     for i, com in enumerate(companies):
@@ -328,7 +326,6 @@ def initialize():
             companies[i]["owner"]=comp.content.owner
 
     listAuction=[]
-    print("auction create")
     logging.info('Creando  remates')
     for i in range(0,randrange(10, len(companies)*10)):
         a=randint(0, len(auctions)-1)
@@ -403,7 +400,6 @@ def initialize():
                 Article.setStarted(art.content.uuid)
                 
     if len(listArticle) >0:
-        print("bid create")
         logging.info('Creando pujas')
         for i in range(0,randrange(0, (5*(len(listArticle)-1)) )) :
             art= randint(0,len(listArticle)-1) 

@@ -10,10 +10,6 @@ class Config(object):
     DB_NAME = "db_name"
     SECRET_KEY = "secret"
 
-    @staticmethod
-    def configure(app):
-        # Implement this method to do further configuration on your app.
-        pass
 
 
 class ProductionConfig(Config):
@@ -51,7 +47,3 @@ class TestingConfig(Config):
 config = dict(
     development=DevelopmentConfig, test=TestingConfig, production=ProductionConfig
 )
-
-## More information
-# https://flask.palletsprojects.com/en/2.0.x/config/
- 

@@ -53,7 +53,7 @@ services:
     ports:
       - "5555:5555"
     expose:
-      - "5000" # Hace que el puerto 5000 sea accesible internamente
+      - "5000" 
     networks:
       - mynetwork 
 

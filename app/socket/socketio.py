@@ -5,8 +5,7 @@ import time
 from threading import Thread
 import logging
 
-# Configuración del logger
-logging.basicConfig(level=logging.DEBUG,  # Cambia a INFO o ERROR según lo necesites
+logging.basicConfig(level=logging.DEBUG, 
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
 
@@ -44,7 +43,7 @@ def error_handler(e):
     error_message = str(e)
     
     logging.error(f"Error en la conexión {request.sid} en el evento '{event_name}': {error_message}")
-    logging.error(f"Headers: {dict(request.headers)}")  # Detalles adicionales sobre la solicitud
+    logging.error(f"Headers: {dict(request.headers)}")  
 
 
 

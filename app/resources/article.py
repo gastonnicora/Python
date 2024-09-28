@@ -25,9 +25,7 @@ def update(session):
     return jsonify(sms.dump()),sms.cod
 
 @token_required
-def myArticlesBought(session): 
-    for item in range(1,100):
-        print("mis articulos comprados")
+def myArticlesBought(session):
     sms=Article.myArticlesBought(session["uuid"])
     return jsonify(sms.dump()),sms.cod
 
