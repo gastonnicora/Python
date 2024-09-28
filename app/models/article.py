@@ -422,8 +422,9 @@ class Article(db.Model):
         now=now.astimezone(zona_horaria)
 
         articles_to_create = []
+        article= None
         for article_data in articles_data:
-            before= cls.query.filter(and_(cls.auction == article_data["auction"],cls.removed == 0,cls.next.is_(None) )).first()
+            before = next((item for item in articles_data if item["auction"] == article_data["auction"] and item["next"]==None), None)
             if not before:
                 article= Article(
                         auction= article_data["auction"],
