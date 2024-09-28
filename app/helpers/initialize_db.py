@@ -321,7 +321,7 @@ def initialize():
     lenUser=len(users)
     for i, com in enumerate(companiesList):
         num=randint(0, lenUser-1)
-        com.user=users[num].uuid
+        com["user"]=users[num].uuid
         company.append(com)
     Company.insert_company_in_bulk(company)
     companies= Company.all().content.companies
