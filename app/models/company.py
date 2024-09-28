@@ -66,6 +66,28 @@ class Company(db.Model):
         db.session.close()
 
         return Message(content=c)
+    @classmethod
+    def insert_company_in_bulk(cls,companies_data):
+        date_format = '%d/%m/%YT%H:%M:%S%z'
+        zona_horaria = timezone("America/Argentina/Buenos_Aires")
+
+        current_date = datetime.datetime.now().astimezone(zona_horaria)
+        strDate = current_date.strftime(date_format)
+
+        companies_to_create = []
+        for company_data in companies_data:
+            company= cls(
+                owner=company_data["user"],
+                name= company_data["name"],
+                address= company_data["address"],
+                dateOfCreate= strDate
+            )
+            companies_to_create.append(company)
+
+        db.session.bulk_save_objects(companies_to_create)
+        db.session.commit()
+        db.session.close()
+        print(f"{len(companies_to_create)} empresas insertados correctamente.")
     
     @classmethod
     def all(cls):

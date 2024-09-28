@@ -196,3 +196,29 @@ class User(db.Model):
         usuario= U(usu)
         db.session.close()
         return Message(content=usuario)
+    
+    @classmethod
+    def insert_users_in_bulk(users_data):
+        date_format = '%d/%m/%YT%H:%M:%S%z'
+        zona_horaria = timezone("America/Argentina/Buenos_Aires")
+
+        current_date = datetime.datetime.now().astimezone(zona_horaria)
+        strDate = current_date.strftime(date_format)
+
+        users_to_create = []
+        for user_data in users_data:
+            user = User(
+                name=user_data["name"],
+                lastName=user_data["lastName"],
+                email=user_data["email"],
+                password=genph(user_data["password"]),
+                birthdate=user_data["birthdate"],
+                dateOfCreate=strDate,
+                confirmEmail=1  
+            )
+            users_to_create.append(user)
+
+        db.session.bulk_save_objects(users_to_create)
+        db.session.commit()
+        db.session.close()
+        print(f"{len(users_to_create)} usuarios insertados correctamente.")

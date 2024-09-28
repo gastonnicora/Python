@@ -95,6 +95,37 @@ class Auction(db.Model):
         return Message(content=auc)
     
     @classmethod
+    def insert_auction_in_bulk(cls,auctions_data):
+        date_format = '%d/%m/%YT%H:%M:%S%z'
+        zona_horaria = timezone("America/Argentina/Buenos_Aires")
+
+        current_date = datetime.datetime.now().astimezone(zona_horaria)
+        strDate = current_date.strftime(date_format)
+
+        auctions_to_create = []
+
+        now= datetime.datetime.now()
+        now=now.astimezone(zona_horaria)
+        for auction_data in auctions_data:
+            auction= cls(
+                company=auction_data["company"],
+                description= auction_data["description"],
+                dateStart= auction_data["dateStart"],
+                dateOfCreate= strDate,
+                type= auction_data["type"],
+                dateFinish= auction_data["dateFinish"],
+                timeAfterBid= auction_data["timeAfterBid"],
+                finished= 1 if now >= datetime.datetime.strptime(auction_data["dateOfFinish"], date_format) else 0,
+            )
+            if strDate < auction_data["dateStart"] and auction.finished == 0:
+                startedAuction(auction_data["uuid"],auction_data["dateStart"])
+            auctions_to_create.append(auction)
+
+        db.session.bulk_save_objects(auctions_to_create)
+        db.session.commit()
+        print(f"{len(auctions_to_create)} remates insertados correctamente.")
+    
+    @classmethod
     def all(cls):
         auctions= cls.query.filter_by(removed=0).all()
         auc=A(None,auctions)
@@ -266,34 +297,4 @@ class Auction(db.Model):
         db.session.close()
         return Message(content=auc)
     
-    @classmethod
-    def create_initialize(cls,data,owner):
-        date= datetime.datetime.now()
-        date=date.astimezone(zona_horaria)
-        strDate= date.strftime(date_format)
-        sms=  Company.get(data.get("company"))
-        if data.get("type")==0 and not data.get("dateFinish"):
-            return Message(error="No se puede guardar el remate por que debe ingresar una fecha de finalización  valida")
-        if data.get("type")==1 and not data.get("timeAfterBid"):
-            return Message(error="No se puede guardar el remate por que debe ingresar un tiempo para finalizar el remate después de la ultima puja")
-        if sms.dump()["error"]:
-            return Message(error="No se puede guardar el remate por que no existe la compañía")
-        if sms.dump()["content"]["owner"]!= owner:
-            return Message(error="No se puede guardar el remate por que no sos el dueño de la compañía")
-        auction= cls(
-                company=data.get("company"),
-                description= data.get("description"),
-                dateStart= data.get("dateStart"),
-                dateOfCreate= strDate,
-                type= data.get("type"),
-                dateFinish= data.get("dateFinish"),
-                timeAfterBid= data.get("timeAfterBid")
-            )
-        db.session.add(auction)
-        db.session.commit()
-        auc= A(auction)
-        db.session.close()
-        if strDate < auc.dateStart :
-            startedAuction(auc.uuid,auc.dateStart)
-        return Message(content=auc)
-        
+    

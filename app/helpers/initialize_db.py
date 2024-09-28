@@ -312,24 +312,27 @@ def initialize():
         return
 
     logging.info('Creando  usuarios')
-    for i, user in enumerate(users):
-        u=User.create(user)
-        if(u.content):
-            users[i]["uuid"]=u.content.uuid
+
+    User.insert_users_in_bulk(users)
+    users= User.all().content.users
 
     logging.info('Creando  empresas')
+    company= []
+    lenUser=len(users)
     for i, com in enumerate(companies):
-        num=randint(0, len(users)-1)
-        comp=Company.create(com,users[num].get("uuid"))
-        if(comp.content):
-            companies[i]["uuid"]=comp.content.uuid
-            companies[i]["owner"]=comp.content.owner
+        num=randint(0, lenUser-1)
+        com["user"]=users[num].get("uuid")
+        company.append(com)
+    Company.insert_company_in_bulk(company)
+    companies= Company.all().content.companies
 
     listAuction=[]
     logging.info('Creando  remates')
-    for i in range(0,randrange(10, len(companies)*10)):
-        a=randint(0, len(auctions)-1)
-        num=randint(0, len(companies)-1)
+    lenCompanies=len(companies)
+    lenAuctions= len(auctions)
+    for i in range(0,randrange(10, lenCompanies*10)):
+        a=randint(0,lenAuctions -1)
+        num=randint(0, lenCompanies-1)
         data= auctions[a]
         data["company"]= companies[num].get("uuid")
         data["type"]= randint(0, 1)
@@ -342,86 +345,61 @@ def initialize():
         data["dateFinish"]= dateF.strftime(date_format)
         dateS= dateS.astimezone(zona_horaria)
         data["dateStart"]= dateS.strftime(date_format)
-        auct=Auction.create_initialize(data,companies[num].get("owner"))
-        if(auct.content):
-            auction= {
-            "company": auct.content.company,
-            "owner":companies[num]["owner"],
-            "dateFinish": auct.content.dateFinish,
-            "dateStart": auct.content.dateStart,
-            "description": auct.content.description,
-            "finished": auct.content.finished,
-            "removed": 0,
-            "timeAfterBid": auct.content.timeAfterBid,
-            "type": auct.content.type,
-            "uuid": auct.content.uuid
-            }
-            listAuction.append(auction)
+        listAuction.append(auction)
+    Auction.insert_auction_in_bulk(listAuction)
+    listAuction= Auction.all().content.auctions
+
+    logging.info('Creando  articulos')
 
     listArticle=[]   
     num=len(listAuction)-1
-    logging.info('Creando  articulos')
 
+    now= datetime.datetime.now()
+    now=now.astimezone(zona_horaria)
+    lenArticles =len(articles)
     for i in range(0,randrange(num*5, 20*num)):
         au=randint(0, (num-1))
-        a=randint(0, len(articles)-1)
+        a=randint(0, lenArticles -1)
         auction= listAuction[au]
         data= articles[a]
         data["auction"]= auction["uuid"]
         data["dateOfStart"]= auction["dateStart"]
         data["dateOfFinish"]= auction["dateFinish"]
-        dateS=datetime.datetime.strptime(auction["dateStart"], date_format)
-        dateF=datetime.datetime.strptime(auction["dateFinish"], date_format)
         data["minValue"]=randint(1000, 100000)
         data["minStepValue"]=randint(1000, 100000)
         data["type"]= auction["type"]
         data["timeAfterBid"]= auction["timeAfterBid"]
-        art=Article.create(data,listAuction[au].get("owner"))
-        if(art.content):
-            article= {
-                "auction": art.content.auction,
-                "before": art.content.before,
-                "dateOfStart": art.content.dateOfStart,
-                "description": art.content.uuid,
-                "finished": art.content.finished,
-                "minStepValue": art.content.minStepValue,
-                "minValue": art.content.minValue,
-                "started": art.content.started,
-                "timeAfterBid": art.content.timeAfterBid,
-                "type": art.content.type,
-                "urlPhoto": art.content.urlPhoto,
-                "uuid": art.content.uuid
-            }
-            listAuction[au]["before"]=art.content.uuid
-            now= datetime.datetime.now()
-            now=now.astimezone(zona_horaria)
-            if now >= datetime.datetime.strptime(data["dateOfFinish"], date_format):
-                listArticle.append(article)
-                Article.setStarted(art.content.uuid)
-                
+        listArticle.append(data)
+    Article.insert_article_in_bulk(listArticle)
+    listArticle = Article.getFinished().content.articles
+    
     if len(listArticle) >0:
         logging.info('Creando pujas')
-        for i in range(0,randrange(0, (5*(len(listArticle)-1)) )) :
-            art= randint(0,len(listArticle)-1) 
-            user= randint(0,len(users)-1) 
+        bids=[]
+        lenArticles = len(listArticle)
+        for i in range(0,randrange(0, (5*(lenArticles-1)) )) :
+            art= randint(0,lenArticles-1) 
+            user= randint(0,lenUser-1) 
             data={"article":listArticle[art]["uuid"]}
+            data["user"]=user
             if listArticle[art].get("value"):
                 data["value"]=listArticle[art].get("value")+ listArticle[art].get("minStepValue")
             else:
                 data["value"]=listArticle[art].get("minValue")
-                
+            
             listArticle[art]["value"]=data["value"]
-            bid= Bid.create(data,users[user].get("uuid"))
+            bids.append(data)
+        Bid.insert_bid_in_bulk(bids)
 
         for auc in listAuction:
-            now= datetime.datetime.now()
-            now=now.astimezone(zona_horaria)
             dateS=datetime.datetime.strptime(auc.get("dateStart"), date_format)
             dateF=datetime.datetime.strptime(auc.get("dateFinish"), date_format)
-            if now >= dateS :
+            if now >= dateS and now >= dateF:
                 Auction.start(auc.get("uuid"))
             if now >= dateF :
                 Auction.setFinished(auc["uuid"])
         for art in listArticle:
             Article.setFinished(art.get("uuid"))
     logging.info('Ya puede usar la aplicacion')
+
+    print('Ya puede usar la aplicación')

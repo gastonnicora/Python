@@ -80,6 +80,30 @@ class Bid(db.Model):
         else: 
             emit_bid({"bid":c.to_dict(), "room":data.get("article")})
             return Message(content=c)
+        
+    @classmethod
+    def insert_bid_in_bulk(cls,bids_data):
+        date_format = '%d/%m/%YT%H:%M:%S%z'
+        zona_horaria = timezone("America/Argentina/Buenos_Aires")
+
+        current_date = datetime.datetime.now().astimezone(zona_horaria)
+        strDate = current_date.strftime(date_format)
+
+        bids_to_create = []
+        for bid_data in bids_data:
+            bid= cls(
+                user=bid_data["user"],
+                value= bid_data["value"],
+                article= bid_data["article"],
+                dateOfCreate= strDate
+            )
+            sms=Article.setMaxBid(bid_data["article"],bid.uuid,bid_data["value"])
+            bids_to_create.append(bid)
+
+        db.session.bulk_save_objects(bids_to_create)
+        db.session.commit()
+        db.session.close()
+        print(f"{len(bids_to_create)} pujas insertados correctamente.")
     
     @classmethod
     def all(cls):
