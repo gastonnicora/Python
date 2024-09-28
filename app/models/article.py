@@ -424,7 +424,7 @@ class Article(db.Model):
         articles_to_create = []
         article= None
         for article_data in articles_data:
-            before = next((item for item in articles_data if item["auction"] == article_data["auction"] and item["next"]==None), None)
+            i , before = next((i, item for i, item in articles_data if item["auction"] == article_data["auction"] and item["next"]==None),None, None)
             if not before:
                 article= Article(
                         auction= article_data["auction"],
@@ -440,9 +440,9 @@ class Article(db.Model):
                         finished= 1 if now >= datetime.datetime.strptime(article_data["dateOfFinish"], date_format) else 0,
                         started= 1 if now >= datetime.datetime.strptime(article_data["dateOfStart"], date_format) else 0
                     )
+                print("uuid")
+                print(article.uuid)
             else:
-                print("before")
-                print(before.uuid)
                 article= Article(
                     auction= article_data["auction"],
                     before= before.uuid,
@@ -459,7 +459,9 @@ class Article(db.Model):
                     startted= 1 if now >= datetime.datetime.strptime(article_data["dateOfStart"], date_format) else 0
                     
                 )
-                cls.setNext(article.uuid,before.uuid)
+                print("uuid")
+                print(article.uuid)
+                articles_data[i].next= article.uuid
             articles_to_create.append(article)
 
         db.session.bulk_save_objects(articles_to_create)
