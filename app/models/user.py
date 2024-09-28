@@ -198,7 +198,7 @@ class User(db.Model):
         return Message(content=usuario)
     
     @classmethod
-    def insert_users_in_bulk(users_data):
+    def insert_users_in_bulk(cls,users_data):
         date_format = '%d/%m/%YT%H:%M:%S%z'
         zona_horaria = timezone("America/Argentina/Buenos_Aires")
 
