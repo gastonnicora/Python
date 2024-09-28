@@ -442,7 +442,7 @@ class Article(db.Model):
             else:
                 article= Article(
                     auction= article_data["auction"],
-                    before= before.uuid or None,
+                    before= before.uuid,
                     description= article_data["description"],
                     dateOfStart= article_data["dateOfStart"],
                     dateOfFinish=article_data["dateOfFinish"],
