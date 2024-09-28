@@ -382,12 +382,12 @@ def initialize():
             user= randint(0,lenUser-1) 
             data={"article":listArticle[art].uuid}
             data["user"]=user
-            if listArticle[art].dataBid.value:
-                data["value"]=listArticle[art].dataBid.value + listArticle[art].minStepValue
+            if listArticle[art].bidValue:
+                data["value"]=listArticle[art].bidValue + listArticle[art].minStepValue
             else:
                 data["value"]=listArticle[art].minValue
             
-            listArticle[art].dataBid.value =data["value"]
+            listArticle[art].bidValue =data["value"]
             bids.append(data)
         Bid.insert_bid_in_bulk(bids)
 
