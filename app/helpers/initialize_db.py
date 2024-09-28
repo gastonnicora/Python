@@ -18,7 +18,7 @@ date=date.astimezone(zona_horaria)
 strDate= date.strftime(date_format)
 
 
-articles=[
+articlesList=[
     {
         "description": "Juego de llaves desde 8 a 22",
         "urlPhoto": "https://http2.mlstatic.com/D_NQ_NP_860631-MLA49061077232_022022-O.webp"
@@ -156,7 +156,7 @@ articles=[
         "urlPhoto": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEZ3uFKK6abqrqzo0PhNL6yE1qSrgn9nDy2zqp2357xQ&s"
     }
     ]
-auctions =[
+auctionsList =[
     {
         "description":"Gran remate de artículos varios"
     },
@@ -167,7 +167,7 @@ auctions =[
         "description":"Gran remate con excelentes ofertas"
     },
 ]
-companies=[
+companiesList=[
   {
     "name": "Company A",
     "address": "123 Main St"
@@ -209,7 +209,7 @@ companies=[
     "address": "580 Fir St"
   }
 ]
-users=[
+usersList=[
   {
     "name": "John",
     "lastName": "Doe",
@@ -313,13 +313,13 @@ def initialize():
 
     logging.info('Creando  usuarios')
 
-    User.insert_users_in_bulk(users)
+    User.insert_users_in_bulk(usersList)
     users= User.all().content.users
 
     logging.info('Creando  empresas')
     company= []
     lenUser=len(users)
-    for i, com in enumerate(companies):
+    for i, com in enumerate(companiesList):
         num=randint(0, lenUser-1)
         com["user"]=users[num].get("uuid")
         company.append(com)
@@ -329,11 +329,11 @@ def initialize():
     listAuction=[]
     logging.info('Creando  remates')
     lenCompanies=len(companies)
-    lenAuctions= len(auctions)
+    lenAuctions= len(auctionsList)
     for i in range(0,randrange(10, lenCompanies*10)):
         a=randint(0,lenAuctions -1)
         num=randint(0, lenCompanies-1)
-        data= auctions[a]
+        data= auctionsList[a]
         data["company"]= companies[num].get("uuid")
         data["type"]= randint(0, 1)
         data["timeAfterBid"]= randint(10, 60)
@@ -356,12 +356,12 @@ def initialize():
 
     now= datetime.datetime.now()
     now=now.astimezone(zona_horaria)
-    lenArticles =len(articles)
+    lenArticles =len(articlesList)
     for i in range(0,randrange(num*5, 20*num)):
         au=randint(0, (num-1))
         a=randint(0, lenArticles -1)
         auction= listAuction[au]
-        data= articles[a]
+        data= articlesList[a]
         data["auction"]= auction["uuid"]
         data["dateOfStart"]= auction["dateStart"]
         data["dateOfFinish"]= auction["dateFinish"]
