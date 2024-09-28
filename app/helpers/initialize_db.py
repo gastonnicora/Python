@@ -321,7 +321,7 @@ def initialize():
     lenUser=len(users)
     for i, com in enumerate(companiesList):
         num=randint(0, lenUser-1)
-        com["user"]=users[num].uuid
+        com.user=users[num].uuid
         company.append(com)
     Company.insert_company_in_bulk(company)
     companies= Company.all().content.companies
@@ -345,7 +345,7 @@ def initialize():
         data["dateFinish"]= dateF.strftime(date_format)
         dateS= dateS.astimezone(zona_horaria)
         data["dateStart"]= dateS.strftime(date_format)
-        listAuction.append(auction)
+        listAuction.append(data)
     Auction.insert_auction_in_bulk(listAuction)
     listAuction= Auction.all().content.auctions
 
