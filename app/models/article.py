@@ -424,6 +424,8 @@ class Article(db.Model):
         articles_to_create = []
         for article_data in articles_data:
             before= cls.query.filter(and_(cls.auction == article_data["auction"],cls.removed == 0,cls.next.is_(None) )).first()
+            print("before")
+            print(before.uuid)
             if not before:
                 article= Article(
                         auction= article_data["auction"],
