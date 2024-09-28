@@ -143,7 +143,7 @@ class Article(db.Model):
         db.session.close()
         return Message(content=a)
     @classmethod
-    def create_ini(cls,data,owner):
+    def create_ini(cls,data):
         now= datetime.datetime.now()
         now=now.astimezone(zona_horaria)
         date= datetime.datetime.now()
@@ -152,9 +152,6 @@ class Article(db.Model):
         sms=  Auction.get(data.get("auction"))
         if sms.dump()["error"]:
             return Message(error="No se puede guardar el articulo por que no existe el remate")
-        if sms.dump()["content"]["dataCompany"]["owner"]!= owner:
-            return Message(error="No se puede guardar el articulo por que eres el propietario del remate")
-        
         before= cls.query.filter(and_(cls.auction == data.get("auction"),cls.removed == 0,cls.next.is_(None) )).first()
         article= None
         if not before:

@@ -371,7 +371,7 @@ def initialize():
         data["minStepValue"]=randint(1000, 100000)
         data["type"]= auction.type
         data["timeAfterBid"]= auction.timeAfterBid
-        art=Article.create_ini(data,listAuction[au].owner)
+        art=Article.create_ini(data)
         if(art.content):
             article= {
                 "auction": art.content.auction,
