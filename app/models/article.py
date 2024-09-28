@@ -411,7 +411,7 @@ class Article(db.Model):
         db.session.close()
         return Message(content="")
     @classmethod
-    def insert_article_in_bulk(cls,articles_data):
+    def insert_article_in_bulk(cls,articles_data, exAuc):
         date_format = '%d/%m/%YT%H:%M:%S%z'
         zona_horaria = timezone("America/Argentina/Buenos_Aires")
 
@@ -424,28 +424,9 @@ class Article(db.Model):
         articles_to_create = []
         article= None
         for article_data in articles_data:
-            i , before = next((i, item for i, item in articles_data if item["auction"] == article_data["auction"] and item["next"]==None),None, None)
-            if not before:
-                article= Article(
-                        auction= article_data["auction"],
-                        description= article_data["description"],
-                        dateOfStart= article_data["dateOfStart"],
-                        dateOfFinish=article_data["dateOfFinish"],
-                        timeAfterBid= article_data["timeAfterBid"] ,
-                        type= article_data["type"],
-                        minValue=article_data["minValue"],
-                        minStepValue=article_data["minStepValue"],
-                        dateOfCreate= strDate,
-                        urlPhoto=article_data["urlPhoto"],
-                        finished= 1 if now >= datetime.datetime.strptime(article_data["dateOfFinish"], date_format) else 0,
-                        started= 1 if now >= datetime.datetime.strptime(article_data["dateOfStart"], date_format) else 0
-                    )
-                print("uuid")
-                print(article.uuid)
-            else:
-                article= Article(
+            article= Article(
+                    uuid=article_data["uuid"],
                     auction= article_data["auction"],
-                    before= before.uuid,
                     description= article_data["description"],
                     dateOfStart= article_data["dateOfStart"],
                     dateOfFinish=article_data["dateOfFinish"],
@@ -456,12 +437,12 @@ class Article(db.Model):
                     dateOfCreate= strDate,
                     urlPhoto=article_data["urlPhoto"],
                     finished= 1 if now >= datetime.datetime.strptime(article_data["dateOfFinish"], date_format) else 0,
-                    startted= 1 if now >= datetime.datetime.strptime(article_data["dateOfStart"], date_format) else 0
-                    
+                    started= 1 if now >= datetime.datetime.strptime(article_data["dateOfStart"], date_format) else 0,
+                    next= exAuc[article_data["auction"]] if len(exAuc[article_data["auction"]]) >1 else 0,
+                    before= article_data["before"]
                 )
-                print("uuid")
-                print(article.uuid)
-                articles_data[i].next= article.uuid
+            print("uuid")
+            print(article.uuid)
             articles_to_create.append(article)
 
         db.session.bulk_save_objects(articles_to_create)

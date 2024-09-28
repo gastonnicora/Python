@@ -6,7 +6,7 @@ from app.models.user import User
 import datetime
 from pytz import timezone
 import logging
-
+import uuid
 
 from random import randint, randrange
 
@@ -357,21 +357,42 @@ def initialize():
     now= datetime.datetime.now()
     now=now.astimezone(zona_horaria)
     lenArticles =len(articlesList)
+    exAuc={}
+
     for i in range(0,randrange(num*5, 20*num)):
         au=randint(0, (num-1))
         a=randint(0, lenArticles -1)
         auction= listAuction[au]
         data= articlesList[a]
-        data["auction"]= auction.uuid
-        data["dateOfStart"]= auction.dateStart
-        data["dateOfFinish"]= auction.dateFinish
+        data["auction"]= auction["uuid"]
+        data["dateOfStart"]= auction["dateStart"]
+        data["dateOfFinish"]= auction["dateFinish"]
         data["minValue"]=randint(1000, 100000)
         data["minStepValue"]=randint(1000, 100000)
-        data["type"]= auction.type
-        data["timeAfterBid"]= auction.timeAfterBid
-        listArticle.append(data)
-    Article.insert_article_in_bulk(listArticle)
-    listArticle = Article.getFinished().content.articles
+        data["type"]= auction["type"]
+        data["timeAfterBid"]= auction["timeAfterBid"]
+        art=Article.create(data,listAuction[au].get("owner"))
+        if(art.content):
+            article= {
+                "auction": art.content.auction,
+                "before": art.content.before,
+                "dateOfStart": art.content.dateOfStart,
+                "description": art.content.uuid,
+                "finished": art.content.finished,
+                "minStepValue": art.content.minStepValue,
+                "minValue": art.content.minValue,
+                "started": art.content.started,
+                "timeAfterBid": art.content.timeAfterBid,
+                "type": art.content.type,
+                "urlPhoto": art.content.urlPhoto,
+                "uuid": art.content.uuid
+            }
+            listAuction[au]["before"]=art.content.uuid
+            now= datetime.datetime.now()
+            now=now.astimezone(zona_horaria)
+            if now >= datetime.datetime.strptime(data["dateOfFinish"], date_format):
+                listArticle.append(article)
+                Article.setStarted(art.content.uuid)
     
     if len(listArticle) >0:
         logging.info('Creando pujas')
