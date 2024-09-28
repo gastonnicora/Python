@@ -118,11 +118,12 @@ class Auction(db.Model):
                 finished= 1 if now >= datetime.datetime.strptime(auction_data["dateFinish"], date_format) else 0,
             )
             if strDate < auction_data["dateStart"] and auction.finished == 0:
-                startedAuction(auction_data["uuid"],auction_data["dateStart"])
+                startedAuction(auction.uuid,auction_data["dateStart"])
             auctions_to_create.append(auction)
 
         db.session.bulk_save_objects(auctions_to_create)
         db.session.commit()
+        db.session.close()
         print(f"{len(auctions_to_create)} remates insertados correctamente.")
     
     @classmethod
