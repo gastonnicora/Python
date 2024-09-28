@@ -115,7 +115,7 @@ class Auction(db.Model):
                 type= auction_data["type"],
                 dateFinish= auction_data["dateFinish"],
                 timeAfterBid= auction_data["timeAfterBid"],
-                finished= 1 if now >= datetime.datetime.strptime(auction_data["dateOfFinish"], date_format) else 0,
+                finished= 1 if now >= datetime.datetime.strptime(auction_data["dateFinish"], date_format) else 0,
             )
             if strDate < auction_data["dateStart"] and auction.finished == 0:
                 startedAuction(auction_data["uuid"],auction_data["dateStart"])
