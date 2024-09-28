@@ -321,7 +321,7 @@ def initialize():
     lenUser=len(users)
     for i, com in enumerate(companiesList):
         num=randint(0, lenUser-1)
-        com["user"]=users[num].get("uuid")
+        com["user"]=users[num]["uuid"]
         company.append(com)
     Company.insert_company_in_bulk(company)
     companies= Company.all().content.companies
@@ -334,7 +334,7 @@ def initialize():
         a=randint(0,lenAuctions -1)
         num=randint(0, lenCompanies-1)
         data= auctionsList[a]
-        data["company"]= companies[num].get("uuid")
+        data["company"]= companies[num]["uuid"]
         data["type"]= randint(0, 1)
         data["timeAfterBid"]= randint(10, 60)
         minutesS= randint(-1000, 1000)
@@ -382,24 +382,24 @@ def initialize():
             user= randint(0,lenUser-1) 
             data={"article":listArticle[art]["uuid"]}
             data["user"]=user
-            if listArticle[art].get("value"):
-                data["value"]=listArticle[art].get("value")+ listArticle[art].get("minStepValue")
+            if listArticle[art]["value"]:
+                data["value"]=listArticle[art]["value"]+ listArticle[art]["minStepValue"]
             else:
-                data["value"]=listArticle[art].get("minValue")
+                data["value"]=listArticle[art]["minValue"]
             
             listArticle[art]["value"]=data["value"]
             bids.append(data)
         Bid.insert_bid_in_bulk(bids)
 
         for auc in listAuction:
-            dateS=datetime.datetime.strptime(auc.get("dateStart"), date_format)
-            dateF=datetime.datetime.strptime(auc.get("dateFinish"), date_format)
+            dateS=datetime.datetime.strptime(auc["dateStart"], date_format)
+            dateF=datetime.datetime.strptime(auc["dateFinish"], date_format)
             if now >= dateS and now >= dateF:
-                Auction.start(auc.get("uuid"))
+                Auction.start(auc["uuid"])
             if now >= dateF :
                 Auction.setFinished(auc["uuid"])
         for art in listArticle:
-            Article.setFinished(art.get("uuid"))
+            Article.setFinished(art["uuid"])
     logging.info('Ya puede usar la aplicacion')
 
     print('Ya puede usar la aplicación')
