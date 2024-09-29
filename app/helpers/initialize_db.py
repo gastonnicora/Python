@@ -368,6 +368,7 @@ def initialize():
         while u in uuids:
             u=str(uuid.uuid4())
         uuids.append(u)
+        logging.info('uuid: '+u)
         data["uuid"]=u
         data["auction"]= auction.uuid
         data["dateOfStart"]= auction.dateStart
