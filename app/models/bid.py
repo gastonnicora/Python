@@ -99,6 +99,7 @@ class Bid(db.Model):
             )
             sms=Article.setMaxBid(bid_data["article"],bid.uuid,bid_data["value"])
             bids_to_create.append(bid)
+
         db.session.bulk_save_objects(bids_to_create)
         db.session.commit()
         db.session.close()
