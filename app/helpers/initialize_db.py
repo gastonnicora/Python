@@ -358,12 +358,17 @@ def initialize():
     now=now.astimezone(zona_horaria)
     lenArticles =len(articlesList)
     auxArticle={}
+    uuids=[]
     for i in range(0,randrange(num*5, 20*num)):
         au=randint(0, (num-1))
         a=randint(0, lenArticles -1)
         auction= listAuction[au]
         data= articlesList[a]
-        data["uuid"]=str(uuid.uuid4())
+        u=str(uuid.uuid4())
+        while u in uuids:
+            u=str(uuid.uuid4())
+        uuids.append(u)
+        data["uuid"]=u
         data["auction"]= auction.uuid
         data["dateOfStart"]= auction.dateStart
         data["dateOfFinish"]= auction.dateFinish
@@ -390,11 +395,16 @@ def initialize():
         bids=[]
         lenArticles = len(listArticle)
         auxBid={}
+        uuids=[]
         for i in range(0,randrange(0, (5*(lenArticles-1)) )) :
             art= randint(0,lenArticles-1) 
             user= randint(0,lenUser-1) 
+            u=str(uuid.uuid4())
+            while u in uuids:
+                u=str(uuid.uuid4())
+            uuids.append(u)
             data={"article":listArticle[art].uuid}
-            data["uuid"]= str(uuid.uuid4())
+            data["uuid"]= u
             data["user"]=user
             if listArticle[art].bidValue:
                 data["value"]=listArticle[art].bidValue + listArticle[art].minStepValue
