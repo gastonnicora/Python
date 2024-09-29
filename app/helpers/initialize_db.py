@@ -359,7 +359,7 @@ def initialize():
     lenArticles =len(articlesList)
     auxArticle={}
     uuids=[]
-    for i in range(0,randrange(num*5, 20*num)):
+    for i in range(0,2):
         au=randint(0, (num-1))
         a=randint(0, lenArticles -1)
         auction= listAuction[au]
@@ -368,7 +368,6 @@ def initialize():
         while u in uuids:
             u=str(uuid.uuid4())
         uuids.append(u)
-        logging.info('uuid: '+u)
         data["uuid"]=u
         data["auction"]= auction.uuid
         data["dateOfStart"]= auction.dateStart
