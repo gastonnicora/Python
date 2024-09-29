@@ -412,41 +412,54 @@ class Article(db.Model):
         return Message(content="")
     
     @classmethod
-    def insert_article_in_bulk(cls,articles_data):
+    def insert_article_in_bulk(cls, articles_data):
         date_format = '%d/%m/%YT%H:%M:%S%z'
         zona_horaria = timezone("America/Argentina/Buenos_Aires")
 
         current_date = datetime.datetime.now().astimezone(zona_horaria)
         strDate = current_date.strftime(date_format)
 
-        now= datetime.datetime.now()
-        now=now.astimezone(zona_horaria)
+        now = datetime.datetime.now().astimezone(zona_horaria)
 
         articles_to_create = []
+        article_map = {} 
+
         for article_data in articles_data:
-            article= Article(
-                    uuid= article_data["uuid"],
-                    auction= article_data["auction"],
-                    description= article_data["description"],
-                    dateOfStart= article_data["dateOfStart"],
-                    dateOfFinish=article_data["dateOfFinish"],
-                    timeAfterBid= article_data["timeAfterBid"] ,
-                    type= article_data["type"],
-                    minValue=article_data["minValue"],
-                    minStepValue=article_data["minStepValue"],
-                    dateOfCreate= strDate,
-                    urlPhoto=article_data["urlPhoto"],
-                    next=article_data["next"],
-                    before=article_data["before"],
-                    finished= 1 if now >= datetime.datetime.strptime(article_data["dateOfFinish"], date_format) else 0,
-                    started= 1 if now >= datetime.datetime.strptime(article_data["dateOfStart"], date_format) else 0
-                )
+            article = Article(
+                uuid=article_data["uuid"],
+                auction=article_data["auction"],
+                description=article_data["description"],
+                dateOfStart=article_data["dateOfStart"],
+                dateOfFinish=article_data["dateOfFinish"],
+                timeAfterBid=article_data["timeAfterBid"],
+                type=article_data["type"],
+                minValue=article_data["minValue"],
+                minStepValue=article_data["minStepValue"],
+                dateOfCreate=strDate,
+                urlPhoto=article_data["urlPhoto"],
+                next=None, 
+                before=None,  
+                finished=1 if now >= datetime.datetime.strptime(article_data["dateOfFinish"], date_format) else 0,
+                started=1 if now >= datetime.datetime.strptime(article_data["dateOfStart"], date_format) else 0
+            )
+
             articles_to_create.append(article)
+            article_map[article_data["uuid"]] = article  
+
+        for article_data in articles_data:
+            article = article_map.get(article_data["uuid"])
+            if article:
+                if article_data.get("before") in article_map:
+                    article.before = article_map[article_data["before"]]
+                if article_data.get("next") in article_map:
+                    article.next = article_map[article_data["next"]]
 
         db.session.bulk_save_objects(articles_to_create)
         db.session.commit()
         db.session.close()
-        print(f"{len(articles_to_create)} articulos insertados correctamente.")
+        print(f"{len(articles_to_create)} artículos insertados correctamente.")
+
+
         
     @classmethod
     def setMaxBidBulk(cls, uuid,uuidBid,value):
