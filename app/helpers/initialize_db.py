@@ -390,7 +390,7 @@ def initialize():
             auxArticle[data["auction"]]=[{data["uuid"]:i}]
         listArticle.append(data)
 
-    logging.info('uuids '+ uuids)
+    logging.info('uuids: ' + ', '.join(uuids))
     Article.insert_article_in_bulk(listArticle)
     listArticle = Article.getFinished().content.articles
     
