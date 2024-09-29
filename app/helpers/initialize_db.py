@@ -373,9 +373,9 @@ def initialize():
         data["timeAfterBid"]= auction.timeAfterBid
         data["next"]=None
         data["before"]=None
-        if auxArticle.get(data["auction"]):
+        if auxArticle.get(data["auction"]) != None:
             tam=len(auxArticle[data["auction"]])
-            uuidB,index= next(iter(auxArticle[data["auction"]][tam-1]))
+            uuidB,index= next(iter(auxArticle[data["auction"]][tam-1].items()))
             listArticle[index]["next"]= data["uuid"]
             data["before"]=uuidB
             auxArticle[data["auction"]].append({data["uuid"]:i})
