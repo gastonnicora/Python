@@ -359,14 +359,16 @@ def initialize():
     lenArticles =len(articlesList)
     auxArticle={}
     uuids=[]
-    for i in range(0,2):
+    for i in range(0,randrange(num*5, 20*num)):
         au=randint(0, (num-1))
         a=randint(0, lenArticles -1)
         auction= listAuction[au]
         data= articlesList[a]
         u=str(uuid.uuid4())
         while u in uuids:
+            logging.info('uuid repetido '+ u)
             u=str(uuid.uuid4())
+            logging.info('uuid nuevo '+ u)
         uuids.append(u)
         data["uuid"]=u
         data["auction"]= auction.uuid
