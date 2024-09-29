@@ -6,7 +6,7 @@ from app.models.user import User
 import datetime
 from pytz import timezone
 import logging
-
+import uuid
 
 from random import randint, randrange
 
@@ -357,11 +357,13 @@ def initialize():
     now= datetime.datetime.now()
     now=now.astimezone(zona_horaria)
     lenArticles =len(articlesList)
+    auxArticle={}
     for i in range(0,randrange(num*5, 20*num)):
         au=randint(0, (num-1))
         a=randint(0, lenArticles -1)
         auction= listAuction[au]
         data= articlesList[a]
+        data["uuid"]=uuid.uuid4
         data["auction"]= auction.uuid
         data["dateOfStart"]= auction.dateStart
         data["dateOfFinish"]= auction.dateFinish
@@ -369,6 +371,16 @@ def initialize():
         data["minStepValue"]=randint(1000, 100000)
         data["type"]= auction.type
         data["timeAfterBid"]= auction.timeAfterBid
+        data["next"]=None
+        data["before"]=None
+        if auxArticle[data["auction"]]:
+            tam=len(auxArticle[data["auction"]])
+            uuidB,index= next(iter(auxArticle[data["auction"]][tam-1]))
+            listArticle[index]["next"]= data["uuid"]
+            data["before"]=uuidB
+            auxArticle[data["auction"]].append({data["uuid"]:i})
+        else:
+            auxArticle[data["auction"]]=[{data["uuid"]:i}]
         listArticle.append(data)
     Article.insert_article_in_bulk(listArticle)
     listArticle = Article.getFinished().content.articles
@@ -377,10 +389,12 @@ def initialize():
         logging.info('Creando pujas')
         bids=[]
         lenArticles = len(listArticle)
+        auxBid={}
         for i in range(0,randrange(0, (5*(lenArticles-1)) )) :
             art= randint(0,lenArticles-1) 
             user= randint(0,lenUser-1) 
             data={"article":listArticle[art].uuid}
+            data["uuid"]= uuid.uuid4
             data["user"]=user
             if listArticle[art].bidValue:
                 data["value"]=listArticle[art].bidValue + listArticle[art].minStepValue
@@ -388,6 +402,11 @@ def initialize():
                 data["value"]=listArticle[art].minValue
             
             listArticle[art].bidValue =data["value"]
+            if auxBid[data["article"]]:
+                bids[auxBid[data["article"]]]["max"]=False
+
+            auxBid[data["article"]]=i
+            data["max"]=True
             bids.append(data)
         Bid.insert_bid_in_bulk(bids)
 

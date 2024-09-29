@@ -410,6 +410,7 @@ class Article(db.Model):
         db.session.commit()
         db.session.close()
         return Message(content="")
+    
     @classmethod
     def insert_article_in_bulk(cls,articles_data):
         date_format = '%d/%m/%YT%H:%M:%S%z'
@@ -423,28 +424,8 @@ class Article(db.Model):
 
         articles_to_create = []
         for article_data in articles_data:
-            before= cls.query.filter(and_(cls.auction == article_data["auction"],cls.removed == 0,cls.next.is_(None) )).first()
-            if not before:
-                article= Article(
-                        auction= article_data["auction"],
-                        description= article_data["description"],
-                        dateOfStart= article_data["dateOfStart"],
-                        dateOfFinish=article_data["dateOfFinish"],
-                        timeAfterBid= article_data["timeAfterBid"] ,
-                        type= article_data["type"],
-                        minValue=article_data["minValue"],
-                        minStepValue=article_data["minStepValue"],
-                        dateOfCreate= strDate,
-                        urlPhoto=article_data["urlPhoto"],
-                        finished= 1 if now >= datetime.datetime.strptime(article_data["dateOfFinish"], date_format) else 0,
-                        started= 1 if now >= datetime.datetime.strptime(article_data["dateOfStart"], date_format) else 0
-                    )
-            else:
-                print("before")
-                print(before.uuid)
-                article= Article(
+            article= Article(
                     auction= article_data["auction"],
-                    before= before.uuid,
                     description= article_data["description"],
                     dateOfStart= article_data["dateOfStart"],
                     dateOfFinish=article_data["dateOfFinish"],
@@ -454,11 +435,11 @@ class Article(db.Model):
                     minStepValue=article_data["minStepValue"],
                     dateOfCreate= strDate,
                     urlPhoto=article_data["urlPhoto"],
+                    next=article_data["next"],
+                    before=article_data["before"],
                     finished= 1 if now >= datetime.datetime.strptime(article_data["dateOfFinish"], date_format) else 0,
-                    startted= 1 if now >= datetime.datetime.strptime(article_data["dateOfStart"], date_format) else 0
-                    
+                    started= 1 if now >= datetime.datetime.strptime(article_data["dateOfStart"], date_format) else 0
                 )
-                cls.setNext(article.uuid,before.uuid)
             articles_to_create.append(article)
 
         db.session.bulk_save_objects(articles_to_create)
@@ -466,7 +447,17 @@ class Article(db.Model):
         db.session.close()
         print(f"{len(articles_to_create)} articulos insertados correctamente.")
         
-
+    @classmethod
+    def setMaxBidBulk(cls, uuid,uuidBid,value):
+        article= cls.query.filter_by(uuid=uuid,removed=0).first()
+        date= datetime.datetime.now()
+        date=date.astimezone(zona_horaria)
+        strDate= date.strftime(date_format)
+        article.maxBid=uuidBid
+        article.bidValue=value
+        article.dateOfUpdate=strDate
+        db.session.commit()
+        return 
     
     
     
