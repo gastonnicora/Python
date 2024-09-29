@@ -373,7 +373,7 @@ def initialize():
         data["timeAfterBid"]= auction.timeAfterBid
         data["next"]=None
         data["before"]=None
-        if auxArticle[data["auction"]]:
+        if auxArticle.get(data["auction"]):
             tam=len(auxArticle[data["auction"]])
             uuidB,index= next(iter(auxArticle[data["auction"]][tam-1]))
             listArticle[index]["next"]= data["uuid"]
@@ -402,7 +402,7 @@ def initialize():
                 data["value"]=listArticle[art].minValue
             
             listArticle[art].bidValue =data["value"]
-            if auxBid[data["article"]]:
+            if auxBid.get(data["article"]):
                 bids[auxBid[data["article"]]]["max"]=False
 
             auxBid[data["article"]]=i
