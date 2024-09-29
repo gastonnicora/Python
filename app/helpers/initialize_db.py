@@ -363,7 +363,7 @@ def initialize():
         a=randint(0, lenArticles -1)
         auction= listAuction[au]
         data= articlesList[a]
-        data["uuid"]= str(uuid.uuid4)
+        data["uuid"]=uuid.uuid4()
         data["auction"]= auction.uuid
         data["dateOfStart"]= auction.dateStart
         data["dateOfFinish"]= auction.dateFinish
@@ -394,7 +394,7 @@ def initialize():
             art= randint(0,lenArticles-1) 
             user= randint(0,lenUser-1) 
             data={"article":listArticle[art].uuid}
-            data["uuid"]= str(uuid.uuid4)
+            data["uuid"]= uuid.uuid4()
             data["user"]=user
             if listArticle[art].bidValue:
                 data["value"]=listArticle[art].bidValue + listArticle[art].minStepValue
