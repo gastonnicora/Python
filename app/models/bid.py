@@ -92,6 +92,7 @@ class Bid(db.Model):
         bids_to_create = []
         for bid_data in bids_data:
             bid= cls(
+                uuid=bid_data["uuid"],
                 user=bid_data["user"],
                 value= bid_data["value"],
                 article= bid_data["article"],

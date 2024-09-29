@@ -425,6 +425,7 @@ class Article(db.Model):
         articles_to_create = []
         for article_data in articles_data:
             article= Article(
+                    uuid= article_data["uuid"],
                     auction= article_data["auction"],
                     description= article_data["description"],
                     dateOfStart= article_data["dateOfStart"],
