@@ -359,7 +359,7 @@ def initialize():
     lenArticles =len(articlesList)
     auxArticle={}
     uuids=[]
-    for i in range(0,5):
+    for i in range(0,randrange(num*5, 20*num)):
         au=randint(0, (num-1))
         a=randint(0, lenArticles -1)
         auction= listAuction[au]
