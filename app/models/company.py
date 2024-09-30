@@ -138,6 +138,7 @@ class Company(db.Model):
             company.removed=1
             company.dateOfUpdate=strDate
             Auction().deleteByCompany(company.uuid)
+            db.session.merge(auction)
         db.session.commit()
         db.session.close()
         user= User.get(owner).dump()["content"]

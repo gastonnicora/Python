@@ -186,6 +186,7 @@ class Article(db.Model):
         for article in articles:
             article.removed=1
             article.dateOfUpdate=strDate
+            db.session.merge(article)
         db.session.commit()
         db.session.close()
         return Message(content="Artículos eliminados correctamente")
@@ -230,6 +231,7 @@ class Article(db.Model):
             article.timeAfterBid= data.timeAfterBid
             article.type= data.type
             article.dateOfUpdate=strDate
+            db.session.merge(article)
         db.session.commit()
         db.session.close()
         return Message(content="Artículos actualizados")
@@ -349,6 +351,7 @@ class Article(db.Model):
             article.started= 1
             article.dateOfUpdate=strDate
             start(article.uuid)
+            db.session.merge(article)
         db.session.commit()
         db.session.close()
         return Message(content="")
@@ -366,6 +369,7 @@ class Article(db.Model):
             article.started= 1
             article.dateOfUpdate=strDate   
             emit_finish(article.uuid)
+            db.session.merge(article)
         db.session.commit()
         db.session.close()
         return Message(content="")
@@ -451,7 +455,8 @@ class Article(db.Model):
             if article:
                 article.next = article_data.get("next") if article_data.get("next") in article_map else None
                 article.before = article_data.get("before") if article_data.get("before") in article_map else None
-
+        
+            db.session.merge(article)
 
         db.session.commit()
             
@@ -476,6 +481,8 @@ class Article(db.Model):
                 article.maxBid = bid_data["uuid"]
                 article.bidValue = bid_data["value"]
                 article.dateOfUpdate = strDate
+
+            db.session.merge(article)
 
         db.session.commit()
         print(f"{len(articles)} artículos actualizados correctamente.")

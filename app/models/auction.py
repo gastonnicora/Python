@@ -223,6 +223,7 @@ class Auction(db.Model):
             auction.removed=1
             auction.dateOfUpdate=strDate
             Article.deleteByAuction(auction.uuid)
+            db.session.merge(auction)
         db.session.commit()
         db.session.close()
         return Message(content="Remate eliminado correctamente")
