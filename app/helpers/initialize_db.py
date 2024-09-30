@@ -400,7 +400,7 @@ def initialize():
         lenArticles = len(listArticle)
         auxBid={}
         uuids=[]
-        for i in range(0,randrange(0, (5*(lenArticles-1)) )) :
+        for i in range(0,5) :
             art= randint(0,lenArticles-1) 
             user= randint(0,lenUser-1) 
             u=str(uuid.uuid4())
