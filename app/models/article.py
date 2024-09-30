@@ -424,7 +424,11 @@ class Article(db.Model):
         articles_to_create = []
         article_map = {} 
 
+        import logging
+
         for article_data in articles_data:
+
+            logging.info('uuid antes de crear '+ article_data["uuid"])
             article = Article(
                 uuid=article_data["uuid"],
                 auction=article_data["auction"],
@@ -443,6 +447,8 @@ class Article(db.Model):
                 started=1 if now >= datetime.datetime.strptime(article_data["dateOfStart"], date_format) else 0
             )
 
+
+            logging.info('uuid despues de crear '+ article.uuid)
             articles_to_create.append(article)
             article_map[article_data["uuid"]] = article  
 
