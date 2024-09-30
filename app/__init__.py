@@ -48,7 +48,7 @@ def create_app(environment="development"):
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
     redis_host = os.environ.get("REDIS_HOST", "localhost")
-    redis_client = redis.Redis(host=redis_host, port=6379, db=0)
+    redis_client = redis.Redis(host=redis_host, port=6379)
 
     db.init_app(app)
 
@@ -67,6 +67,8 @@ def create_app(environment="development"):
         except Exception as e:
             logging.error(f'Error en la inicialización: {e}')
         finally:
+
+            logging.info('lock liberado') 
             lock.release()
     else:
         logging.info('Otro trabajador esta creando la base de datos')
