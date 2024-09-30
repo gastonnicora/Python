@@ -447,7 +447,6 @@ class Article(db.Model):
             article_map[article_data["uuid"]] = article  
 
         db.session.bulk_save_objects(articles_to_create)
-        db.session.commit()
 
         for article_data in articles_data:
             article = article_map.get(article_data["uuid"])
