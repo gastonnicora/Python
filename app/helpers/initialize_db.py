@@ -410,7 +410,7 @@ def initialize():
             uuids.append(u)
             data={"article":listArticle[art].uuid}
             data["uuid"]= u
-            data["user"]=user
+            data["user"]=users[user].uuid
             if listArticle[art].bidValue:
                 data["value"]=listArticle[art].bidValue + listArticle[art].minStepValue
             else:
