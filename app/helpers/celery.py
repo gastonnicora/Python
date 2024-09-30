@@ -9,12 +9,24 @@ from app.helpers.sessions import Sessions
 redis_host = environ.get("REDIS_HOST", "localhost")
 redis_client = redis.Redis(host=redis_host, port=6379)
 
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
+
+def add_token(token):
+    if not redis_client.exists("token"):
+        t=str(uuid.uuid4())
+        redis_client.hmset("token", t)
+        return t
+    return get_token()
+
+def get_token():
+    return redis_client.hgetall("token")
 class Token:
     _instance = None
     _token= None
     def __new__(cls):
-        if cls._instance is None:
+        if cls._instance is None: 
             cls._instance = super().__new__(cls)
+            celery= get_token()
             celery={"uuid":str(uuid.uuid4())}
             id,session =Sessions().addSession(celery)
             cls._token=jwt.encode({'uuid':id}, environ.get("SECRET_KEY","1234"), algorithm="HS256")

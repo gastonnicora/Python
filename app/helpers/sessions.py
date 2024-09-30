@@ -17,18 +17,25 @@ class Sessions:
             cls._instance = super().__new__(cls)
             env = os.environ.get("FLASK_ENV", "development")
             redis_host = os.environ.get("REDIS_HOST", "localhost")
-            if env == "production":
-                cls._redis = redis.StrictRedis(host=redis_host, port=6379, db=0)
-                data = cls._load_from_redis(cls)
-            else:
+            try:
+                if env == "production":
+                    cls._redis = redis.StrictRedis(host=redis_host, port=6379, db=0, decode_responses=True)
+                else:
+                    cls._redis = None  
+                cls._load_from_redis()  
+            except redis.RedisError as e:
+                print(f"Error connecting to Redis: {e}")
+                cls._redis = None  
+            
+            if cls._redis is None or not cls._load_from_redis():
                 data = loadDict("Sessions.pkl")
-            if data:
-                cls._sessions = data["sessions"]
-                cls._users = data["users"]
-                cls._companies = data["companies"]
+                if data:
+                    cls._sessions = data["sessions"]
+                    cls._users = data["users"]
+                    cls._companies = data["companies"]
         return cls._instance
-
     def addSession(cls, data):
+        cls._load_from_redis()
         id = str(uuid.uuid4())
         session = cls._dataSession(id, data)
         cls._addUser(id, data)
@@ -67,6 +74,7 @@ class Sessions:
         cls._save()
 
     def updateSessionByUser(cls, uuid, data):
+        cls._load_from_redis()
         uuidS = cls._users.get(uuid, [])
         newSession = data
         for i in uuidS:
@@ -75,20 +83,24 @@ class Sessions:
         cls._save()
 
     def getSession(cls, uuid):
+        cls._load_from_redis()
         return cls._sessions.get(uuid)
 
     def getSessionsByUser(cls, uuid):
+        cls._load_from_redis()
         uuidS = cls._users.get(uuid, [])
         sessions = [cls._sessions[i] for i in uuidS]
         return sessions
 
     def deleteSession(cls, uuid):
+        cls._load_from_redis()
         session = cls._sessions.pop(uuid, None)
         if session:
             cls._users[session["uuid"]].remove(uuid)
             cls._save()
 
     def deleteSessionsByUser(cls, uuid):
+        cls._load_from_redis()
         uuidS = cls._users.get(uuid, [])
         for i in uuidS:
             cls._sessions.pop(i, None)
@@ -103,19 +115,28 @@ class Sessions:
         }
 
     def _load_from_redis(cls):
-        data = cls._redis.get('sessions_data')
-        if data:
-            return pickle.loads(data)
-        return None
+        try:
+            data = cls._redis.get('sessions_data')
+            if data:
+                loaded_data = pickle.loads(data)
+                cls._sessions = loaded_data.get("sessions", {})
+                cls._users = loaded_data.get("users", {})
+                cls._companies = loaded_data.get("companies", {})
+                return True
+        except Exception as e:
+            print(f"Error loading data from Redis: {e}")
+        return False
+    
 
-    def _save_to_redis(cls):
-        data = cls.toDict()
-        cls._redis.set('sessions_data', pickle.dumps(data))
 
     def _save(cls):
+        data = cls.toDict()
         if cls._redis:
-            cls._save_to_redis()
+            try:
+                cls._redis.set('sessions_data', pickle.dumps(data))
+            except Exception as e:
+                print(f"Error saving data to Redis: {e}")
         else:
-            data = cls.toDict()
+            
             with open("Sessions.pkl", "wb") as file:
                 pickle.dump(data, file)
