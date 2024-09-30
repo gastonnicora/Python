@@ -59,7 +59,7 @@ def create_app(environment="development"):
     except redis.ConnectionError:
         logging.error('Error de conexión a Redis')
 
-    lock = redis_client.lock("initialization_lock", timeout=300)
+    lock = redis_client.lock("initialization_lock", timeout=30)
     logging.info('Esperando.....')  
     if lock.acquire(blocking=True):
 
