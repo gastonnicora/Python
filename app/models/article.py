@@ -352,7 +352,12 @@ class Article(db.Model):
             article.dateOfUpdate=strDate
             start(article.uuid)
             db.session.merge(article)
-        db.session.commit()
+        
+        if db.session.dirty:
+            db.session.commit()
+        else:
+            import logging
+            logging.info("No hay cambios para guardar.")
         db.session.close()
         return Message(content="")
     
@@ -441,8 +446,8 @@ class Article(db.Model):
                 urlPhoto=article_data["urlPhoto"],
                 next=None, 
                 before=None,  
-                finished=1 if now >= datetime.datetime.strptime(article_data["dateOfFinish"], date_format or article_data["auctionF"]==1) else 0,
-                started=1 if  article_data["auctionF"]==1 else 0
+                finished=1 if now >= datetime.datetime.strptime(article_data["dateOfFinish"], date_format) or article_data["auctionF"]==1 else 0,
+                started=1 if now >= datetime.datetime.strptime(article_data["dateOfStart"], date_format) or article_data["auctionF"]==1 else 0
             )
 
             articles_to_create.append(article)
