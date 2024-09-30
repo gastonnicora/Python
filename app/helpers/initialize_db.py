@@ -365,6 +365,8 @@ def initialize():
         auction= listAuction[au]
         data= articlesList[a]
         u=str(uuid.uuid4())
+
+        logging.info('uuid nuevo '+ str(u in uuids))
         while u in uuids:
             logging.info('uuid repetido '+ u)
             u=str(uuid.uuid4())
