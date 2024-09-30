@@ -458,8 +458,12 @@ class Article(db.Model):
         
             db.session.merge(article)
 
-        db.session.commit()
-            
+        if db.session.dirty:
+            db.session.commit()
+        else:
+            import logging
+            logging.info("No hay cambios para guardar.")
+                    
         db.session.close()
         print(f"{len(articles_to_create)} artículos insertados correctamente.")
 
