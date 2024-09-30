@@ -428,6 +428,8 @@ class Article(db.Model):
 
         logging.info('articles_data: ' + str(len(articles_data)))
         for article_data in articles_data:
+
+            logging.info('uuid ' + article_data["uuid"])
             article = Article(
                 uuid=article_data["uuid"],
                 auction=article_data["auction"],
@@ -451,7 +453,6 @@ class Article(db.Model):
 
         for article_data in articles_data:
             article = article_map.get(article_data["uuid"])
-            logging.info('uuid ' + article.uuid)
             if article:
                 if article_data.get("before") in article_map:
                     article.before = article_map[article_data["before"]]

@@ -371,7 +371,6 @@ def initialize():
             logging.info('uuid nuevo '+ u)
         
         logging.info('uuid in '+ str(u in uuids))
-        logging.info('uuid nuevo '+ u)
         uuids.add(u)
         data["uuid"]=u
         data["auction"]= auction.uuid
@@ -383,14 +382,17 @@ def initialize():
         data["timeAfterBid"]= auction.timeAfterBid
         data["next"]=None
         data["before"]=None
-        # if auxArticle.get(data["auction"]) != None:
-        #     tam=len(auxArticle[data["auction"]])
-        #     uuidB,index= next(iter(auxArticle[data["auction"]][tam-1].items()))
-        #     listArticle[index]["next"]= data["uuid"]
-        #     data["before"]=uuidB
-        #     auxArticle[data["auction"]].append({data["uuid"]:i})
-        # else:
-        #     auxArticle[data["auction"]]=[{data["uuid"]:i}]
+
+        logging.info('uuid nuevo '+ data["uuid"])
+        logging.info('uuid= '+ str(data["uuid"]==u))
+        if auxArticle.get(data["auction"]) != None:
+            tam=len(auxArticle[data["auction"]])
+            uuidB,index= next(iter(auxArticle[data["auction"]][tam-1].items()))
+            listArticle[index]["next"]= data["uuid"]
+            data["before"]=uuidB
+            auxArticle[data["auction"]].append({data["uuid"]:i})
+        else:
+            auxArticle[data["auction"]]=[{data["uuid"]:i}]
         listArticle.append(data)
 
     logging.info('uuids: ' + str(len(uuids)))
