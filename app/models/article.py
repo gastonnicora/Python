@@ -458,8 +458,8 @@ class Article(db.Model):
             article_map[article.uuid] = article  
 
         for article_data in articles_data:
-            logging.info('uuid ' + article.uuid)
-            article = article_map.get(article.uu)
+            logging.info('uuid ' + article_data["uuid"])
+            article = article_map.get(article_data["uuid"])
             if article:
                 if article_data.get("before") in article_map:
                     article.before = article_map[article_data["before"]]
