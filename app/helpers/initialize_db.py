@@ -330,7 +330,7 @@ def initialize():
     logging.info('Creando  remates')
     lenCompanies=len(companies)
     lenAuctions= len(auctionsList)
-    for i in range(0,randrange(10, lenCompanies*10)):
+    for i in range(0,randrange(lenCompanies, lenCompanies*20)):
         a=randint(0,lenAuctions -1)
         num=randint(0, lenCompanies-1)
         data= auctionsList[a].copy()
@@ -359,7 +359,7 @@ def initialize():
     lenArticles =len(articlesList)
     auxArticle={}
     uuids=set()
-    for i in range(0,randrange(num*5, 20*num)):
+    for i in range(0,randrange(num*5, 40*num)):
         au=randint(0, (num-1))
         a=randint(0, lenArticles -1)
         auction= listAuction[au]
@@ -401,7 +401,7 @@ def initialize():
         lenArticles = len(listArticle)
         auxBid={}
         uuids=[]
-        for i in range(0,randrange(0, (5*(lenArticles-1)) )) :
+        for i in range(0,randrange(2*(lenArticles-1), (10*(lenArticles-1)) )) :
             art= randint(0,lenArticles-1) 
             user= randint(0,lenUser-1) 
             u=str(uuid.uuid4())
