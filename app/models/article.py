@@ -445,10 +445,12 @@ class Article(db.Model):
                 finished=1 if now >= datetime.datetime.strptime(article_data["dateOfFinish"], date_format) else 0,
                 started=1 if now >= datetime.datetime.strptime(article_data["dateOfStart"], date_format) else 0
             )
+
             articles_to_create.append(article)
             article_map[article_data["uuid"]] = article  
 
         for article_data in articles_data:
+            logging.info('uuid ' + article.uuid)
             article = article_map.get(article_data["uuid"])
             if article:
                 if article_data.get("before") in article_map:
