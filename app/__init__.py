@@ -54,6 +54,7 @@ def create_app(environment="development"):
 
     import logging
     lock = redis_client.lock("initialization_lock", timeout=300)
+    logging.info('Esperando.....')  
     if lock.acquire(blocking=True):
         try:
 
