@@ -453,12 +453,13 @@ class Article(db.Model):
                 auxArticle[article_data["auction"]].append({article.uuid:i})
             else:
                 auxArticle[article_data["auction"]]=[{article.uuid:i}]
+            article_data["uuid"]=article.uuid
             articles_to_create.append(article)
-            article_map[article_data["uuid"]] = article  
+            article_map[article.uuid] = article  
 
         for article_data in articles_data:
             logging.info('uuid ' + article.uuid)
-            article = article_map.get(article_data["uuid"])
+            article = article_map.get(article.uu)
             if article:
                 if article_data.get("before") in article_map:
                     article.before = article_map[article_data["before"]]
