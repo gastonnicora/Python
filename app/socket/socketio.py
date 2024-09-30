@@ -9,11 +9,12 @@ import os
 
 logging.basicConfig(level=logging.DEBUG, 
                     format='%(asctime)s - %(levelname)s - %(message)s')
-
-socketio = SocketIO(cors_allowed_origins='*', async_mode='gevent', ping_timeout=60, ping_interval=25, logger=True, engineio_logger=True)
-
 redis_host = os.environ.get("REDIS_HOST", "localhost")
 redis_client = redis.Redis(host=redis_host, port=6379, db=0)
+
+socketio = SocketIO(cors_allowed_origins='*',async_mode='eventlet', 
+                    message_queue=f'redis://{redis_host}:6379/0', ping_timeout=60, ping_interval=25, logger=True, engineio_logger=True)
+
 
 def add_user(sid, data):
     redis_client.hmset(sid, data)
