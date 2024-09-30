@@ -342,7 +342,10 @@ def initialize():
         dateS=date + datetime.timedelta(minutes = minutesS)
         dateF=date + datetime.timedelta(minutes = minutesF)
         dateF= dateF.astimezone(zona_horaria)
-        data["dateFinish"]= dateF.strftime(date_format)
+
+        data["dateFinish"]= None
+        if data["type"] == 1:
+            data["dateFinish"]= dateF.strftime(date_format)
         dateS= dateS.astimezone(zona_horaria)
         data["dateStart"]= dateS.strftime(date_format)
         listAuction.append(data)
@@ -372,11 +375,14 @@ def initialize():
         data["uuid"]=u
         data["auction"]= auction.uuid
         data["auctionF"]= auction.finished
-        data["dateOfStart"]= auction.dateStart
-        data["dateOfFinish"]= auction.dateFinish
         data["minValue"]=randint(1000, 100000)
         data["minStepValue"]=randint(1000, 100000)
         data["type"]= auction.type
+        data["dateOfStart"]= None
+        data["dateOfFinish"]= None
+        if auction.type == 1:
+            data["dateOfStart"]= auction.dateStart
+            data["dateOfFinish"]= auction.dateFinish
         data["timeAfterBid"]= auction.timeAfterBid
         data["next"]=None
         data["before"]=None
