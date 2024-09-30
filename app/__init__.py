@@ -49,18 +49,23 @@ def create_app(environment="development"):
     
     redis_host = os.environ.get("REDIS_HOST", "localhost")
     redis_client = redis.Redis(host=redis_host, port=6379, db=0)
+
     db.init_app(app)
-    lock = redis_client.lock("initialization_lock", timeout=3000)
+
+    import logging
+    lock = redis_client.lock("initialization_lock", timeout=300)
     if lock.acquire(blocking=True):
         try:
+
+            logging.info('Yo cargo  la base de datos')       
             # Ejecuta la inicialización
             with app.app_context():
+                logging.info('Ya empiezo')  
                 db.create_all()
                 initialize()
         finally:
             lock.release()
     else:
-        import logging
         logging.info('Otro trabajador esta creando la base de datos')
 
     # Rutas API-REST
