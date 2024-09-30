@@ -5,12 +5,12 @@ WORKDIR /app
 COPY ./ .
 
 RUN pip --no-cache-dir install -r requirements.txt
-RUN pip --no-cache-dir install gunicorn eventlet 
+RUN pip --no-cache-dir install gunicorn gevent 
 
 ENV FLASK_ENV=production
 
 CMD ["gunicorn", \
-     "-k", "eventlet", "-w", "4", "-b", "0.0.0.0:4000", \
+     "-k", "gevent", "-w", "1", "-b", "0.0.0.0:4000", \
      "--log-level", "debug", \
      "run:app", \
      "--access-logfile", "-", "--error-logfile", "-"]

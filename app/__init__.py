@@ -27,7 +27,6 @@ from app.resources import bid
 from app.helpers.saveSession import saveDict
 from app.helpers.sessions import Sessions
 from app.helpers.initialize_db import initialize
-import redis
 
 
 def create_app(environment="development"):
@@ -47,33 +46,10 @@ def create_app(environment="development"):
     app.config["SQLALCHEMY_DATABASE_URI"] = db_config.connection(app)
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
-    redis_host = os.environ.get("REDIS_HOST", "localhost")
-    redis_client = redis.Redis(host=redis_host, port=6379)
-
     db.init_app(app)
-
-    import logging
-
-    lock = redis_client.lock("initialization_lock", timeout=30)
-    logging.info('Esperando.....')  
-    if lock.acquire(blocking=True):
-
-        logging.info('Yo cargo  la base de datos') 
-        try:
-            # Ejecuta la inicialización
-            with app.app_context():
-                logging.info('Ya empiezo')  
-                db.create_all()
-                initialize()
-        except Exception as e:
-            logging.error(f'Error en la inicialización: {e}')
-        finally:
-            if lock.owned():  # Verifica si el lock todavía está en posesión
-                logging.info('lock liberado')
-                lock.release()
-    else:
-        logging.info('Otro trabajador esta creando la base de datos')
-
+    with app.app_context():
+        db.create_all()
+        initialize()
     # Rutas API-REST
 
     # CRUD User
