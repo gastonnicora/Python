@@ -427,9 +427,9 @@ class Article(db.Model):
         import logging
 
         logging.info('articles_data: ' + str(len(articles_data)))
-        auxArticle={}
-        for i, article_data in enumerate(articles_data):
+        for article_data in articles_data:
             article = Article(
+                uuid=article_data["uuid"],
                 auction=article_data["auction"],
                 description=article_data["description"],
                 dateOfStart=article_data["dateOfStart"],
@@ -445,20 +445,13 @@ class Article(db.Model):
                 finished=1 if now >= datetime.datetime.strptime(article_data["dateOfFinish"], date_format) else 0,
                 started=1 if now >= datetime.datetime.strptime(article_data["dateOfStart"], date_format) else 0
             )
-            if auxArticle.get(article_data["auction"]) != None:
-                tam=len(auxArticle[article_data["auction"]])
-                uuidB,index= next(iter(auxArticle[article_data["auction"]][tam-1].items()))
-                articles_data[index]["next"]= article.uuid
-                article_data["before"]=uuidB
-                auxArticle[article_data["auction"]].append({article.uuid:i})
-            else:
-                auxArticle[article_data["auction"]]=[{article.uuid:i}]
-            article_data["uuid"]=article.uuid
+
             articles_to_create.append(article)
-            article_map[article.uuid] = article  
+            article_map[article_data["uuid"]] = article  
 
         for article_data in articles_data:
-            logging.info('uuid ' + article_data["uuid"])
+
+            logging.info('uuid ' + article.uuid)
             article = article_map.get(article_data["uuid"])
             if article:
                 if article_data.get("before") in article_map:

@@ -357,11 +357,23 @@ def initialize():
     now= datetime.datetime.now()
     now=now.astimezone(zona_horaria)
     lenArticles =len(articlesList)
+    auxArticle={}
+    uuids=set()
     for i in range(0,randrange(num*5, 20*num)):
         au=randint(0, (num-1))
         a=randint(0, lenArticles -1)
         auction= listAuction[au]
         data= articlesList[a]
+        u=str(uuid.uuid4())
+        while u in uuids:
+            logging.info('uuid repetido '+ u)
+            u=str(uuid.uuid4())
+            logging.info('uuid nuevo '+ u)
+        
+        logging.info('uuid in '+ str(u in uuids))
+        logging.info('uuid nuevo '+ u)
+        uuids.add(u)
+        data["uuid"]=u
         data["auction"]= auction.uuid
         data["dateOfStart"]= auction.dateStart
         data["dateOfFinish"]= auction.dateFinish
@@ -371,9 +383,17 @@ def initialize():
         data["timeAfterBid"]= auction.timeAfterBid
         data["next"]=None
         data["before"]=None
-        
+        # if auxArticle.get(data["auction"]) != None:
+        #     tam=len(auxArticle[data["auction"]])
+        #     uuidB,index= next(iter(auxArticle[data["auction"]][tam-1].items()))
+        #     listArticle[index]["next"]= data["uuid"]
+        #     data["before"]=uuidB
+        #     auxArticle[data["auction"]].append({data["uuid"]:i})
+        # else:
+        #     auxArticle[data["auction"]]=[{data["uuid"]:i}]
         listArticle.append(data)
 
+    logging.info('uuids: ' + str(len(uuids)))
     logging.info('articles: ' + str(len(listArticle)))
     Article.insert_article_in_bulk(listArticle)
     listArticle = Article.getFinished().content.articles
