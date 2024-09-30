@@ -371,6 +371,7 @@ def initialize():
         uuids.add(u)
         data["uuid"]=u
         data["auction"]= auction.uuid
+        data["auctionF"]= auction.finished
         data["dateOfStart"]= auction.dateStart
         data["dateOfFinish"]= auction.dateFinish
         data["minValue"]=randint(1000, 100000)
@@ -430,8 +431,6 @@ def initialize():
             dateF=datetime.datetime.strptime(auc.dateFinish, date_format)
             if now >= dateS and now <= dateF:
                 Auction.start(auc.uuid)
-            if now >= dateF :
-                Auction.setFinished(auc.uuid)
     logging.info('Ya puede usar la aplicacion')
 
     print('Ya puede usar la aplicación')
