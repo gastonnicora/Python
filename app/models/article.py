@@ -449,8 +449,8 @@ class Article(db.Model):
             article = article_map.get(article_data["uuid"])
             
             if article:
-                article.next = article_data.get("next")
-                article.before = article_data.get("before")
+                article.next = article_data.get("next") if article_data.get("next") in article_map else None
+                article.before = article_data.get("before") if article_data.get("before") in article_map else None
 
         db.session.bulk_save_objects(articles_to_create)
         db.session.commit()
