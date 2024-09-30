@@ -153,6 +153,12 @@ def emit_start(room, time):
         thread = Thread(target=countdown_thread, args=(room,))
         thread.start()
     socketio.emit('startRoom/' + room, room=room)
+def start(room):
+    logging.info("start")
+    current_room = get_room(room)
+    if not current_room:
+         update_room(room, {"users": []})
+    socketio.emit('startRoom/' + room, room=room)
 
 def countdown_thread(room):
     while True:
