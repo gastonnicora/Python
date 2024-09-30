@@ -4,17 +4,36 @@ from flask_socketio import emit, join_room, leave_room
 import time
 from threading import Thread
 import logging
+import redis
 
 logging.basicConfig(level=logging.DEBUG, 
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
+socketio = SocketIO(cors_allowed_origins='*', async_mode='gevent', ping_timeout=60, ping_interval=25, logger=True, engineio_logger=True)
 
-socketio = SocketIO(cors_allowed_origins='*', async_mode='gevent',  ping_timeout=60, ping_interval=25, logger=True, engineio_logger=True)
+redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
+def add_user(sid, data):
+    redis_client.hmset(sid, data)
 
-users={}
-rooms={}
+def get_user(sid):
+    return redis_client.hgetall(sid)
 
+def remove_user(sid):
+    redis_client.delete(sid)
+
+def add_room(room):
+    if not redis_client.exists(room):
+        redis_client.hmset(room, {"users": "", "time": 0, "timeSet": 0, "bool": False})
+
+def update_room(room, data):
+    redis_client.hmset(room, data)
+
+def get_room(room):
+    return redis_client.hgetall(room)
+
+def remove_room(room):
+    redis_client.delete(room)
 
 @socketio.on('connect')
 def test_connect():
@@ -26,14 +45,20 @@ def test_connect():
 def test_disconnect():
     try:
         logging.info("Desconexión de: %s", request.sid)
-        if request.sid in users:
-            room = users[request.sid].get("room")
-            if room and room in rooms:
-                rooms[room]["users"].remove(users[request.sid])
-                leave_room(room, request.sid)
-                emit('joinToRoom/' + room, rooms[room], room=room)
-            users.pop(request.sid, None)
-            logging.info("Usuario %s desconectado y eliminado de la lista.", request.sid)
+        user_data = get_user(request.sid)
+        if user_data:
+            room = user_data.get(b"room")
+            if room:
+                room = room.decode()
+                leave_room(room)
+                current_room = get_room(room)
+                if current_room:
+                    updated_users = current_room[b"users"].decode().split(",")
+                    updated_users.remove(user_data[b"uuid"].decode())
+                    updated_users = ",".join(updated_users)
+                    update_room(room, {"users": updated_users})
+                remove_user(request.sid)
+                logging.info("Usuario %s desconectado y eliminado de la lista.", request.sid)
     except Exception as e:
         logging.error("Error en desconexión: %s", str(e))
 
@@ -41,11 +66,7 @@ def test_disconnect():
 def error_handler(e):
     event_name = request.event if hasattr(request, 'event') else 'unknown event'
     error_message = str(e)
-    
     logging.error(f"Error en la conexión {request.sid} en el evento '{event_name}': {error_message}")
-    logging.error(f"Headers: {dict(request.headers)}")  
-
-
 
 @socketio.on_error_default
 def default_error_handler(e):
@@ -54,59 +75,61 @@ def default_error_handler(e):
 @socketio.on('borrarUser')
 def disconnect(data):
     logging.info("borrar user")
-    users.pop(request.sid, None)
+    remove_user(request.sid)
 
 @socketio.on('coneccion')
 def test_coneccion(data):
     logging.info("usuario conectado")
     try:
         if data:
-            users[request.sid]= data
+            add_user(request.sid, data)
+            join_room(data["uuid"])
+            add_room(data["uuid"])
             logging.info("coneccion data:")
             logging.info(data)
-            join_room(data["uuid"], request.sid)
     except Exception as e:
         logging.error("coneccion")
-        error_handler(e) 
-    
-
+        error_handler(e)
 
 @socketio.on('join')
 def on_join(data):
     try:
         logging.info("join")
         room = data['room']
-        join_room(room, request.sid)
-        if room not in rooms:
-            rooms[room] = {"users": [], "time": 0, "timeSet": 0, "bool": False}
-        if request.sid in users:
-            users[request.sid]["room"]=room
-            rooms[room]["users"].append(users[request.sid])
-            emit('joinToRoom/' + room, rooms[room], room=room)
+        join_room(room)
+        user_data = get_user(request.sid)
+        if user_data:
+            current_room = get_room(room)
+            if current_room:
+                users_list = current_room[b"users"].decode().split(",") if current_room[b"users"] else []
+                users_list.append(user_data[b"uuid"].decode())
+                update_room(room, {"users": ",".join(users_list)})
+                emit('joinToRoom/' + room, current_room, room=room)
     except Exception as e:
-
         logging.error("join")
-        error_handler(e) 
-    
+        error_handler(e)
 
 @socketio.on('leave')
 def on_leave(data):
     logging.info("leave")
     room = data['room']
-    if room in rooms and request.sid in users:
-        users[request.sid]["room"]=None
-        rooms[room]["users"].remove(users[request.sid])
-    else:
-        logging.info("La sala especificada no existe.")
-    leave_room(room, request.sid)
-    emit('joinToRoom/' + room, rooms[room], room=room)
+    leave_room(room)
+    user_data = get_user(request.sid)
+    if user_data:
+        current_room = get_room(room)
+        if current_room:
+            updated_users = current_room[b"users"].decode().split(",")
+            updated_users.remove(user_data[b"uuid"].decode())
+            update_room(room, {"users": ",".join(updated_users)})
+            emit('joinToRoom/' + room, current_room, room=room)
 
 def emit_bid(data):
     logging.info("emit bid")
     room = data['room']
-    if room in rooms and rooms[room].get("time") and rooms[room].get("time") >= 0:
+    current_room = get_room(room)
+    if current_room and int(current_room[b"time"]) >= 0:
         reset_countdown(room)
-    socketio.emit('bidRoom/' + room, data["bid"], room=room)  
+    socketio.emit('bidRoom/' + room, data["bid"], room=room)
 
 def emit_finish(room):
     logging.info("emit finish")
@@ -123,30 +146,26 @@ def emit_updateSesion(data):
 
 def emit_start(room, time):
     logging.info("emit start")
-    if room not in rooms:
-        rooms[room] = {"users": [], "time": int(time), "timeSet": int(time), "bool": False}
-    if not rooms[room].get("bool"):
-        rooms[room]["time"] = int(time)
-        rooms[room]["timeSet"] = int(time)
-        rooms[room]["bool"] = True
+    add_room(room)
+    current_room = get_room(room)
+    if not current_room[b"bool"]:
+        update_room(room, {"time": int(time), "timeSet": int(time), "bool": True})
         thread = Thread(target=countdown_thread, args=(room,))
         thread.start()
     socketio.emit('startRoom/' + room, room=room)
 
-def start(room):
-    logging.info("start")
-    if room not in rooms:
-        rooms[room] = {"users": []}
-    socketio.emit('startRoom/' + room, room=room)
-
 def countdown_thread(room):
     while True:
-        if room not in rooms or rooms[room]["time"] <= 0:
+        current_room = get_room(room)
+        if current_room and int(current_room[b"time"]) <= 0:
             break
-        socketio.emit('countdown/' + room, rooms[room], room=room)
-        rooms[room]["time"] -= 1
+        socketio.emit('countdown/' + room, current_room, room=room)
         time.sleep(1)
+        if current_room:
+            updated_time = int(current_room[b"time"]) - 1
+            update_room(room, {"time": updated_time})
 
 def reset_countdown(room):
-    if room in rooms:
-        rooms[room]["time"] = rooms[room]["timeSet"]
+    current_room = get_room(room)
+    if current_room:
+        update_room(room, {"time": int(current_room[b"timeSet"])})
