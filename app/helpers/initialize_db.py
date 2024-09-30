@@ -396,6 +396,12 @@ def initialize():
         logging.info('uuid= '+ str(data["uuid"]==u))
         listArticle.append(data)
 
+    unique_uuids = set()
+    for article_data in listArticle:
+        if article_data["uuid"] in unique_uuids:
+            logging.error(f'Duplicado encontrado en listArticle: {article_data["uuid"]} {article_data["description"]} ')
+        else:
+            unique_uuids.add(article_data["uuid"])
     logging.info('uuids: ' + str(len(uuids)))
     logging.info('articles: ' + str(len(listArticle)))
     Article.insert_article_in_bulk(listArticle)

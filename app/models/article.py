@@ -428,7 +428,7 @@ class Article(db.Model):
         unique_uuids = set()
         for article_data in articles_data:
             if article_data["uuid"] in unique_uuids:
-                logging.error(f'Duplicado encontrado en articles_data: {article_data["uuid"]}')
+                logging.error(f'Duplicado encontrado en articles_data: {article_data["uuid"]} {article_data["description"]} ')
             else:
                 unique_uuids.add(article_data["uuid"])
 
