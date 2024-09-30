@@ -455,8 +455,7 @@ class Article(db.Model):
             if article:
                 article.next = article_data.get("next") if article_data.get("next") in article_map else None
                 article.before = article_data.get("before") if article_data.get("before") in article_map else None
-        
-            db.session.merge(article)
+                db.session.merge(article)
 
         if db.session.dirty:
             db.session.commit()
@@ -485,8 +484,7 @@ class Article(db.Model):
                 article.maxBid = bid_data["uuid"]
                 article.bidValue = bid_data["value"]
                 article.dateOfUpdate = strDate
-
-            db.session.merge(article)
+                db.session.merge(article)
 
         db.session.commit()
         print(f"{len(articles)} artículos actualizados correctamente.")
