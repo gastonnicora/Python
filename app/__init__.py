@@ -53,11 +53,6 @@ def create_app(environment="development"):
     db.init_app(app)
 
     import logging
-    try:
-        redis_client.ping()
-        logging.info('Conexión a Redis exitosa')
-    except redis.ConnectionError:
-        logging.error('Error de conexión a Redis')
 
     lock = redis_client.lock("initialization_lock", timeout=30)
     logging.info('Esperando.....')  
@@ -73,9 +68,9 @@ def create_app(environment="development"):
         except Exception as e:
             logging.error(f'Error en la inicialización: {e}')
         finally:
-
-            logging.info('lock liberado') 
-            lock.release()
+            if lock.owned():  # Verifica si el lock todavía está en posesión
+                logging.info('lock liberado')
+                lock.release()
     else:
         logging.info('Otro trabajador esta creando la base de datos')
 
