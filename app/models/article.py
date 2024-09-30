@@ -426,6 +426,7 @@ class Article(db.Model):
 
         import logging
 
+        logging.info('articles_data: ' + str(len(articles_data)))
         for article_data in articles_data:
             article = Article(
                 uuid=article_data["uuid"],
@@ -455,6 +456,7 @@ class Article(db.Model):
                 if article_data.get("next") in article_map:
                     article.next = article_map[article_data["next"]]
 
+        logging.info('articles_to_create: ' + str(len(articles_to_create)))
         db.session.bulk_save_objects(articles_to_create)
         db.session.commit()
         db.session.close()
