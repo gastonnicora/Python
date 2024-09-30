@@ -64,6 +64,8 @@ def create_app(environment="development"):
                 logging.info('Ya empiezo')  
                 db.create_all()
                 initialize()
+        except Exception as e:
+            logging.error(f'Error en la inicialización: {e}')
         finally:
             lock.release()
     else:
