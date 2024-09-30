@@ -5,13 +5,15 @@ import time
 from threading import Thread
 import logging
 import redis
+import os
 
 logging.basicConfig(level=logging.DEBUG, 
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
 socketio = SocketIO(cors_allowed_origins='*', async_mode='gevent', ping_timeout=60, ping_interval=25, logger=True, engineio_logger=True)
 
-redis_client = redis.Redis(host='localhost', port=6379, db=0)
+redis_host = os.environ.get("REDIS_HOST", "localhost")
+redis_client = redis.Redis(host=redis_host, port=6379, db=0)
 
 def add_user(sid, data):
     redis_client.hmset(sid, data)

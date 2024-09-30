@@ -47,7 +47,8 @@ def create_app(environment="development"):
     app.config["SQLALCHEMY_DATABASE_URI"] = db_config.connection(app)
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
-    redis_client = redis.Redis(host='localhost', port=6379, db=0)
+    redis_host = os.environ.get("REDIS_HOST", "localhost")
+    redis_client = redis.Redis(host=redis_host, port=6379, db=0)
     db.init_app(app)
     lock = redis_client.lock("initialization_lock", timeout=3000)
     if lock.acquire(blocking=True):
