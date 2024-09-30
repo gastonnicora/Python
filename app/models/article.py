@@ -456,7 +456,7 @@ class Article(db.Model):
                 article.before = article_data.get("before") if article_data.get("before") in article_map else None
             articles.append(article)
         
-        db.session.bulk_save_objects(articles)
+        db.session.bulk_update_mappings(articles)
         db.session.commit()
 
         db.session.close()
@@ -481,7 +481,7 @@ class Article(db.Model):
                 article.bidValue = bid_data["value"]
                 article.dateOfUpdate = strDate
 
-        db.session.bulk_save_objects(articles)
+        db.session.bulk_update_mappings(articles)
         db.session.commit()
         print(f"{len(articles)} artículos actualizados correctamente.")
     
