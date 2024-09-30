@@ -333,7 +333,7 @@ def initialize():
     for i in range(0,randrange(10, lenCompanies*10)):
         a=randint(0,lenAuctions -1)
         num=randint(0, lenCompanies-1)
-        data= auctionsList[a]
+        data= auctionsList[a].copy()
         data["company"]= companies[num].uuid
         data["type"]= randint(0, 1)
         data["timeAfterBid"]= randint(10, 60)
@@ -363,7 +363,7 @@ def initialize():
         au=randint(0, (num-1))
         a=randint(0, lenArticles -1)
         auction= listAuction[au]
-        data= articlesList[a]
+        data= articlesList[a].copy()
         u=str(uuid.uuid4())
         while u in uuids:
             logging.info('uuid repetido '+ u)
