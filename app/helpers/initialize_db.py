@@ -428,12 +428,10 @@ def initialize():
         for auc in listAuction:
             dateS=datetime.datetime.strptime(auc.dateStart, date_format)
             dateF=datetime.datetime.strptime(auc.dateFinish, date_format)
-            if now >= dateS and now >= dateF:
+            if now >= dateS and now <= dateF:
                 Auction.start(auc.uuid)
             if now >= dateF :
                 Auction.setFinished(auc.uuid)
-        for art in listArticle:
-            Article.setFinished(art.uuid)
     logging.info('Ya puede usar la aplicacion')
 
     print('Ya puede usar la aplicación')

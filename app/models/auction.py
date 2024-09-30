@@ -299,3 +299,5 @@ class Auction(db.Model):
         return Message(content=auc)
     
     
+    
+    

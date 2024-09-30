@@ -230,8 +230,7 @@ class Article(db.Model):
             article.timeAfterBid= data.timeAfterBid
             article.type= data.type
             article.dateOfUpdate=strDate
-            db.session.merge(article)
-            db.session.commit()
+        db.session.commit()
         db.session.close()
         return Message(content="Artículos actualizados")
     
@@ -350,8 +349,7 @@ class Article(db.Model):
             article.started= 1
             article.dateOfUpdate=strDate
             start(article.uuid)
-            db.session.merge(article)
-            db.session.commit()
+        db.session.commit()
         db.session.close()
         return Message(content="")
     
@@ -368,8 +366,7 @@ class Article(db.Model):
             article.started= 1
             article.dateOfUpdate=strDate   
             emit_finish(article.uuid)
-            db.session.merge(article)
-            db.session.commit()
+        db.session.commit()
         db.session.close()
         return Message(content="")
     
