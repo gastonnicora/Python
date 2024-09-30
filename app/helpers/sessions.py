@@ -113,7 +113,7 @@ class Sessions:
             "users": cls._users,
             "companies": cls._companies
         }
-
+    @classmethod
     def _load_from_redis(cls):
         try:
             data = cls._redis.get('sessions_data')
