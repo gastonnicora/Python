@@ -98,12 +98,11 @@ class Bid(db.Model):
                 article= bid_data["article"],
                 dateOfCreate= strDate
             )
-            if bid_data["max"]:
-                sms=Article.setMaxBidBulk(bid_data["article"],bid.uuid,bid_data["value"])
             bids_to_create.append(bid)
 
         db.session.bulk_save_objects(bids_to_create)
         db.session.commit()
+        Article.setMaxBidBulk(bids_data)
         db.session.close()
         print(f"{len(bids_to_create)} pujas insertados correctamente.")
     

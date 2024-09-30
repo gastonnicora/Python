@@ -465,16 +465,29 @@ class Article(db.Model):
 
         
     @classmethod
-    def setMaxBidBulk(cls, uuid,uuidBid,value):
-        article= cls.query.filter_by(uuid=uuid,removed=0).first()
-        date= datetime.datetime.now()
-        date=date.astimezone(zona_horaria)
-        strDate= date.strftime(date_format)
-        article.maxBid=uuidBid
-        article.bidValue=value
-        article.dateOfUpdate=strDate
+    def setMaxBidBulk(cls, bids_data):
+        # Primero, obtenemos todos los artículos relevantes en una sola consulta
+        article_uuids = {bid["article"] for bid in bids_data if bid["max"]}
+        articles = cls.query.filter(cls.uuid.in_(article_uuids), cls.removed == 0).all()
+
+        # Crear un diccionario para acceder a los artículos por su UUID
+        article_map = {article.uuid: article for article in articles}
+
+        # Ahora, actualizamos los artículos en memoria
+        date = datetime.datetime.now().astimezone(zona_horaria)
+        strDate = date.strftime(date_format)
+
+        for bid_data in bids_data:
+            if bid_data["max"] and bid_data["article"] in article_map:
+                article = article_map[bid_data["article"]]
+                article.maxBid = bid_data["uuidBid"]
+                article.bidValue = bid_data["value"]
+                article.dateOfUpdate = strDate
+
+        # Ahora realizamos el commit en bulk
+        db.session.bulk_save_objects(articles)
         db.session.commit()
-        return 
+        print(f"{len(articles)} artículos actualizados correctamente.")
     
     
     
