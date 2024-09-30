@@ -51,7 +51,11 @@ def create_app(environment="development"):
     redis_client = redis.Redis(host=redis_host, port=6379)
 
     db.init_app(app)
-
+    try:
+        redis_client.ping()
+        logging.info('Conexión a Redis exitosa')
+    except redis.ConnectionError:
+        logging.error('Error de conexión a Redis')
     import logging
     lock = redis_client.lock("initialization_lock", timeout=300)
     logging.info('Esperando.....')  
