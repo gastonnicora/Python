@@ -447,18 +447,17 @@ class Article(db.Model):
 
         db.session.bulk_save_objects(articles_to_create)
         db.session.commit()
-        articles=[]
+
         for article_data in articles_data:
             article = article_map.get(article_data["uuid"])
             
             if article:
                 article.next = article_data.get("next") if article_data.get("next") in article_map else None
                 article.before = article_data.get("before") if article_data.get("before") in article_map else None
-            articles.append(article)
-        
-        db.session.bulk_update_mappings(Article,articles)
-        db.session.commit()
 
+
+        db.session.commit()
+            
         db.session.close()
         print(f"{len(articles_to_create)} artículos insertados correctamente.")
 
@@ -481,7 +480,6 @@ class Article(db.Model):
                 article.bidValue = bid_data["value"]
                 article.dateOfUpdate = strDate
 
-        db.session.bulk_update_mappings(Article,articles)
         db.session.commit()
         print(f"{len(articles)} artículos actualizados correctamente.")
     
