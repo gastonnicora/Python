@@ -366,11 +366,8 @@ def initialize():
         data= articlesList[a].copy()
         u=str(uuid.uuid4())
         while u in uuids:
-            logging.info('uuid repetido '+ u)
             u=str(uuid.uuid4())
-            logging.info('uuid nuevo '+ u)
         
-        logging.info('uuid in '+ str(u in uuids))
         uuids.add(u)
         data["uuid"]=u
         data["auction"]= auction.uuid
@@ -392,18 +389,8 @@ def initialize():
         else:
             auxArticle[data["auction"]]=[{data["uuid"]:i}]
 
-        logging.info('uuid nuevo '+ data["uuid"])
-        logging.info('uuid= '+ str(data["uuid"]==u))
         listArticle.append(data)
 
-    unique_uuids = set()
-    for article_data in listArticle:
-        if article_data["uuid"] in unique_uuids:
-            logging.error(f'Duplicado encontrado en listArticle: {article_data["uuid"]} {article_data["description"]} ')
-        else:
-            unique_uuids.add(article_data["uuid"])
-    logging.info('uuids: ' + str(len(uuids)))
-    logging.info('articles: ' + str(len(listArticle)))
     Article.insert_article_in_bulk(listArticle)
     listArticle = Article.getFinished().content.articles
     

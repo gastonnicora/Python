@@ -423,19 +423,7 @@ class Article(db.Model):
 
         articles_to_create = []
         article_map = {} 
-
-        import logging
-        unique_uuids = set()
         for article_data in articles_data:
-            if article_data["uuid"] in unique_uuids:
-                logging.error(f'Duplicado encontrado en articles_data: {article_data["uuid"]} {article_data["description"]} ')
-            else:
-                unique_uuids.add(article_data["uuid"])
-
-        logging.info('articles_data: ' + str(len(articles_data)))
-        for article_data in articles_data:
-
-            logging.info('uuid ' + article_data["uuid"])
             article = Article(
                 uuid=article_data["uuid"],
                 auction=article_data["auction"],
@@ -459,13 +447,11 @@ class Article(db.Model):
 
         for article_data in articles_data:
             article = article_map.get(article_data["uuid"])
+            
             if article:
-                if article_data.get("before") in article_map:
-                    article.before = article_map[article_data["before"]]
-                if article_data.get("next") in article_map:
-                    article.next = article_map[article_data["next"]]
+                article.next = article_map[article_data["next"]] if article_data.get("next") in article_map else None
+                article.before = article_map[article_data["before"]] if article_data.get("before") in article_map else None
 
-        logging.info('articles_to_create: ' + str(len(articles_to_create)))
         db.session.bulk_save_objects(articles_to_create)
         db.session.commit()
         db.session.close()
