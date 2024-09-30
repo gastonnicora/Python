@@ -383,8 +383,6 @@ def initialize():
         data["next"]=None
         data["before"]=None
 
-        logging.info('uuid nuevo '+ data["uuid"])
-        logging.info('uuid= '+ str(data["uuid"]==u))
         if auxArticle.get(data["auction"]) != None:
             tam=len(auxArticle[data["auction"]])
             uuidB,index= next(iter(auxArticle[data["auction"]][tam-1].items()))
@@ -393,6 +391,9 @@ def initialize():
             auxArticle[data["auction"]].append({data["uuid"]:i})
         else:
             auxArticle[data["auction"]]=[{data["uuid"]:i}]
+
+        logging.info('uuid nuevo '+ data["uuid"])
+        logging.info('uuid= '+ str(data["uuid"]==u))
         listArticle.append(data)
 
     logging.info('uuids: ' + str(len(uuids)))
