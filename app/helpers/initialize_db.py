@@ -374,7 +374,6 @@ def initialize():
         
         listArticle.append(data)
 
-    logging.info('uuids: ' + str(len(uuids)))
     logging.info('articles: ' + str(len(listArticle)))
     Article.insert_article_in_bulk(listArticle)
     listArticle = Article.getFinished().content.articles
