@@ -56,9 +56,9 @@ def create_app(environment="development"):
     lock = redis_client.lock("initialization_lock", timeout=300)
     logging.info('Esperando.....')  
     if lock.acquire(blocking=True):
-        try:
 
-            logging.info('Yo cargo  la base de datos')       
+        logging.info('Yo cargo  la base de datos') 
+        try:
             # Ejecuta la inicialización
             with app.app_context():
                 logging.info('Ya empiezo')  
