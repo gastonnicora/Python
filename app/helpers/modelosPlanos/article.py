@@ -23,6 +23,7 @@ class Article():
             cls.minStepValue= data.minStepValue
             cls.maxBid= data.maxBid
             cls.dataBid= Bid(data.dataBid)
+            cls.bidValue=data.bidValue
             cls.urlPhoto= data.urlPhoto
         cls.articles=[]
         if lista:

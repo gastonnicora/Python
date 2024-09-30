@@ -358,20 +358,21 @@ def initialize():
     now=now.astimezone(zona_horaria)
     lenArticles =len(articlesList)
     auxArticle={}
-    uuids=[]
+    uuids=set()
     for i in range(0,randrange(num*5, 20*num)):
         au=randint(0, (num-1))
         a=randint(0, lenArticles -1)
         auction= listAuction[au]
         data= articlesList[a]
         u=str(uuid.uuid4())
-
-        logging.info('uuid nuevo '+ str(u in uuids))
         while u in uuids:
             logging.info('uuid repetido '+ u)
             u=str(uuid.uuid4())
             logging.info('uuid nuevo '+ u)
-        uuids.append(u)
+        
+        logging.info('uuid in '+ str(u in uuids))
+        logging.info('uuid nuevo '+ u)
+        uuids.add(u)
         data["uuid"]=u
         data["auction"]= auction.uuid
         data["dateOfStart"]= auction.dateStart
