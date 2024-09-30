@@ -445,6 +445,9 @@ class Article(db.Model):
             articles_to_create.append(article)
             article_map[article_data["uuid"]] = article  
 
+        db.session.bulk_save_objects(articles_to_create)
+        db.session.commit()
+
         for article_data in articles_data:
             article = article_map.get(article_data["uuid"])
             
@@ -452,8 +455,10 @@ class Article(db.Model):
                 article.next = article_data.get("next") if article_data.get("next") in article_map else None
                 article.before = article_data.get("before") if article_data.get("before") in article_map else None
 
-        db.session.bulk_save_objects(articles_to_create)
-        db.session.commit()
+
+                db.session.merge(article)
+                db.session.commit()
+        
         db.session.close()
         print(f"{len(articles_to_create)} artículos insertados correctamente.")
 
