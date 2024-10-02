@@ -72,7 +72,7 @@
           },
           "required": {
             "value": true,
-            "error": "Debe introducir un apellido"
+            "error": "Debe introducir un email"
           }
         },
         "example": "gastonmatias.21@gmail.com",

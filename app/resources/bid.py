@@ -26,7 +26,7 @@ def getByArticle(current_user,uuid):
     from app.models.auction import Auction
     auc = Auction.get(a.content.auction)
     if auc.content.dataCompany.owner != current_user["uuid"]:
-        return jsonify("No se puede ver por que no sos el dueño del remate en el que esta el articulo"),400
+        return jsonify({"error":"No se puede ver por que no sos el dueño del remate en el que esta el articulo"}),400
     sms=Bid.getByArticle(uuid)
     return jsonify(sms.dump()),sms.cod
 
