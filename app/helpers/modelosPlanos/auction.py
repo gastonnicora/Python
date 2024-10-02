@@ -26,3 +26,8 @@ class Auction():
     def toJSON(self):
         return json.loads(json.dumps(self, default=lambda o: o.__dict__, 
             sort_keys=True, indent=4))
+    
+    def basic(cls):
+        return {"uuid":cls.uuid,"description":cls.description,
+                "dateStart":cls.dateStart,"dataCompany":cls.dataCompany,
+                 "type":cls.type,"dateFinish":cls.dateFinish }
