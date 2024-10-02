@@ -28,6 +28,10 @@ class Auction():
             sort_keys=True, indent=4))
     
     def basic(cls):
-        return {"uuid":cls.uuid,"description":cls.description,
-                "dateStart":cls.dateStart,"dataCompany":cls.dataCompany,
-                 "type":cls.type,"dateFinish":cls.dateFinish }
+        if cls.auctions:
+            listado=[]
+            for auction in cls.auctions:
+                listado.append({"uuid":auction.uuid,"description":auction.description,
+                "dateStart":auction.dateStart,"dataCompany":auction.dataCompany,
+                 "type":auction.type,"dateFinish":auction.dateFinish })
+            return 
