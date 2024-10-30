@@ -23,6 +23,7 @@ services:
     restart: always
     depends_on:
       - api
+      - socket
     networks:
       - socket 
 
@@ -45,12 +46,12 @@ services:
       - conn 
   
   socket:
-    image: gastonnicora/remates-socket:1.2
+    image: gastonnicora/remates-socket
     restart: always
     depends_on:
       - api
-    ports:
-      - "4001:4001"
+    expose:
+      - "4001"
     networks:
       - conn
       - socket 
