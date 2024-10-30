@@ -1,5 +1,8 @@
 name: API
 
+permissions:
+  contents: write
+
 on:
   # Trigger: cuando se actualicen las branchs o tags
   push:
@@ -22,8 +25,31 @@ jobs:
         id: prepare_source
         run: |
           SOURCE_NAME="${GITHUB_REF#refs/*/}"
-          [ $SOURCE_NAME == "main" ] && SOURCE_NAME="latest"
-          echo ::set-output name=SOURCE_NAME::${SOURCE_NAME}
+          VERSION_FILE=version.txt
+
+          # Leer la versión actual desde el archivo (version.txt) o usar '0.0' si no existe
+          if [ -f $VERSION_FILE ]; then
+            CURRENT_VERSION=$(cat $VERSION_FILE)
+          else
+            CURRENT_VERSION="0.0"
+          fi
+
+          if [ "$SOURCE_NAME" == "main" ]; then
+            # Incrementar la parte 'x' de la versión y reiniciar 'y'
+            IFS='.' read -r x y <<< "$CURRENT_VERSION"
+            NEW_VERSION="$((x + 1)).$y"
+            echo "SOURCE_NAME=latest" >> $GITHUB_ENV
+            SAVE="$((x + 1)).0"
+          else 
+            # Incrementar la parte 'y' de la versión
+            IFS='.' read -r x y <<< "$CURRENT_VERSION"
+            NEW_VERSION="$x.$((y + 1))"
+            echo "SOURCE_NAME=$NEW_VERSION" >> $GITHUB_ENV
+            SAVE="$NEW_VERSION"
+          fi
+
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+          echo "SAVE=$SAVE" >> $GITHUB_ENV
       
       # Steps 3 y 4: Requisitos QEMU y Buildx
       - name: Set up QEMU
@@ -56,9 +82,19 @@ jobs:
           file: ./Dockerfile
           tags: |
             gastonnicora/remates-python:${{ env.SOURCE_NAME }}
+            gastonnicora/remates-python:${{ env.NEW_VERSION }}
         env:
           SOURCE_NAME: ${{ steps.prepare_source.outputs.SOURCE_NAME }}
-
+          
+      - name: Commit version.txt
+        run: |
+          VERSION_FILE=version.txt
+          echo "${{ env.SAVE }}" > $VERSION_FILE
+          git config --local user.name "github-actions"
+          git config --local user.email "action@github.com"
+          git add $VERSION_FILE
+          git commit -m "Update version.txt to $SAVE" || echo "No changes to commit"
+          git push
       # Step 8: Muestra el digest de la imagen
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
