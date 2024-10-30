@@ -311,12 +311,12 @@ def initialize():
     if not (u==0 and au==0 and ar==0 and co==0 and bi==0):
         return
 
-    logging.info('Creando  usuarios')
+    print('Creando  usuarios')
 
     User.insert_users_in_bulk(usersList)
     users= User.all().content.users
 
-    logging.info('Creando  empresas')
+    print('Creando  empresas')
     company= []
     lenUser=len(users)
     for i, com in enumerate(companiesList):
@@ -327,7 +327,7 @@ def initialize():
     companies= Company.all().content.companies
 
     listAuction=[]
-    logging.info('Creando  remates')
+    print('Creando  remates')
     lenCompanies=len(companies)
     lenAuctions= len(auctionsList)
     for i in range(0,randrange(lenCompanies, lenCompanies*20)):
@@ -349,7 +349,7 @@ def initialize():
     Auction.insert_auction_in_bulk(listAuction)
     listAuction= Auction.all().content.auctions
 
-    logging.info('Creando  articulos')
+    print('Creando  articulos')
 
     listArticle=[]   
     num=len(listAuction)-1
@@ -397,7 +397,7 @@ def initialize():
     listArticle = Article.getFinished().content.articles
     
     if len(listArticle) >0:
-        logging.info('Creando pujas')
+        print('Creando pujas')
         bids=[]
         lenArticles = len(listArticle)
         auxBid={}
@@ -431,6 +431,6 @@ def initialize():
             dateF=datetime.datetime.strptime(auc.dateFinish, date_format)
             if now >= dateS and now <= dateF:
                 Auction.start(auc.uuid)
-    logging.info('Ya puede usar la aplicacion')
+    print('Ya puede usar la aplicacion')
 
     print('Ya puede usar la aplicación')
