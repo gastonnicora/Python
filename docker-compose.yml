@@ -28,7 +28,7 @@ services:
       - socket 
 
   api:
-    image: gastonnicora/remates-python:2.9
+    image: gastonnicora/remates-python:2.10
     restart: always
     environment:
       DB_HOST: db:3306
@@ -43,7 +43,6 @@ services:
       - "4000:4000"
     networks:
       - mynetwork
-      - conn 
   
   socket:
     image: gastonnicora/remates-socket:1.4
@@ -55,8 +54,10 @@ services:
       - redis
     expose:
       - "4001"
+    ports:
+      - "4001:4001"
     networks:
-      - conn
+      - mynetwork
       - socket 
 
   celery:
@@ -93,13 +94,10 @@ services:
       - redis_data:/data
     networks:
       - mynetwork
-      - conn
 
 networks:
   mynetwork:
   socket:
-    driver: bridge 
-  conn:
     driver: bridge 
 
 volumes:
