@@ -10,7 +10,7 @@ def emit_bid(data):
 
 def emit_finish(room):
     message = json.dumps({
-        room
+        str(room)
     })
     redis_client.publish('task_socket_channel', message)
 
@@ -22,13 +22,13 @@ def emit_updateSesion(data):
 
 def emit_start(room, time):
     message = json.dumps({
-        'room':room,
+        'room':str(room),
         'time':time
     })
     redis_client.publish('task_socket_channel', message)
 
 def start(room):
     message = json.dumps({
-        room
+        str(room)
     })
     redis_client.publish('task_socket_channel', message)
