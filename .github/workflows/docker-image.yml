@@ -45,7 +45,6 @@ jobs:
 
           echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
           echo "SAVE=$SAVE" >> $GITHUB_ENV
-          echo "::set-output name=SOURCE_NAME::$SOURCE_NAME"  # Añade esta línea
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -88,4 +87,4 @@ jobs:
           git push
 
       - name: Image digest
-        run: echo ${{ steps.docker_build.outputs.digest }}  # Asegúrate de que esto sea correcto
+        run: echo ${{ steps.docker_build.outputs.digest }} 
