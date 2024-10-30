@@ -1,4 +1,4 @@
-from app.models.db import db
+from app.connections.db import db
 from sqlalchemy.sql.schema import ForeignKey
 import uuid
 from app.helpers.message import Message

@@ -13,7 +13,7 @@ from app.socket.socketio import socketio
 
 
 
-from app.models.db import db
+from app.connections.db import db
 from app.resources import user
 from app.resources import confirmEmail
 from app.resources import company

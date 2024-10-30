@@ -1,4 +1,4 @@
-from app.models.db import db
+from app.connections.db import db
 import uuid
 from app.helpers.message import Message
 import datetime

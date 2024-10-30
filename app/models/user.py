@@ -3,7 +3,7 @@ import datetime
 from werkzeug.security import check_password_hash as checkph
 from werkzeug.security import generate_password_hash as genph
 from app.helpers.serializacion import Serializacion
-from app.models.db import db
+from app.connections.db import db
 from app.helpers.modelosPlanos.user import User  as U
 from app.helpers.message import Message
 from pytz import timezone

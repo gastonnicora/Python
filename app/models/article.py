@@ -1,5 +1,5 @@
 from sqlalchemy import and_
-from app.models.db import db
+from app.connections.db import db
 from sqlalchemy.sql.schema import ForeignKey
 import uuid
 from sqlalchemy.orm import relationship

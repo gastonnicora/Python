@@ -2,8 +2,8 @@ import uuid
 import datetime
 import os
 import pickle
-import redis
 from app.helpers.saveSession import loadDict
+from app.connections.redis import redis_client
 
 class Sessions:
     _instance = None
@@ -16,9 +16,8 @@ class Sessions:
         if cls._instance is None:
             cls._instance = super().__new__(cls)
             env = os.environ.get("FLASK_ENV", "development")
-            redis_host = os.environ.get("REDIS_HOST", "localhost")
             if env == "production":
-                cls._redis = redis.StrictRedis(host=redis_host, port=6379, db=0)
+                cls._redis = redis_client
                 data = cls._load_from_redis(cls)
             else:
                 data = loadDict("Sessions.pkl")

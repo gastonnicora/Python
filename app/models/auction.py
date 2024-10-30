@@ -1,4 +1,4 @@
-from app.models.db import db
+from app.connections.db import db
 from datetime import timezone
 from sqlalchemy.sql.schema import ForeignKey
 import uuid
