@@ -9,7 +9,7 @@ from app.helpers.modelosPlanos.auction import Auction as A
 from pytz import timezone
 from sqlalchemy.orm import relationship
 
-from app.helpers.celery import startedAuction, finishedAuction
+from app.connections.celery import startedAuction, finishedAuction
 
 date_format = '%d/%m/%YT%H:%M:%S%z'
 zona_horaria= timezone("America/Argentina/Buenos_Aires") 

@@ -9,7 +9,7 @@ from app.models.article import Article
 from pytz import timezone
 from sqlalchemy.orm import relationship
 
-from app.socket.socketio import emit_bid
+from app.connections.socketio import emit_bid
 
 date_format = '%d/%m/%YT%H:%M:%S%z'
 zona_horaria= timezone("America/Argentina/Buenos_Aires")

@@ -8,8 +8,8 @@ from app.models.auction import Auction
 import datetime
 from app.helpers.modelosPlanos.article import Article as A
 from pytz import timezone
-from app.socket.socketio import start, emit_start,emit_finish
-from app.helpers.celery import startedArticle, finishedArticle
+from app.connections.socketio import start, emit_start,emit_finish
+from app.connections.celery import startedArticle, finishedArticle
 
 
 date_format = '%d/%m/%YT%H:%M:%S%z'

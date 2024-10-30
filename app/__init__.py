@@ -9,7 +9,7 @@ import atexit
 
 from uuid import uuid4
 
-from app.socket.socketio import socketio
+from app.connections.socketio import socketio
 
 
 

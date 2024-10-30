@@ -8,7 +8,7 @@ from app.helpers.modelosPlanos.user import User  as U
 from app.helpers.message import Message
 from pytz import timezone
 from app.helpers.sessions import Sessions
-from app.socket.socketio import emit_updateSesion
+from app.connections.socketio import emit_updateSesion
 
 date_format = '%d/%m/%YT%H:%M:%S%z'
 zona_horaria= timezone("America/Argentina/Buenos_Aires")
