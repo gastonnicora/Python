@@ -28,7 +28,7 @@ services:
       - socket 
 
   api:
-    image: gastonnicora/remates-python:2.4
+    image: gastonnicora/remates-python:2.6
     restart: always
     environment:
       DB_HOST: db:3306
