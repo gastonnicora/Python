@@ -27,6 +27,7 @@ from app.helpers.saveSession import saveDict
 from app.helpers.sessions import Sessions
 from app.helpers.initialize_db import initialize
 
+from app.connections.redis import acquire_lock, release_lock 
 
 def create_app(environment="development"):
 
@@ -46,8 +47,12 @@ def create_app(environment="development"):
     
     db.init_app(app)
     with app.app_context():
-        db.create_all()
-        initialize()
+        if acquire_lock("init_lock"):
+            try:
+                db.create_all()
+                initialize()
+            finally:
+                release_lock("init_lock")
     # Rutas API-REST
 
     # CRUD User

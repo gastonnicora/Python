@@ -10,7 +10,7 @@ RUN pip --no-cache-dir install gunicorn
 ENV FLASK_ENV=production
 
 CMD ["gunicorn", \
-     "-w", "1", "-b", "0.0.0.0:4000", \
+     "-w", "4", "-b", "0.0.0.0:4000", \
      "--log-level", "debug", \
      "run:app", \
      "--access-logfile", "-", "--error-logfile", "-"]
