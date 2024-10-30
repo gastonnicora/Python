@@ -1,5 +1,5 @@
 import os
-from app import create_app,  socketio
+from app import create_app
 from os import environ
 from dotenv import load_dotenv
 
@@ -14,6 +14,6 @@ app= create_app()
 if __name__ == "__main__":
      
     if env == "development":
-        socketio.run(app,host="0.0.0.0",port=4000,debug=True)
+        app.run(app,host="0.0.0.0",port=4000,debug=True)
     else:
-        socketio.run(app, host="0.0.0.0", port=4000)
+        app.run(app, host="0.0.0.0", port=4000)
