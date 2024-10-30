@@ -28,7 +28,7 @@ services:
       - socket 
 
   api:
-    image: gastonnicora/remates-python:2.7
+    image: gastonnicora/remates-python:2.8
     restart: always
     environment:
       DB_HOST: db:3306
@@ -46,7 +46,7 @@ services:
       - conn 
   
   socket:
-    image: gastonnicora/remates-socket
+    image: gastonnicora/remates-socket:1.4
     restart: always
     depends_on:
       - api
@@ -57,7 +57,7 @@ services:
       - socket 
 
   celery:
-    image: gastonnicora/remates-celery
+    image: gastonnicora/remates-celery:1.2
     restart: always
     depends_on:
       - redis
