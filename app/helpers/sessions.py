@@ -35,12 +35,12 @@ class Sessions:
         user_uuid = data["uuid"]
         if acquire_lock(user_uuid):
             try:
-                cls._load()
+                cls._load(cls)
                 if cls._users.get(user_uuid):
                     cls._users[user_uuid].append(id)
                 else:
                     cls._users[user_uuid] = [id]
-                cls._save_to_redis()
+                cls._save_to_redis(cls)
             finally:
                 release_lock(user_uuid)
 
@@ -49,13 +49,13 @@ class Sessions:
         if company_uuid:
             if acquire_lock(company_uuid):
                 try:
-                    cls._load()
+                    cls._load(cls)
                     if cls._companies.get(company_uuid):
                         cls._companies[company_uuid].append(id)
                     else:
                         cls._companies[company_uuid] = [id]
 
-                    cls._save_to_redis()
+                    cls._save_to_redis(cls)
                 finally:
                     release_lock(company_uuid)
         
@@ -64,12 +64,12 @@ class Sessions:
     def updateSession(cls, uuid, data):
         if acquire_lock(uuid):
             try:
-                cls._load()
+                cls._load(cls)
                 session = cls.getSession(uuid)
                 newSession = data
                 newSession["login"] = session["login"]
                 cls._sessions[uuid] = newSession
-                cls._save_to_redis()
+                cls._save_to_redis(cls)
             finally:
                 release_lock(uuid)
 
@@ -88,7 +88,7 @@ class Sessions:
         session= None
         if acquire_lock(uuid):
             try:
-                cls._load()
+                cls._load(cls)
                 session= cls._sessions.get(uuid)
             finally:
                 release_lock(uuid)
@@ -98,7 +98,7 @@ class Sessions:
         sessions= None
         if acquire_lock(uuid):
             try:
-                cls._load()
+                cls._load(cls)
                 uuidS = cls._users.get(uuid, [])
                 sessions = [cls.getSession(i) for i in uuidS]
             finally:
@@ -108,11 +108,11 @@ class Sessions:
     def deleteSession(cls, uuid):
         if acquire_lock(uuid):
             try:
-                cls._load()
+                cls._load(cls)
                 session = cls._sessions.pop(uuid, None)
                 if session:
                     cls._users[session["uuid"]].remove(uuid)
-                    cls._save_to_redis()
+                    cls._save_to_redis(cls)
             finally:
                 release_lock(uuid)
         
@@ -120,11 +120,11 @@ class Sessions:
     def deleteSessionsByUser(cls, uuid):
         if acquire_lock(uuid):
             try:
-                cls._load()
+                cls._load(cls)
                 uuidS = cls._users.get(uuid, [])
                 for i in uuidS:
                     cls.deleteSession(i)
-                cls._save_to_redis()
+                cls._save_to_redis(cls)
             finally:
                 release_lock(uuid)
         
@@ -152,10 +152,3 @@ class Sessions:
         data = cls.toDict()
         redis_client.set('sessions_data', pickle.dumps(data))
 
-    def _save(cls):
-        if redis_client:
-            cls._save_to_redis()
-        else:
-            data = cls.toDict()
-            with open("Sessions.pkl", "wb") as file:
-                pickle.dump(data, file)

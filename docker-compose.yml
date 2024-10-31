@@ -25,10 +25,11 @@ services:
       - api
       - socket
     networks:
-      - socket 
+      - socket
+      - conn 
 
   api:
-    image: gastonnicora/remates-python:3.3
+    image: gastonnicora/remates-python:3.4
     restart: always
     environment:
       DB_HOST: db:3306
@@ -42,7 +43,8 @@ services:
     ports:
       - "4000:4000"
     networks:
-      - mynetwork
+      - mynetwork 
+      - conn 
   
   socket:
     image: gastonnicora/remates-socket
@@ -98,6 +100,8 @@ services:
 networks:
   mynetwork:
   socket:
+    driver: bridge 
+  conn:
     driver: bridge 
 
 volumes:
