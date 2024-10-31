@@ -33,7 +33,7 @@ jobs:
 
           if [ "$SOURCE_NAME" == "main" ]; then
             IFS='.' read -r x y <<< "$CURRENT_VERSION"
-            NEW_VERSION="$((x + 1)).$y"
+            NEW_VERSION="$((x + 1)).0"
             echo "SOURCE_NAME=latest" >> $GITHUB_ENV
             SAVE="$((x + 1)).0"
           else 

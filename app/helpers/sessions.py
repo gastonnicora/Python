@@ -35,7 +35,7 @@ class Sessions:
         user_uuid = data["uuid"]
         if acquire_lock(user_uuid):
             try:
-                cls._load(cls)
+                cls._load()
                 if cls._users.get(user_uuid):
                     cls._users[user_uuid].append(id)
                 else:
