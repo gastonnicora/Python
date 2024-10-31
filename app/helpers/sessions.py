@@ -85,13 +85,29 @@ class Sessions:
     @classmethod
     def getSession(cls, uuid):
         session = None
-        if acquire_lock(uuid,120):
+        if acquire_lock(uuid,30):
             try:
                 cls._load()
                 session = cls._sessions.get(uuid)
             finally:
                 release_lock(uuid)
         return session
+    
+    @classmethod
+    def getSessionCelery(cls):
+        sessionC = None
+        keyC= None
+        if acquire_lock("celery",30):
+            try:
+                cls._load()
+                for key, value in cls._sessions.items():
+                    if "work" in value:
+                        keyC= key
+                        sessionC=value
+            finally:
+                release_lock("celery")
+        return keyC, sessionC
+        
     
     @classmethod
     def getSessions(cls):
