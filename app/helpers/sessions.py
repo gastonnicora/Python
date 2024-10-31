@@ -1,6 +1,5 @@
 import uuid
 import datetime
-import os
 import pickle
 from app.connections.redis import redis_client, acquire_lock, release_lock
 
@@ -13,7 +12,7 @@ class Sessions:
     def __new__(cls):
         if cls._instance is None:
             cls._instance = super().__new__(cls)
-            cls._load(cls)
+            cls._load()
         return cls._instance
 
     def addSession(cls, data):
@@ -36,11 +35,8 @@ class Sessions:
         if acquire_lock(user_uuid):
             try:
                 cls._load()
-                if cls._users.get(user_uuid):
-                    cls._users[user_uuid].append(id)
-                else:
-                    cls._users[user_uuid] = [id]
-                cls._save_to_redis(cls)
+                cls._users.setdefault(user_uuid, []).append(id)
+                cls._save_to_redis()
             finally:
                 release_lock(user_uuid)
 
@@ -49,27 +45,21 @@ class Sessions:
         if company_uuid:
             if acquire_lock(company_uuid):
                 try:
-                    cls._load(cls)
-                    if cls._companies.get(company_uuid):
-                        cls._companies[company_uuid].append(id)
-                    else:
-                        cls._companies[company_uuid] = [id]
-
-                    cls._save_to_redis(cls)
+                    cls._load()
+                    cls._companies.setdefault(company_uuid, []).append(id)
+                    cls._save_to_redis()
                 finally:
                     release_lock(company_uuid)
-        
-            
 
     def updateSession(cls, uuid, data):
         if acquire_lock(uuid):
             try:
-                cls._load(cls)
+                cls._load()
                 session = cls.getSession(uuid)
                 newSession = data
                 newSession["login"] = session["login"]
                 cls._sessions[uuid] = newSession
-                cls._save_to_redis(cls)
+                cls._save_to_redis()
             finally:
                 release_lock(uuid)
 
@@ -79,26 +69,25 @@ class Sessions:
                 uuidS = cls._users.get(uuid, [])
                 newSession = data
                 for i in uuidS:
-                    cls.updateSession(i,newSession)
+                    cls.updateSession(i, newSession)
             finally:
                 release_lock(uuid)
 
-
     def getSession(cls, uuid):
-        session= None
+        session = None
         if acquire_lock(uuid):
             try:
-                cls._load(cls)
-                session= cls._sessions.get(uuid)
+                cls._load()
+                session = cls._sessions.get(uuid)
             finally:
                 release_lock(uuid)
         return session
 
     def getSessionsByUser(cls, uuid):
-        sessions= None
+        sessions = None
         if acquire_lock(uuid):
             try:
-                cls._load(cls)
+                cls._load()
                 uuidS = cls._users.get(uuid, [])
                 sessions = [cls.getSession(i) for i in uuidS]
             finally:
@@ -108,26 +97,24 @@ class Sessions:
     def deleteSession(cls, uuid):
         if acquire_lock(uuid):
             try:
-                cls._load(cls)
+                cls._load()
                 session = cls._sessions.pop(uuid, None)
                 if session:
                     cls._users[session["uuid"]].remove(uuid)
-                    cls._save_to_redis(cls)
+                    cls._save_to_redis()
             finally:
                 release_lock(uuid)
-        
 
     def deleteSessionsByUser(cls, uuid):
         if acquire_lock(uuid):
             try:
-                cls._load(cls)
+                cls._load()
                 uuidS = cls._users.get(uuid, [])
                 for i in uuidS:
                     cls.deleteSession(i)
-                cls._save_to_redis(cls)
+                cls._save_to_redis()
             finally:
                 release_lock(uuid)
-        
 
     def toDict(cls):
         return {
@@ -143,12 +130,12 @@ class Sessions:
         return None
 
     def _load(cls):
-        data= cls._load_from_redis(cls)
+        data = cls._load_from_redis()
         if data:
-            cls._sessions = data["sessions"]
-            cls._users = data["users"]
-            cls._companies = data["companies"]
+            cls._sessions = data.get("sessions", {})
+            cls._users = data.get("users", {})
+            cls._companies = data.get("companies", {})
+
     def _save_to_redis(cls):
         data = cls.toDict()
         redis_client.set('sessions_data', pickle.dumps(data))
-
