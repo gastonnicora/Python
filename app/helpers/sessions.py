@@ -77,6 +77,7 @@ class Sessions:
                 uuidS = cls._users.get(uuid, [])
                 newSession = data
                 for i in uuidS:
+                    print(i)
                     cls.updateSession(i, newSession)
             finally:
                 release_lock(uuid)
