@@ -143,7 +143,7 @@ class Sessions:
         return None
 
     def _load(cls):
-        data= cls._load_from_redis()
+        data= cls._load_from_redis(cls)
         if data:
             cls._sessions = data["sessions"]
             cls._users = data["users"]
