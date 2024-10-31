@@ -46,11 +46,14 @@ def create_app(environment="development"):
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
     db.init_app(app)
-    with app.app_context():
-        if acquire_lock("init_lock",120):
+    
+    @app.before_first_request
+    def initialize_database():
+        if acquire_lock("init_lock", 120):
             try:
-                db.create_all()
-                initialize()
+                with app.app_context():
+                    db.create_all()
+                    initialize()
             finally:
                 release_lock("init_lock")
     # Rutas API-REST
