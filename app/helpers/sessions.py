@@ -152,11 +152,13 @@ class Sessions:
             cls._sessions = data.get("sessions", {})
             cls._users = data.get("users", {})
             cls._companies = data.get("companies", {})
+            print(cls._sessions)
 
     @classmethod
     def _save_to_redis(cls):
         try:
             data = cls.toDict()
+            print(data)
             redis_client.set('sessions_data', pickle.dumps(data))
         except Exception as e:
             print(f"Error al guardar en Redis: {e}")
