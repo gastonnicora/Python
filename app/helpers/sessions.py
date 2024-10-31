@@ -97,7 +97,7 @@ class Sessions:
     def getSessionCelery(cls):
         sessionC = None
         keyC= None
-        if acquire_lock("celery",30):
+        if acquire_lock("celery",120):
             try:
                 cls._load()
                 for key, value in cls._sessions.items():
