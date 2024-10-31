@@ -20,6 +20,8 @@ def token_required(f):
             data = jwt.decode(token, environ.get("SECRET_KEY","1234"), algorithms="HS256") 
             current_user = Sessions().getSession(data['uuid'])
             if not current_user:
+                print("el usuario no existe")
+                print(f"uuid: {data}")
                 return jsonify({'error': 'Por favor vuelva a iniciar sesión para realizar esta acción',"cod":401}),401
         except:
             return jsonify({'error': 'Error al decodificar el token ',"cod":401}),401
