@@ -47,7 +47,7 @@ def create_app(environment="development"):
     
     db.init_app(app)
     with app.app_context():
-        if acquire_lock("init_lock"):
+        if acquire_lock("init_lock",120):
             try:
                 db.create_all()
                 initialize()

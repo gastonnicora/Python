@@ -19,7 +19,7 @@ class Sessions:
     def addSession(cls, data):
         id = str(uuid.uuid4())
         session = cls._dataSession(id, data)
-        if acquire_lock("load"):
+        if acquire_lock("load",60):
             try:
                 cls._load()
                 cls._sessions[id] = session
@@ -40,7 +40,7 @@ class Sessions:
     @classmethod
     def _addUser(cls, id, data):
         user_uuid = data["uuid"]
-        if acquire_lock(user_uuid):
+        if acquire_lock(user_uuid,30):
             try:
                 cls._users.setdefault(user_uuid, []).append(id)
                 cls._save_to_redis()
@@ -51,7 +51,7 @@ class Sessions:
     def _addCompany(cls, id, data):
         company_uuid = data.get("company", {}).get("uuid")
         if company_uuid:
-            if acquire_lock(company_uuid):
+            if acquire_lock(company_uuid,30):
                 try:
                     cls._companies.setdefault(company_uuid, []).append(id)
                     cls._save_to_redis()
@@ -60,7 +60,7 @@ class Sessions:
 
     @classmethod
     def updateSession(cls, uuid, data):
-        if acquire_lock(uuid):
+        if acquire_lock(uuid,30):
             try:
                 session = cls.getSession(uuid)
                 if session:
@@ -73,7 +73,7 @@ class Sessions:
 
     @classmethod
     def updateSessionByUser(cls, uuid, data):
-        if acquire_lock(uuid):
+        if acquire_lock(uuid,30):
             try:
                 uuidS = cls._users.get(uuid, [])
                 newSession = data
@@ -85,7 +85,7 @@ class Sessions:
     @classmethod
     def getSession(cls, uuid):
         session = None
-        if acquire_lock(uuid):
+        if acquire_lock(uuid,30):
             try:
                 cls._load()
                 session = cls._sessions.get(uuid)
@@ -101,7 +101,7 @@ class Sessions:
     @classmethod
     def getSessionsByUser(cls, uuid):
         sessions = None
-        if acquire_lock(uuid):
+        if acquire_lock(uuid,30):
             try:
                 cls._load()
                 uuidS = cls._users.get(uuid, [])
@@ -112,7 +112,7 @@ class Sessions:
 
     @classmethod
     def deleteSession(cls, uuid):
-        if acquire_lock(uuid):
+        if acquire_lock(uuid,30):
             try:
                 cls._load()
                 session = cls._sessions.pop(uuid, None)
@@ -124,7 +124,7 @@ class Sessions:
 
     @classmethod
     def deleteSessionsByUser(cls, uuid):
-        if acquire_lock(uuid):
+        if acquire_lock(uuid,30):
             try:
                 cls._load()
                 uuidS = cls._users.get(uuid, [])
