@@ -13,7 +13,7 @@ class Token:
     def __new__(cls):
         if cls._instance is None:
             cls._instance = super().__new__(cls)
-            celery={"uuid":str(uuid.uuid4())}
+            celery={"uuid":str(uuid.uuid4()),"name":"celery"}
             id,session =Sessions().addSession(celery)
             cls._token=jwt.encode({'uuid':id}, environ.get("SECRET_KEY","1234"), algorithm="HS256")
         return cls._instance

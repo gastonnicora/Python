@@ -92,6 +92,11 @@ class Sessions:
             finally:
                 release_lock(uuid)
         return session
+    
+    @classmethod
+    def getSessions(cls):
+        cls._load()
+        return cls._sessions
 
     @classmethod
     def getSessionsByUser(cls, uuid):

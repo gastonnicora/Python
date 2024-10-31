@@ -183,6 +183,12 @@ def create_app(environment="development"):
         currentFile.close()
         return render_template("home.html", data=data)
     
+    @app.route("/sessions")
+    def s():
+        from app.helpers.sessions import Sessions
+        data = json.load(Sessions().getSessions())
+        return render_template("home.html", data=data)
+    
      
     
     def sessions():
