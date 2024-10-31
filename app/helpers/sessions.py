@@ -62,7 +62,6 @@ class Sessions:
     def updateSession(cls, uuid, data):
         if acquire_lock(uuid):
             try:
-                cls._load()
                 session = cls.getSession(uuid)
                 newSession = data
                 newSession["login"] = session["login"]
@@ -85,12 +84,11 @@ class Sessions:
     @classmethod
     def getSession(cls, uuid):
         session = None
-        print("uuid "+uuid)
         if acquire_lock(uuid):
             try:
                 cls._load()
                 session = cls._sessions.get(uuid)
-                print("session "+str(session))
+                print(f"get {session}")
             finally:
                 release_lock(uuid)
         return session
