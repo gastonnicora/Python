@@ -82,10 +82,12 @@ class Sessions:
     @classmethod
     def getSession(cls, uuid):
         session = None
+        print(uuid)
         if acquire_lock(uuid):
             try:
                 cls._load()
                 session = cls._sessions.get(uuid)
+                print(session)
             finally:
                 release_lock(uuid)
         return session
