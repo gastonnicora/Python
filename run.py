@@ -14,6 +14,6 @@ app= create_app()
 if __name__ == "__main__":
      
     if env == "development":
-        app.run(app,host="0.0.0.0",port=4000,debug=True)
+        app.run(host="0.0.0.0",port=4000,debug=True)
     else:
-        app.run(app, host="0.0.0.0", port=4000)
+        app.run(host="0.0.0.0", port=4000)
