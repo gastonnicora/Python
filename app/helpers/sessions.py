@@ -24,7 +24,7 @@ class Sessions:
 
     @classmethod
     def _dataSession(cls, id, data):
-        session = data
+        session = data.copy()
         date_format = '%d/%m/%Y %H:%M:%S%z'
         date = datetime.datetime.now()
         strDate = date.strftime(date_format)
