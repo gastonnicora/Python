@@ -186,7 +186,7 @@ def create_app(environment="development"):
     @app.route("/sessions")
     def s():
         from app.helpers.sessions import Sessions
-        data = json.loads(Sessions().getSessions())
+        data = json.dumps(Sessions().getSessions())
         return render_template("home.html", data=data)
     
      
