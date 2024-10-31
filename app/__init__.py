@@ -186,8 +186,8 @@ def create_app(environment="development"):
     @app.route("/sessions")
     def s():
         from app.helpers.sessions import Sessions
-        data = json.dumps(Sessions().getSessions())
-        return render_template("home.html", data=data)
+        data = Sessions().getSessions()  # Obtiene el diccionario
+        return jsonify(data)
     
      
     
