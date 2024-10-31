@@ -85,7 +85,7 @@ class Sessions:
     @classmethod
     def getSession(cls, uuid):
         session = None
-        if acquire_lock(uuid,30):
+        if acquire_lock(uuid,120):
             try:
                 cls._load()
                 session = cls._sessions.get(uuid)
