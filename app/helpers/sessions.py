@@ -15,12 +15,14 @@ class Sessions:
             cls._load()
         return cls._instance
 
+    @classmethod
     def addSession(cls, data):
         id = str(uuid.uuid4())
         session = cls._dataSession(id, data)
         cls._addUser(id, data)
         return id, session
 
+    @classmethod
     def _dataSession(cls, id, data):
         session = data
         date_format = '%d/%m/%Y %H:%M:%S%z'
@@ -30,6 +32,7 @@ class Sessions:
         cls._sessions[id] = session
         return session
 
+    @classmethod
     def _addUser(cls, id, data):
         user_uuid = data["uuid"]
         if acquire_lock(user_uuid):
@@ -40,6 +43,7 @@ class Sessions:
             finally:
                 release_lock(user_uuid)
 
+    @classmethod
     def _addCompany(cls, id, data):
         company_uuid = data.get("company", {}).get("uuid")
         if company_uuid:
@@ -51,6 +55,7 @@ class Sessions:
                 finally:
                     release_lock(company_uuid)
 
+    @classmethod
     def updateSession(cls, uuid, data):
         if acquire_lock(uuid):
             try:
@@ -63,6 +68,7 @@ class Sessions:
             finally:
                 release_lock(uuid)
 
+    @classmethod
     def updateSessionByUser(cls, uuid, data):
         if acquire_lock(uuid):
             try:
@@ -73,6 +79,7 @@ class Sessions:
             finally:
                 release_lock(uuid)
 
+    @classmethod
     def getSession(cls, uuid):
         session = None
         if acquire_lock(uuid):
@@ -83,6 +90,7 @@ class Sessions:
                 release_lock(uuid)
         return session
 
+    @classmethod
     def getSessionsByUser(cls, uuid):
         sessions = None
         if acquire_lock(uuid):
@@ -94,6 +102,7 @@ class Sessions:
                 release_lock(uuid)
         return sessions
 
+    @classmethod
     def deleteSession(cls, uuid):
         if acquire_lock(uuid):
             try:
@@ -105,6 +114,7 @@ class Sessions:
             finally:
                 release_lock(uuid)
 
+    @classmethod
     def deleteSessionsByUser(cls, uuid):
         if acquire_lock(uuid):
             try:
@@ -116,6 +126,7 @@ class Sessions:
             finally:
                 release_lock(uuid)
 
+    @classmethod
     def toDict(cls):
         return {
             "sessions": cls._sessions,
@@ -123,12 +134,14 @@ class Sessions:
             "companies": cls._companies
         }
 
+    @classmethod
     def _load_from_redis(cls):
         data = redis_client.get('sessions_data')
         if data:
             return pickle.loads(data)
         return None
 
+    @classmethod
     def _load(cls):
         data = cls._load_from_redis()
         if data:
@@ -136,6 +149,7 @@ class Sessions:
             cls._users = data.get("users", {})
             cls._companies = data.get("companies", {})
 
+    @classmethod
     def _save_to_redis(cls):
         data = cls.toDict()
         redis_client.set('sessions_data', pickle.dumps(data))
