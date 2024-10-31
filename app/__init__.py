@@ -47,8 +47,9 @@ def create_app(environment="development"):
     
     db.init_app(app)
     
-    @app.before_first_request
+    @app.before_request
     def initialize_database():
+        app.before_request_funcs[None].remove(initialize_database)
         if acquire_lock("init_lock", 120):
             try:
                 with app.app_context():
@@ -56,6 +57,7 @@ def create_app(environment="development"):
                     initialize()
             finally:
                 release_lock("init_lock")
+    
     # Rutas API-REST
 
     # CRUD User
