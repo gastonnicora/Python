@@ -6,6 +6,8 @@ from config import config
 from app import db_config
 import os
 import atexit
+from app.helpers.sessions import Sessions
+from app.connections.celery import Token
 
 from uuid import uuid4
 
@@ -51,7 +53,10 @@ def create_app(environment="development"):
         if acquire_lock("init_lock",120):
             try:
                 db.create_all()
+                Sessions()
+                Token()
                 initialize()
+
             finally:
                 release_lock("init_lock")
     # Rutas API-REST
