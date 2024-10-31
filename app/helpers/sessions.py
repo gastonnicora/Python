@@ -19,6 +19,8 @@ class Sessions:
     def addSession(cls, data):
         id = str(uuid.uuid4())
         session = cls._dataSession(id, data)
+        print(f"Sesión añadida: "+str(session))
+        print(f"Sesión añadida   :"+str(cls._sessions[id]))
         cls._addUser(id, data)
         return id, session
 
