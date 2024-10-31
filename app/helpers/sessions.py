@@ -89,6 +89,7 @@ class Sessions:
             try:
                 cls._load()
                 session = cls._sessions.get(uuid)
+                print(f"Session encontrada: {session}")
             finally:
                 release_lock(uuid)
         return session
