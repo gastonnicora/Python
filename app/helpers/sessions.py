@@ -19,11 +19,15 @@ class Sessions:
     def addSession(cls, data):
         id = str(uuid.uuid4())
         session = cls._dataSession(id, data)
-        print(f"Sesión añadida: "+str(session))
-        print(f"Sesión añadida   :"+str(cls._sessions[id]))
-        cls._addUser(id, data)
+        if acquire_lock("load"):
+            try:
+                cls._load()
+                cls._sessions[id] = session
+                cls._addUser(id, data)
+            finally:
+                release_lock("load")
         return id, session
-
+    
     @classmethod
     def _dataSession(cls, id, data):
         session = data.copy()
@@ -31,7 +35,6 @@ class Sessions:
         date = datetime.datetime.now()
         strDate = date.strftime(date_format)
         session["login"] = strDate
-        cls._sessions[id] = session
         return session
 
     @classmethod
@@ -39,7 +42,6 @@ class Sessions:
         user_uuid = data["uuid"]
         if acquire_lock(user_uuid):
             try:
-                cls._load()
                 cls._users.setdefault(user_uuid, []).append(id)
                 cls._save_to_redis()
             finally:
@@ -51,7 +53,6 @@ class Sessions:
         if company_uuid:
             if acquire_lock(company_uuid):
                 try:
-                    cls._load()
                     cls._companies.setdefault(company_uuid, []).append(id)
                     cls._save_to_redis()
                 finally:
