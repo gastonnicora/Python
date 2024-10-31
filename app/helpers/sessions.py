@@ -136,10 +136,14 @@ class Sessions:
 
     @classmethod
     def _load_from_redis(cls):
-        data = redis_client.get('sessions_data')
-        if data:
-            return pickle.loads(data)
+        try:
+            data = redis_client.get('sessions_data')
+            if data:
+                return pickle.loads(data)
+        except Exception as e:
+            print(f"Error al cargar desde Redis: {e}")
         return None
+
 
     @classmethod
     def _load(cls):
@@ -151,5 +155,9 @@ class Sessions:
 
     @classmethod
     def _save_to_redis(cls):
-        data = cls.toDict()
-        redis_client.set('sessions_data', pickle.dumps(data))
+        try:
+            data = cls.toDict()
+            redis_client.set('sessions_data', pickle.dumps(data))
+        except Exception as e:
+            print(f"Error al guardar en Redis: {e}")
+
