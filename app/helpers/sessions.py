@@ -63,10 +63,11 @@ class Sessions:
         if acquire_lock(uuid):
             try:
                 session = cls.getSession(uuid)
-                newSession = data
-                newSession["login"] = session["login"]
-                cls._sessions[uuid] = newSession
-                cls._save_to_redis()
+                if session:
+                    newSession = data
+                    newSession["login"] = session["login"]
+                    cls._sessions[uuid] = newSession
+                    cls._save_to_redis()
             finally:
                 release_lock(uuid)
 
@@ -77,7 +78,6 @@ class Sessions:
                 uuidS = cls._users.get(uuid, [])
                 newSession = data
                 for i in uuidS:
-                    print(i)
                     cls.updateSession(i, newSession)
             finally:
                 release_lock(uuid)
@@ -89,7 +89,6 @@ class Sessions:
             try:
                 cls._load()
                 session = cls._sessions.get(uuid)
-                print(f"get {session}")
             finally:
                 release_lock(uuid)
         return session
@@ -156,13 +155,11 @@ class Sessions:
             cls._sessions = data.get("sessions", {})
             cls._users = data.get("users", {})
             cls._companies = data.get("companies", {})
-            print("sessions :"+ str(cls._sessions))
 
     @classmethod
     def _save_to_redis(cls):
         try:
             data = cls.toDict()
-            print("save "+str(data))
             redis_client.set('sessions_data', pickle.dumps(data))
         except Exception as e:
             print(f"Error al guardar en Redis: {e}")
