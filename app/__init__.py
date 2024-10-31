@@ -48,10 +48,13 @@ def create_app(environment="development"):
     db.init_app(app)
     with app.app_context():
         if acquire_lock("init_lock"):
+            print("lock")
             try:
+                print("try")
                 db.create_all()
                 initialize()
             finally:
+                print("finally")
                 release_lock("init_lock")
     # Rutas API-REST
 
