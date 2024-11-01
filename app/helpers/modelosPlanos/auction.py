@@ -3,7 +3,7 @@ from app.helpers.modelosPlanos.company import Company
 from app.helpers.modelosPlanos.article import Article
 class Auction():
     def __init__(cls,data=None,lista:list=[], simplify:bool=False):
-        if data: 
+        if data and not lista: 
             cls.uuid=data.uuid
             cls.description= data.description
             cls.company= data.company
@@ -18,11 +18,11 @@ class Auction():
                 cls.dateOfCreate=data.dateOfCreate
                 cls.dateOfUpdate=data.dateOfUpdate
                 cls.timeAfterBid= data.timeAfterBid
-        cls.auctions=[]
-        if lista:
+        if lista and not data:
+            cls.auctions=[]
             listado=[]
             for i in lista:
-                listado.append(Auction(i))
+                listado.append(Auction(i),None,True)
             cls.auctions= listado
     def toJSON(self):
         return json.loads(json.dumps(self, default=lambda o: o.__dict__, 
