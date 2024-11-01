@@ -89,7 +89,6 @@ class Sessions:
             try:
                 cls._load()
                 session = cls._sessions.get(uuid)
-                print(f"Session encontrada: {session}")
             finally:
                 release_lock(uuid)
         return session
@@ -98,7 +97,7 @@ class Sessions:
     def getSessionCelery(cls):
         sessionC = None
         keyC= None
-        if acquire_lock("celery",120):
+        if acquire_lock("celery",30):
             try:
                 cls._load()
                 for key, value in cls._sessions.items():
