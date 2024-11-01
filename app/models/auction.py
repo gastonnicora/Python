@@ -136,7 +136,7 @@ class Auction(db.Model):
     @classmethod
     def allNotFinished(cls):
         auctions= cls.query.filter_by(removed=0,finished= 0).all()
-        auc=A(None,auctions)
+        auc=A(None,auctions,True)
         db.session.close()
         return Message(content=auc)
 

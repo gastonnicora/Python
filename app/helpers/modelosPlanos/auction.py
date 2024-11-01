@@ -2,21 +2,22 @@ import json
 from app.helpers.modelosPlanos.company import Company
 from app.helpers.modelosPlanos.article import Article
 class Auction():
-    def __init__(cls,data=None,lista:list=[]):
+    def __init__(cls,data=None,lista:list=[], simplify:bool=False):
         if data: 
             cls.uuid=data.uuid
             cls.description= data.description
-            cls.dateOfCreate=data.dateOfCreate
-            cls.dateOfUpdate=data.dateOfUpdate
             cls.company= data.company
             cls.dateStart= data.dateStart
-            cls.removed= data.removed
-            cls.finished= data.finished
-            cls.dataCompany= Company(data.dataCompany)
-            cls.articles= Article(lista=data.articles)
-            cls.type= data.type
             cls.dateFinish= data.dateFinish
-            cls.timeAfterBid= data.timeAfterBid
+            cls.dataCompany= Company(data.dataCompany)
+            cls.type= data.type
+            if not simplify:
+                cls.removed= data.removed
+                cls.finished= data.finished
+                cls.articles= Article(lista=data.articles)
+                cls.dateOfCreate=data.dateOfCreate
+                cls.dateOfUpdate=data.dateOfUpdate
+                cls.timeAfterBid= data.timeAfterBid
         cls.auctions=[]
         if lista:
             listado=[]
