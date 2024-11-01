@@ -23,17 +23,9 @@ class Auction():
         if lista and not data:
             listado=[]
             for i in lista:
-                listado.append(Auction(i),None,True)
+                listado.append(Auction(i,None,True))
             cls.auctions= listado
     def toJSON(self):
         return json.loads(json.dumps(self, default=lambda o: o.__dict__, 
             sort_keys=True, indent=4))
-    
-    def basic(cls):
-        if cls.auctions:
-            listado=[]
-            for auction in cls.auctions:
-                listado.append({"uuid":auction.uuid,"description":auction.description,
-                "dateStart":auction.dateStart,"dataCompany":auction.dataCompany,
-                 "type":auction.type,"dateFinish":auction.dateFinish })
-            return 
+   
