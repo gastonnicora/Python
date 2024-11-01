@@ -29,7 +29,7 @@ services:
       - conn 
 
   api:
-    image: gastonnicora/remates-python:5.1
+    image: gastonnicora/remates-python:5.3
     restart: always
     environment:
       DB_HOST: db:3306

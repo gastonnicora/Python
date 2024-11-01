@@ -18,8 +18,9 @@ class Auction():
                 cls.dateOfCreate=data.dateOfCreate
                 cls.dateOfUpdate=data.dateOfUpdate
                 cls.timeAfterBid= data.timeAfterBid
+
+        cls.auctions=[]
         if lista and not data:
-            cls.auctions=[]
             listado=[]
             for i in lista:
                 listado.append(Auction(i),None,True)
