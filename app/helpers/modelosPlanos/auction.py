@@ -23,7 +23,7 @@ class Auction():
         if lista and not data:
             listado=[]
             for i in lista:
-                listado.append(Auction(i,None,True))
+                listado.append(Auction(i,None,simplify))
             cls.auctions= listado
     def toJSON(self):
         return json.loads(json.dumps(self, default=lambda o: o.__dict__, 
