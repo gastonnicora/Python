@@ -48,7 +48,7 @@ Este proyecto se ejecuta utilizando Docker y depende de los siguientes servicios
 - **Docker**: Para guardar en contenedores los servicios.
 
 ## Estructura del Proyecto
-
+  ```bash
     /python
     │
     ├── app/
@@ -67,121 +67,122 @@ Este proyecto se ejecuta utilizando Docker y depende de los siguientes servicios
     ├── requirements.txt        # Dependencias de Python
     ├── run.py                  # Ejecuta la aplicación
     └── version.txt             # Contiene la ultima version de la imagen 
+  ```
 
 ## Instalación y Configuración
 
 1. **Crear docker-compose**:
     Cree un archivo llamado ``docker-compose.yml`` que contenga:
-    ```
+    ```docker
     version: '3.3'
 
     services:
-        db:
-            image: gastonnicora/remates-sql
-            expose:
-                - "3306"
-            restart: always
-            environment:
-                MYSQL_ROOT_PASSWORD: root
-                MYSQL_USER: user
-                MYSQL_PASSWORD: user
-                MYSQL_DATABASE: Remates
-            volumes:
-                - db_data:/var/lib/mysql
-            networks:
-                - mynetwork 
+      db:
+        image: gastonnicora/remates-sql
+        expose:
+          - "3306"
+        restart: always
+        environment:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_USER: user
+          MYSQL_PASSWORD: user
+          MYSQL_DATABASE: Remates
+        volumes:
+          - db_data:/var/lib/mysql
+        networks:
+          - mynetwork 
 
-        web:
-            image: gastonnicora/remates-vue
-            ports:
-                - "80:80"
-            restart: always
-            depends_on:
-                - api
-                - socket
-            networks:
-                - socket
-                - conn 
+      web:
+        image: gastonnicora/remates-vue
+        ports:
+          - "80:80"
+        restart: always
+        depends_on:
+          - api
+          - socket
+        networks:
+          - socket
+          - conn 
 
-        api:
-            image: gastonnicora/remates-python
-            restart: always
-            environment:
-                DB_HOST: db:3306
-                DB_USER: user
-                DB_PASS: user
-                DB_NAME: Remates
-                REDIS_HOST: redis
-            depends_on:
-                - db
-                - redis
-            ports:
-                - "4000:4000"
-            networks:
-                - mynetwork 
-                - conn 
-        
-        socket:
-            image: gastonnicora/remates-socket
-            restart: always
-            environment:
-                REDIS_HOST: redis
-            depends_on:
-                - api
-                - redis
-            expose:
-                - "4001"
-            ports:
-              - "4001:4001"
-            networks:
-                - mynetwork
-                - socket 
+      api:
+        image: gastonnicora/remates-python
+        restart: always
+        environment:
+          DB_HOST: db:3306
+          DB_USER: user
+          DB_PASS: user
+          DB_NAME: Remates
+          REDIS_HOST: redis
+        depends_on:
+          - db
+          - redis
+        ports:
+          - "4000:4000"
+        networks:
+          - mynetwork 
+          - conn 
+      
+      socket:
+        image: gastonnicora/remates-socket
+        restart: always
+        environment:
+          REDIS_HOST: redis
+        depends_on:
+          - api
+          - redis
+        expose:
+          - "4001"
+        ports:
+          - "4001:4001"
+        networks:
+          - mynetwork
+          - socket 
 
-        celery:
-            image: gastonnicora/remates-celery
-            restart: always
-            depends_on:
-                - redis
-                - api
-            ports:
-                - "5555:5555"
-            expose:
-                - "5000" 
-            networks:
-                - mynetwork 
+      celery:
+        image: gastonnicora/remates-celery
+        restart: always
+        depends_on:
+          - redis
+          - api
+        ports:
+          - "5555:5555"
+        expose:
+          - "5000" 
+        networks:
+          - mynetwork 
 
-        phpmyadmin:
-            image: phpmyadmin
-            restart: always
-            environment:
-                PMA_HOST: db
-                PMA_PORT: 3306
-            ports:
-                - "90:80"
-            depends_on:
-                - db
-            networks:
-                - mynetwork 
+      phpmyadmin:
+        image: phpmyadmin
+        restart: always
+        environment:
+          PMA_HOST: db
+          PMA_PORT: 3306
+        ports:
+          - "90:80"
+        depends_on:
+          - db
+        networks:
+          - mynetwork 
 
-        redis:
-            image: redis:7-alpine
-            expose:
-                - "6379"
-            volumes:
-                - redis_data:/data
-            networks:
-                - mynetwork
+      redis:
+        image: redis:7-alpine
+        expose:
+          - "6379"
+        volumes:
+          - redis_data:/data
+        networks:
+          - mynetwork
 
     networks:
-        mynetwork:
-        socket:
-            driver: bridge 
-        conn:
-            driver: bridge 
+      mynetwork:
+      socket:
+        driver: bridge 
+      conn:
+        driver: bridge 
 
     volumes:
-        db_data:
-        redis_data: 
+      db_data:
+      redis_data: 
 
     ```
 
@@ -209,7 +210,7 @@ Este proyecto se ejecuta utilizando Docker y depende de los siguientes servicios
 
     Una vez que los contenedores estén levantados, puedes acceder a la API en la siguiente dirección:
 
-    ```
+    ```arduino
     http://localhost:5000
     ```
     Las rutas de la API estarán disponibles a través de este servidor.
