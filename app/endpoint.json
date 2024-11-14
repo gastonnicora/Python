@@ -359,7 +359,7 @@
       "userUpdate": {
         "url": "/userUpdate",
         "method": "PUT",
-        "description": "Modificar un usuario por su uuid",
+        "description": "Modificar un usuario por su uuid, obtenido de su sesión",
         "explanation": "",
         "fields": ["name", "lastName", "birthdate"],
         "requiredSession": true
@@ -375,7 +375,7 @@
       "userDelete": {
         "url": "/userDelete",
         "method": "DELETE",
-        "description": "Eliminar un usuario por su uuid",
+        "description": "Eliminar al usuario que lo solicito",
         "explanation": "",
         "fields": [],
         "requiredSession": true
@@ -1351,7 +1351,7 @@
         "method": "PUT",
         "description": "Modificar un articulo por su uuid",
         "explanation": "",
-        "fields": ["description","dateOfStart","dateOfFinish","timeAfterBid","type","minValue","minStepValue","urlPhoto"],
+        "fields": ["uuid","description","dateOfStart","dateOfFinish","timeAfterBid","type","minValue","minStepValue","urlPhoto"],
         "requiredSession": true 
       },
       "myArticlesBought": {
@@ -1580,7 +1580,7 @@
         "method": "GET",
         "description": "Obtener todas las pujas de un usuario",
         "explanation": "",
-        "fields": ["article"],
+        "fields": ["user"],
         "requiredSession": true
       }
     }

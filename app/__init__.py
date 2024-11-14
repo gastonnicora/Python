@@ -188,13 +188,6 @@ def create_app(environment="development"):
         data = json.load(currentFile)
         currentFile.close()
         return render_template("home.html", data=data)
-    
-    @app.route("/sessions")
-    def s():
-        from app.helpers.sessions import Sessions
-        data = Sessions().getSessions()  # Obtiene el diccionario
-        return jsonify(data)
-    
      
     
     def sessions():
