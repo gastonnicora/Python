@@ -427,9 +427,10 @@ La API utiliza JSON Web Tokens (JWT) para autenticar a los usuarios. Para obtene
           }'
 ```
   Respuesta esperada:
+
 ```json
-{
-"content": {
+{ 
+  "content": {
     "birthdate": "01/01/1990",
     "companies": {
     "companies": [
@@ -456,8 +457,8 @@ La API utiliza JSON Web Tokens (JWT) para autenticar a los usuarios. Para obtene
     "terms": 1,
     "users": [],
     "uuid": "835a9922-b112-401d-b0fb-7af87374d369"
-},
-"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNTc1MTRjMTgtODljZi00OTVjLWI0ZGYtNTc4NWM4Mzk0NDM4In0.KjhJZZcZvhYA0v1TyakRUQpnkGVT5hwVlwrShW3EK7A"
+  },
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNTc1MTRjMTgtODljZi00OTVjLWI0ZGYtNTc4NWM4Mzk0NDM4In0.KjhJZZcZvhYA0v1TyakRUQpnkGVT5hwVlwrShW3EK7A"
 }
 ```
 2. Ejemplo de peticiones que requieres sesión: 
@@ -472,7 +473,40 @@ curl -X PUT http://localhost:4000/userUpdate \
         "birthdate": "20/05/1990"
         }'
 ```
-  respuesta esperada:
+  Respuesta esperada:
+```json
+{
+  "cod":202,
+  "content":{
+    "birthdate":"20/05/1990",
+    "companies":
+    {"companies":[
+        {
+        "address": "7/ 62 y 63 nº 306, La Plata ",
+        "companies": [],
+        "dateOfCreate": "12/11/2024T23:23:05-0300",
+        "dateOfUpdate": "12/11/2024T23:23:33-0300",
+        "name": "Remates La Plata",
+        "owner": "835a9922-b112-401d-b0fb-7af87374d369",
+        "removed": 0,
+        "uuid": "a2cad956-0bad-4bfa-a527-fdfa141cbd31"
+        }
+    ]
+    },
+    "confirmEmail":1,
+    "dateOfCreate":"12/11/2024T23:19:43-0300",
+    "dateOfUpdate":"13/11/2024T21:59:46-0300",
+    "email":"usuario@example.com",
+    "lastName":"Baza G\u00f3mez",
+    "name":"Juan Carlos",
+    "removed":0,
+    "terms":1,
+    "users":[],
+    "uuid":"835a9922-b112-401d-b0fb-7af87374d369"
+    },
+  "error":null}
+```
+
 
 
 ## Licencia

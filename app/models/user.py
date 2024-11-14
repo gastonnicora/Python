@@ -165,8 +165,6 @@ class User(db.Model):
         usu= cls.query.filter_by(uuid=uuid, removed=0).first()
         if not usu:
             return Message(error="El usuario no se pudo editar por que no existe")
-        if usu.email != data.get("email"):
-            usu.confirmEmail=0
         usu.name= data.get("name")
         usu.lastName= data.get("lastName")
         usu.birthdate= data.get("birthdate")
