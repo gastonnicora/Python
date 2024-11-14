@@ -131,6 +131,8 @@ Este proyecto se ejecuta utilizando Docker y depende de los siguientes servicios
                 - redis
             expose:
                 - "4001"
+            ports:
+              - "4001:4001"
             networks:
                 - mynetwork
                 - socket 
@@ -368,7 +370,7 @@ docker-compose down -v
 
 - **<span style="color:#d2d">PUT /articleUpdate</span>**: Modificar un artículo por su UUID.
   - **Descripción**: Permite modificar los datos de un artículo específico, como su descripción, fechas de inicio y fin, valores de puja, etc.
-  - **Campos requeridos**: `uuid`,`description`, `dateOfStart`, `dateOfFinish`, `timeAfterBid`, `type`, `minValue`, `minStepValue`, `urlPhoto`.
+  - **Campos requeridos**: `uuid`,`auction`,`description`, `dateOfStart`, `dateOfFinish`, `timeAfterBid`, `type`, `minValue`, `minStepValue`, `urlPhoto`.
   - <span style="color:red">**Requiere sesión iniciada**</span>
 
 - **<span style="color:#2dd">GET /myArticlesBought</span>**: Obtener todos los artículos comprados por el usuario.

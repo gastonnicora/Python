@@ -1351,7 +1351,7 @@
         "method": "PUT",
         "description": "Modificar un articulo por su uuid",
         "explanation": "",
-        "fields": ["uuid","description","dateOfStart","dateOfFinish","timeAfterBid","type","minValue","minStepValue","urlPhoto"],
+        "fields": ["uuid","auction","description","dateOfStart","dateOfFinish","timeAfterBid","type","minValue","minStepValue","urlPhoto"],
         "requiredSession": true 
       },
       "myArticlesBought": {
