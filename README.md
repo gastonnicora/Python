@@ -73,7 +73,7 @@ Este proyecto se ejecuta utilizando Docker y depende de los siguientes servicios
 
 1. **Crear docker-compose**:
     Cree un archivo llamado ``docker-compose.yml`` que contenga:
-    ```docker
+    ```yaml
     version: '3.3'
 
     services:
@@ -511,7 +511,7 @@ curl -X PUT http://localhost:4000/userUpdate \
 
 
 ## Licencia
-Este proyecto está bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE)
+Este proyecto está bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE.md)
  para más detalles.
 
 
