@@ -14,7 +14,7 @@
     - [Pujas](#pujas)
 7. [Ejemplos](#ejemplos)
 8. [Licencia](#licencia)
-
+9. [Contactos](#contacto)
 ---
 # API RESTful Flask con Docker 
 
@@ -211,7 +211,7 @@ Este proyecto se ejecuta utilizando Docker y depende de los siguientes servicios
     Una vez que los contenedores estén levantados, puedes acceder a la API en la siguiente dirección:
 
     ```arduino
-    http://localhost:5000
+    http://localhost:4000
     ```
     Las rutas de la API estarán disponibles a través de este servidor.
 
@@ -513,6 +513,10 @@ curl -X PUT http://localhost:4000/userUpdate \
 ## Licencia
 Este proyecto está bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE.md)
  para más detalles.
+
+## Contacto
+  - **Email**: gastonmatias.21@gmail.com
+  - **Telefono**: 2345453976
 
 
 
